@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Simulação gratuita para familiares de aposentados, pensionistas e militares reformados que podem ter direito à isenção do Imposto de Renda.">
+  <title>Simulação para familiares | RecupereiBR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="advisora.css">
+  <link rel="stylesheet" href="simulacao.css">
+</head>
+<body class="simulation-page">
+  <a class="skip-link" href="#quiz">Pular para a simulação</a>
+
+  <header class="simulation-header">
+    <a class="brand" href="index.html" aria-label="RecupereiBR, voltar para a página inicial">
+      <img class="header-logo" src="assets/recupereibr-logo.png" alt="RecupereiBR">
+    </a>
+    <div class="simulation-header-actions">
+      <span class="secure-label"><i aria-hidden="true">✓</i> Ambiente informativo e seguro</span>
+      <a href="index.html">Voltar ao site</a>
+    </div>
+  </header>
+
+  <main class="simulation-shell">
+    <section class="simulation-intro" aria-labelledby="simulation-title">
+      <p class="eyebrow"><span></span> Simulação para familiares</p>
+      <h1 id="simulation-title">Ajude quem cuidou de você a descobrir um direito.</h1>
+      <p class="simulation-lead">Responda algumas perguntas simples sobre o benefício e veja se vale solicitar uma análise gratuita. Você não precisa enviar laudo, diagnóstico, CPF ou documentos do seu familiar.</p>
+
+      <div class="family-visual" aria-hidden="true">
+        <div class="family-image">
+          <img src="assets/ever.sync-hq.png" alt="">
+        </div>
+        <div class="family-badge">
+          <span>✓</span>
+          <div><strong>Você conduz o primeiro contato</strong><small>O idoso só participa quando estiver informado e autorizar.</small></div>
+        </div>
+      </div>
+
+      <div class="trust-list">
+        <article>
+          <span>01</span>
+          <div><strong>Sem documentos nesta etapa</strong><p>Não envie laudos ou dados pessoais do idoso durante a simulação.</p></div>
+        </article>
+        <article>
+          <span>02</span>
+          <div><strong>Você recebe o contato</strong><p>A RecupereiBR fala primeiro com o familiar que preencheu o quiz.</p></div>
+        </article>
+        <article>
+          <span>03</span>
+          <div><strong>Empresa identificada</strong><p>CNPJ 43.008.668/0001-98 e registro CRA-SP 125298.</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="quiz-card" id="quiz" aria-labelledby="quiz-title">
+      <div class="quiz-top">
+        <div>
+          <p class="quiz-kicker">Simulação gratuita</p>
+          <h2 id="quiz-title">Vamos entender a situação?</h2>
+        </div>
+        <span class="step-counter" aria-live="polite"><strong id="current-step">1</strong> de <span id="total-steps">7</span></span>
+      </div>
+
+      <div class="progress-track" aria-hidden="true"><i id="progress-bar"></i></div>
+
+      <form id="family-quiz" data-endpoint="https://webhook.eversync.space/webhook/8ded9705-9e86-4616-8731-98cf9c8594e2" novalidate>
+        <div class="quiz-status" id="quiz-status" role="alert" aria-live="assertive"></div>
+
+        <fieldset class="quiz-step active" data-step="1">
+          <legend>Antes de começar, como podemos falar com você?</legend>
+          <p class="step-description">Informe somente os seus dados. Não coloque o nome, telefone ou documentos do seu familiar.</p>
+          <div class="contact-fields">
+            <label for="respondent-name">Seu primeiro nome<input id="respondent-name" name="respondentName" type="text" autocomplete="given-name" required placeholder="Como podemos chamar você?"></label>
+            <label for="respondent-phone">Seu WhatsApp<input id="respondent-phone" name="respondentPhone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="(00) 00000-0000"></label>
+            <label class="email-field" for="respondent-email">Seu melhor e-mail<input id="respondent-email" name="respondentEmail" type="email" inputmode="email" autocomplete="email" required placeholder="voce@exemplo.com.br"></label>
+          </div>
+          <label class="consent-check"><input type="checkbox" name="contactConsent" required><span></span><strong>Autorizo a RecupereiBR a usar minhas respostas nesta simulação, inclusive a informação geral de saúde, para a avaliação inicial e para entrar em contato comigo.</strong></label>
+          <aside class="privacy-note"><strong>Seus dados ficam protegidos.</strong> Nenhum laudo, CPF ou documento médico será solicitado neste quiz.</aside>
+        </fieldset>
+
+        <fieldset class="quiz-step" data-step="2">
+          <legend>Para quem é esta simulação?</legend>
+          <p class="step-description">Isso nos ajuda a orientar o contato da forma correta.</p>
+          <div class="option-grid">
+            <label class="option-card"><input type="radio" name="relationship" value="Pai ou mãe" required><span class="option-check"></span><strong>Meu pai ou minha mãe</strong><small>Quero ajudar um dos meus pais.</small></label>
+            <label class="option-card"><input type="radio" name="relationship" value="Avô ou avó"><span class="option-check"></span><strong>Meu avô ou minha avó</strong><small>Estou cuidando dessa decisão com eles.</small></label>
+            <label class="option-card"><input type="radio" name="relationship" value="Cônjuge ou companheiro"><span class="option-check"></span><strong>Meu cônjuge ou companheiro</strong><small>Quero entender o direito da pessoa.</small></label>
+            <label class="option-card"><input type="radio" name="relationship" value="Outro familiar"><span class="option-check"></span><strong>Outro familiar</strong><small>Sou responsável ou ajudo nos cuidados.</small></label>
+            <label class="option-card"><input type="radio" name="relationship" value="Para mim"><span class="option-check"></span><strong>É para mim</strong><small>Sou o titular do benefício.</small></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="quiz-step" data-step="3">
+          <legend>Essa pessoa sabe que você está buscando informações?</legend>
+          <p class="step-description">Você pode simular sem autorização. Para analisar documentos depois, o titular ou responsável legal precisará concordar.</p>
+          <div class="option-grid single-column">
+            <label class="option-card"><input type="radio" name="authorization" value="Sabe e autorizou" required><span class="option-check"></span><strong>Sim, sabe e me autorizou</strong><small>Posso conversar sobre o assunto em nome dela.</small></label>
+            <label class="option-card"><input type="radio" name="authorization" value="Sabe, mas ainda não autorizou"><span class="option-check"></span><strong>Sabe, mas ainda não decidiu</strong><small>Quero ter informações para conversarmos com calma.</small></label>
+            <label class="option-card"><input type="radio" name="authorization" value="Ainda não sabe"><span class="option-check"></span><strong>Ainda não conversamos</strong><small>Quero entender primeiro, sem compartilhar dados pessoais.</small></label>
+          </div>
+          <aside class="privacy-note"><strong>Importante:</strong> nesta simulação, não informe nome, CPF, diagnóstico ou documentos do idoso.</aside>
+        </fieldset>
+
+        <fieldset class="quiz-step" data-step="4">
+          <legend>Qual benefício essa pessoa recebe?</legend>
+          <p class="step-description">A isenção se aplica a rendimentos previdenciários elegíveis.</p>
+          <div class="option-grid">
+            <label class="option-card compact"><input type="radio" name="benefit" value="Aposentadoria" required><span class="option-check"></span><strong>Aposentadoria</strong></label>
+            <label class="option-card compact"><input type="radio" name="benefit" value="Pensão"><span class="option-check"></span><strong>Pensão</strong></label>
+            <label class="option-card compact"><input type="radio" name="benefit" value="Militar reformado ou reserva"><span class="option-check"></span><strong>Militar reformado ou da reserva</strong></label>
+            <label class="option-card compact"><input type="radio" name="benefit" value="Ainda não sei"><span class="option-check"></span><strong>Ainda não sei</strong></label>
+            <label class="option-card compact"><input type="radio" name="benefit" value="Nenhum desses"><span class="option-check"></span><strong>Nenhum desses</strong></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="quiz-step" data-step="5">
+          <legend>Existe desconto de Imposto de Renda no benefício?</legend>
+          <p class="step-description">A informação costuma aparecer no contracheque ou comprovante de rendimentos.</p>
+          <div class="option-grid single-column">
+            <label class="option-card compact"><input type="radio" name="paysIr" value="Sim" required><span class="option-check"></span><strong>Sim, existe desconto atualmente</strong></label>
+            <label class="option-card compact"><input type="radio" name="paysIr" value="Pagou nos últimos cinco anos"><span class="option-check"></span><strong>Não hoje, mas pagou nos últimos cinco anos</strong></label>
+            <label class="option-card compact"><input type="radio" name="paysIr" value="Não sabe"><span class="option-check"></span><strong>Não sei informar</strong></label>
+            <label class="option-card compact"><input type="radio" name="paysIr" value="Não"><span class="option-check"></span><strong>Não paga e não pagou</strong></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="quiz-step" data-step="6">
+          <legend>Ela tem ou já teve uma condição de saúde grave?</legend>
+          <p class="step-description">Não informe qual é a condição. Nesta etapa, precisamos apenas de uma resposta geral.</p>
+          <div class="option-grid single-column">
+            <label class="option-card compact"><input type="radio" name="health" value="Tem atualmente" required><span class="option-check"></span><strong>Sim, tem atualmente</strong></label>
+            <label class="option-card compact"><input type="radio" name="health" value="Teve ou está controlada"><span class="option-check"></span><strong>Já teve ou a condição está controlada</strong></label>
+            <label class="option-card compact"><input type="radio" name="health" value="Não sabe se está na lista"><span class="option-check"></span><strong>Tem uma condição, mas não sei se está prevista em lei</strong></label>
+            <label class="option-card compact"><input type="radio" name="health" value="Não"><span class="option-check"></span><strong>Não</strong></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="quiz-step" data-step="7">
+          <legend>Quanto é descontado por mês, aproximadamente?</legend>
+          <p class="step-description">Se não souber, use uma estimativa. O valor será confirmado somente em uma análise posterior.</p>
+          <div class="amount-panel">
+            <label for="family-ir-value">Desconto mensal estimado</label>
+            <div class="amount-input"><span>R$</span><input id="family-ir-value" name="monthlyIr" type="text" inputmode="numeric" value="380"></div>
+            <input id="family-ir-range" type="range" min="0" max="3000" step="10" value="380" aria-label="Ajustar desconto mensal estimado">
+            <div class="amount-result">
+              <span>Estimativa simples em cinco anos</span>
+              <strong id="family-estimate">R$ 22.800</strong>
+              <small>Valor ilustrativo, sem correção monetária. O resultado real depende da data do diagnóstico e dos pagamentos.</small>
+            </div>
+          </div>
+        </fieldset>
+
+        <section class="quiz-result" id="quiz-result" hidden aria-live="polite">
+          <span class="result-icon">✓</span>
+          <p class="quiz-kicker">Simulação concluída</p>
+          <h2 id="result-title">Vale solicitar uma análise gratuita.</h2>
+          <p id="result-copy">Pelas respostas, existem pontos que merecem ser verificados por nossa equipe.</p>
+          <div class="result-value"><span>Estimativa ilustrativa em cinco anos</span><strong id="result-estimate">R$ 22.800</strong></div>
+          <p class="result-note">A estimativa não representa promessa de restituição. A confirmação depende da análise individual.</p>
+          <div class="result-action-status" id="result-action-status" role="alert" aria-live="assertive"></div>
+          <button class="button result-whatsapp" id="result-specialist" type="button">Quero falar com um especialista <span class="button-dot">→</span></button>
+          <button class="restart-button" id="restart-quiz" type="button">Refazer simulação</button>
+        </section>
+
+        <div class="quiz-navigation">
+          <button class="quiz-back" id="quiz-back" type="button" disabled>Voltar</button>
+          <button class="quiz-next" id="quiz-next" type="button">Continuar <span>→</span></button>
+        </div>
+      </form>
+
+      <footer class="quiz-footer">
+        <span>Recuperei Consultoria LTDA</span>
+        <span>CNPJ 43.008.668/0001-98</span>
+        <a href="privacidade.html">Privacidade</a>
+      </footer>
+    </section>
+  </main>
+
+  <script src="simulacao.js"></script>
+</body>
+</html>

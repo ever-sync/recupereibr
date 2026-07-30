@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Solicite uma avaliação inicial gratuita para verificar a possibilidade de isenção do Imposto de Renda por doença grave.">
+  <title>Avaliação gratuita | RecupereiBR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="advisora.css">
+  <link rel="stylesheet" href="avaliacao.css">
+</head>
+<body class="lead-page">
+  <a class="skip-link" href="#lead-form">Pular para o formulário</a>
+
+  <header class="lead-header">
+    <a href="index.html" aria-label="RecupereiBR, voltar para a página inicial">
+      <img class="header-logo" src="assets/recupereibr-logo.png" alt="RecupereiBR">
+    </a>
+    <div class="lead-header-trust">
+      <span><i>✓</i> Avaliação gratuita</span>
+      <a href="index.html">Voltar ao site</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="lead-hero">
+      <div class="lead-copy">
+        <p class="eyebrow"><span></span> Lei nº 7.713/88</p>
+        <h1>Descubra se você pode parar de pagar Imposto de Renda.</h1>
+        <p class="lead-intro">Preencha o formulário e receba uma avaliação inicial da RecupereiBR. Leva menos de dois minutos e não exige o envio de laudo ou documentos.</p>
+
+        <ul class="lead-benefits">
+          <li><span>✓</span><div><strong>Sem custo para avaliar</strong><small>Você entende se faz sentido avançar antes de contratar.</small></div></li>
+          <li><span>✓</span><div><strong>Atendimento humano</strong><small>Nossa equipe entra em contato para explicar os próximos passos.</small></div></li>
+          <li><span>✓</span><div><strong>Seus dados protegidos</strong><small>Nenhum documento médico é solicitado neste formulário.</small></div></li>
+        </ul>
+
+        <div class="lead-identity">
+          <strong>Recuperei Consultoria LTDA</strong>
+          <span>CNPJ 43.008.668/0001-98</span>
+          <span>CRA-SP 125298</span>
+        </div>
+      </div>
+
+      <aside class="lead-form-card" aria-labelledby="form-title">
+        <div class="form-heading">
+          <p id="form-step-label">Passo 1 de 2</p>
+          <h2 id="form-title">Quero verificar meu caso</h2>
+          <span id="form-step-description">Responda algumas perguntas rápidas. Não envie documentos por aqui.</span>
+        </div>
+
+        <form
+          id="lead-form"
+          data-endpoint="https://webhook.eversync.space/webhook/f48d604b-f410-4be3-a20b-4d8bbcb1523e"
+          data-simulation-endpoint="https://webhook.eversync.space/webhook/8ded9705-9e86-4616-8731-98cf9c8594e2"
+          novalidate
+        >
+          <input id="lead-monthly-ir" name="monthlyIr" type="hidden">
+          <input id="lead-estimate" name="estimate" type="hidden">
+          <div class="form-message" id="form-message" role="alert" aria-live="assertive"></div>
+          <div class="form-progress" aria-hidden="true"><span id="form-progress-bar"></span></div>
+
+          <section class="lead-form-step active" data-form-step="1">
+            <div class="form-grid">
+              <label class="field field-full" for="lead-for">
+                <span>Para quem é a avaliação?*</span>
+                <select id="lead-for" name="leadFor" required>
+                  <option value="">Selecione</option>
+                  <option value="Para mim">Para mim</option>
+                  <option value="Para meu pai ou minha mãe">Para meu pai ou minha mãe</option>
+                  <option value="Para meu cônjuge ou companheiro">Para meu cônjuge ou companheiro</option>
+                  <option value="Para outro familiar">Para outro familiar</option>
+                </select>
+              </label>
+
+              <label class="field field-full" for="lead-benefit">
+                <span>Qual benefício a pessoa recebe?*</span>
+                <select id="lead-benefit" name="benefit" required>
+                  <option value="">Selecione</option>
+                  <option value="Aposentadoria">Aposentadoria</option>
+                  <option value="Pensão">Pensão</option>
+                  <option value="Militar reformado ou da reserva">Militar reformado ou da reserva</option>
+                  <option value="Previdência privada">Previdência privada</option>
+                  <option value="Não sei informar">Não sei informar</option>
+                  <option value="Nenhuma das opções">Nenhuma das opções</option>
+                </select>
+              </label>
+            </div>
+
+            <fieldset class="choice-field">
+              <legend>Existe desconto mensal de Imposto de Renda?*</legend>
+              <div>
+                <label><input type="radio" name="paysIr" value="Sim" required><span></span>Sim</label>
+                <label><input type="radio" name="paysIr" value="Não"><span></span>Não</label>
+                <label><input type="radio" name="paysIr" value="Não sei"><span></span>Não sei</label>
+              </div>
+            </fieldset>
+
+            <fieldset class="choice-field health-choice">
+              <legend>A pessoa tem ou já teve uma condição grave?*</legend>
+              <p>Não precisa informar o diagnóstico nesta etapa.</p>
+              <div>
+                <label><input type="radio" name="health" value="Sim" required><span></span>Sim</label>
+                <label><input type="radio" name="health" value="Não"><span></span>Não</label>
+                <label><input type="radio" name="health" value="Não sei"><span></span>Não sei</label>
+              </div>
+            </fieldset>
+
+            <button class="lead-submit form-next" id="form-next" type="button">
+              Continuar
+              <span>→</span>
+            </button>
+          </section>
+
+          <section class="lead-form-step" data-form-step="2" hidden>
+            <div class="form-grid">
+              <label class="field field-full" for="lead-name">
+                <span>Seu primeiro nome*</span>
+                <input id="lead-name" name="name" type="text" autocomplete="given-name" required placeholder="Como podemos chamar você?">
+              </label>
+
+              <label class="field field-full" for="lead-phone">
+                <span>Seu WhatsApp*</span>
+                <input id="lead-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="(00) 00000-0000">
+              </label>
+
+              <label class="field field-full" for="lead-email">
+                <span>Seu melhor e-mail*</span>
+                <input id="lead-email" name="email" type="email" inputmode="email" autocomplete="email" required placeholder="voce@exemplo.com.br">
+              </label>
+            </div>
+
+            <label class="lead-consent">
+              <input type="checkbox" name="consent" required>
+              <span></span>
+              <strong>Autorizo a RecupereiBR a usar estas informações exclusivamente para avaliar a possibilidade de isenção e entrar em contato comigo.</strong>
+            </label>
+
+            <div class="form-final-actions">
+              <button class="form-back" id="form-back" type="button">Voltar</button>
+              <button class="lead-submit" type="submit">
+                Solicitar avaliação gratuita
+                <span>→</span>
+              </button>
+            </div>
+
+            <div class="form-security">
+              <span>✓</span>
+              <p>Seus dados não são vendidos. Informações de saúde detalhadas só serão solicitadas posteriormente, com finalidade explicada e autorização adequada.</p>
+            </div>
+          </section>
+        </form>
+      </aside>
+    </section>
+
+    <section class="lead-trust-strip" aria-label="Credenciais e condições">
+      <article><strong>R$ 0</strong><span>para fazer a avaliação inicial</span></article>
+      <article><strong>100% online</strong><span>atendimento em todo o Brasil</span></article>
+      <article><strong>Sede física</strong><span>Edifício Berrini One, São Paulo</span></article>
+      <article><strong>0800 042-0676</strong><span>canal oficial de atendimento</span></article>
+    </section>
+
+    <section class="lead-process">
+      <div class="lead-section-heading">
+        <p class="eyebrow"><span></span> O que acontece depois</p>
+        <h2>Um primeiro contato claro e sem compromisso.</h2>
+      </div>
+      <div class="lead-process-grid">
+        <article><span>01</span><div class="lead-process-icon icon-search" aria-hidden="true"></div><h3>Analisamos suas respostas</h3><p>A equipe verifica os critérios iniciais sem solicitar laudo ou documentação médica.</p></article>
+        <article><span>02</span><div class="lead-process-icon icon-contact" aria-hidden="true"></div><h3>Entramos em contato</h3><p>Você recebe uma explicação simples sobre o que pode fazer sentido no seu caso.</p></article>
+        <article><span>03</span><div class="lead-process-icon icon-decision" aria-hidden="true">✓</div><h3>Você decide se quer avançar</h3><p>Documentos e condições contratuais só entram na conversa depois da orientação inicial.</p></article>
+      </div>
+    </section>
+
+    <section class="lead-final">
+      <div>
+        <p class="eyebrow eyebrow-light"><span></span> Segurança antes de tudo</p>
+        <h2>Você não precisa enviar documentos para dar o primeiro passo.</h2>
+      </div>
+      <div>
+        <p>A RecupereiBR é a Recuperei Consultoria LTDA, CNPJ 43.008.668/0001-98, registrada no CRA-SP sob o nº 125298.</p>
+        <a href="#lead-form">Preencher o formulário <span>↑</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="lead-footer">
+    <span>Recuperei Consultoria LTDA, CNPJ 43.008.668/0001-98</span>
+    <nav><a href="privacidade.html">Política de Privacidade</a><a href="termos.html">Termos de Serviço</a></nav>
+  </footer>
+
+  <script src="avaliacao.js"></script>
+</body>
+</html>

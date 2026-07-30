@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A RecupereiBR ajuda aposentados, pensionistas e militares reformados com doenças graves a buscar a isenção do Imposto de Renda e avaliar valores pagos nos últimos cinco anos.">
+  <title>RecupereiBR | Isenção de Imposto de Renda por doença grave</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="advisora.css">
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a class="brand" href="#conteudo" aria-label="RecupereiBR, página inicial">
+        <img class="header-logo" src="assets/recupereibr-logo.png" alt="RecupereiBR">
+      </a>
+
+      <button class="menu-button" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="main-nav">
+        <span></span><span></span>
+      </button>
+
+      <nav class="main-nav" id="main-nav" aria-label="Navegação principal">
+        <a href="#direito">Quem tem direito</a>
+        <a href="#simulador">Simulador</a>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#confianca">Quem somos</a>
+        <a href="#faq">Dúvidas</a>
+      </nav>
+
+      <a class="button button-dark nav-cta" href="avaliacao.html" data-track="cta_header">
+        Fazer avaliação
+        <span class="button-dot" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <section class="hero">
+      <div class="hero-copy reveal">
+        <p class="eyebrow"><span></span> Lei nº 7.713/88 · Análise gratuita</p>
+        <h1>Pare de pagar um imposto que <em>não é seu.</em></h1>
+        <p class="hero-lead">Aposentados, pensionistas e militares reformados que têm ou já tiveram uma doença grave podem ter direito à isenção do Imposto de Renda e à recuperação de valores pagos nos últimos cinco anos.</p>
+
+        <div class="hero-actions">
+          <a class="button button-orange" href="avaliacao.html?origem=hero_titular" data-track="cta_hero_titular">
+            Quero verificar para mim
+            <span class="button-dot" aria-hidden="true">→</span>
+          </a>
+          <a class="button button-ghost" href="simulacao.html" data-track="cta_hero_familiar">
+            Quero ajudar um familiar
+            <span class="button-dot dark" aria-hidden="true">→</span>
+          </a>
+        </div>
+        <a class="hero-simulator-link" href="#simulador" data-track="cta_hero_simulador">Prefere calcular um valor? Use o simulador gratuito <span>↓</span></a>
+        <p class="hero-safety-line"><span>✓</span> Nenhum documento é solicitado agora. Você só paga honorários se a isenção for concedida, conforme o contrato.</p>
+      </div>
+
+      <div class="hero-visual reveal">
+        <div class="orange-orbit" aria-hidden="true"></div>
+        <div class="hero-photo">
+          <img class="hero-family-photo" src="assets/ever.sync-hq.png" alt="Casal de idosos sorrindo ao lado de um familiar">
+        </div>
+
+        <div class="float-card analytics-card">
+          <span class="float-icon">✓</span>
+          <div>
+            <strong>Análise 100% gratuita</strong>
+            <small>Entenda o seu caso antes de decidir</small>
+          </div>
+        </div>
+
+        <div class="float-card transformation-card">
+          <span class="float-icon orange">✦</span>
+          <div>
+            <strong>Atendimento humano</strong>
+            <small>Orientação clara em cada etapa</small>
+          </div>
+        </div>
+
+        <div class="expense-card hero-estimate-card">
+          <span class="estimate-label">Estimativa em 5 anos</span>
+          <strong id="hero-estimate">R$ 22.800</strong>
+          <small>Considerando R$ 380 de IR por mês</small>
+          <div class="mini-chart" aria-hidden="true">
+            <i style="height:28%"></i><i style="height:40%"></i><i style="height:52%"></i>
+            <i style="height:64%"></i><i style="height:76%"></i><i style="height:88%"></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-trust-strip" aria-label="Segurança e condições do atendimento">
+      <article><strong>R$ 0</strong><span>para a avaliação inicial</span></article>
+      <article><strong>CNPJ verificado</strong><span>43.008.668/0001-98</span></article>
+      <article><strong>CRA-SP</strong><span>registro profissional 125298</span></article>
+      <article><strong>0800 042-0676</strong><span>canal oficial de atendimento</span></article>
+    </section>
+
+    <section class="condition-ticker" aria-label="Exemplos de condições previstas em lei">
+      <div class="condition-ticker-track">
+        <div class="condition-ticker-group" role="list">
+          <span role="listitem">Alienação Mental</span>
+          <span role="listitem">Hanseníase</span>
+          <span role="listitem">Tuberculose Ativa</span>
+          <span role="listitem">Paralisia Irreversível</span>
+          <span role="listitem">Fibrose Cística</span>
+          <span role="listitem">Câncer</span>
+          <span role="listitem">Cardiopatia Grave</span>
+          <span role="listitem">Parkinson</span>
+          <span role="listitem">Cegueira</span>
+          <span role="listitem">Esclerose Múltipla</span>
+          <span role="listitem">Nefropatia Grave</span>
+          <span role="listitem">Hepatopatia Grave</span>
+          <span role="listitem">e outras condições previstas em lei</span>
+        </div>
+        <div class="condition-ticker-group" aria-hidden="true">
+          <span>Alienação Mental</span>
+          <span>Hanseníase</span>
+          <span>Tuberculose Ativa</span>
+          <span>Paralisia Irreversível</span>
+          <span>Fibrose Cística</span>
+          <span>Câncer</span>
+          <span>Cardiopatia Grave</span>
+          <span>Parkinson</span>
+          <span>Cegueira</span>
+          <span>Esclerose Múltipla</span>
+          <span>Nefropatia Grave</span>
+          <span>Hepatopatia Grave</span>
+          <span>e outras condições previstas em lei</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="statement" id="sobre">
+      <div class="statement-collage reveal">
+        <img class="statement-feature-art" src="assets/amor-proprio.png" alt="Cuidar de si é um ato de amor próprio">
+      </div>
+      <div class="statement-copy reveal">
+        <p class="eyebrow eyebrow-light"><span></span> Um direito que pode fazer diferença</p>
+        <h2>Dinheiro que deixa de ir para o imposto pode voltar a cuidar do que realmente importa:&nbsp;você.</h2>
+        <p>A RecupereiBR torna esse caminho mais simples, com orientação clara, atendimento humano e acompanhamento do início ao fim.</p>
+        <a class="text-link light" href="#como-funciona">Entenda o processo <span>↗</span></a>
+      </div>
+    </section>
+
+    <section class="section services" id="como-funciona">
+      <div class="section-heading reveal">
+        <p class="eyebrow"><span></span> Do primeiro contato ao resultado</p>
+        <h2>Quatro etapas. Nós cuidamos de&nbsp;todas.</h2>
+        <p>Você entende o que está acontecendo, o que precisa fazer e qual é o próximo passo.</p>
+      </div>
+
+      <div class="services-shell reveal">
+        <div class="service-tabs" role="tablist" aria-label="Etapas do processo">
+          <button class="service-tab active" role="tab" aria-selected="true" data-tab="avaliacao">
+            <span>01</span><strong>Avaliação gratuita</strong><i>↗</i>
+          </button>
+          <button class="service-tab" role="tab" aria-selected="false" data-tab="documentos">
+            <span>02</span><strong>Documentação orientada</strong><i>↗</i>
+          </button>
+          <button class="service-tab" role="tab" aria-selected="false" data-tab="solicitacao">
+            <span>03</span><strong>Pedido acompanhado</strong><i>↗</i>
+          </button>
+          <button class="service-tab" role="tab" aria-selected="false" data-tab="recuperacao">
+            <span>04</span><strong>Isenção e restituição</strong><i>↗</i>
+          </button>
+        </div>
+
+        <div class="service-stage">
+          <div class="service-image" id="service-image"></div>
+          <article class="service-panel" id="service-panel">
+            <span class="panel-number">01</span>
+            <h3>Primeiro, entendemos o seu caso</h3>
+            <p>Verificamos o benefício que você recebe, o desconto de Imposto de Renda e a condição de saúde relatada. A avaliação inicial é gratuita e sem compromisso.</p>
+            <a class="text-link" href="avaliacao.html">Fazer minha avaliação <span>→</span></a>
+          </article>
+          <div class="service-arrows">
+            <button type="button" data-service-direction="-1" aria-label="Etapa anterior">←</button>
+            <button type="button" data-service-direction="1" aria-label="Próxima etapa">→</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="impact-section" id="direito">
+      <div class="impact-heading reveal">
+        <div>
+          <p class="eyebrow eyebrow-light"><span></span> Autoavaliação rápida</p>
+          <h2>Confira, passo a passo, se vale fazer a análise.</h2>
+        </div>
+        <p>Siga os três passos abaixo. Se todos combinarem com a situação, você pode solicitar uma avaliação inicial gratuita.</p>
+      </div>
+
+      <div class="impact-grid eligibility-grid">
+        <article class="impact-card impact-image reveal">
+          <div class="image-overlay"></div>
+          <div class="step-label"><span>01</span><strong>Passo 1</strong></div>
+          <div>
+            <h4>Recebe um benefício</h4>
+            <p>É aposentado, pensionista, militar reformado ou da reserva.</p>
+          </div>
+        </article>
+
+        <article class="impact-card reveal">
+          <div class="step-label"><span>02</span><strong>Passo 2</strong></div>
+          <div class="criterion-icon" aria-hidden="true">+</div>
+          <div>
+            <h4>Tem ou já teve uma doença grave</h4>
+            <p>A condição precisa estar entre as previstas na legislação, mesmo que esteja controlada ou já tenha sido tratada.</p>
+          </div>
+        </article>
+
+        <article class="impact-card reveal">
+          <div class="step-label"><span>03</span><strong>Passo 3</strong></div>
+          <div class="security-graphic" aria-hidden="true">
+            <div class="shield">R$</div>
+            <span>Desconto no benefício</span>
+          </div>
+          <div>
+            <h4>Paga ou pagou Imposto de Renda</h4>
+            <p>Há desconto atualmente ou houve pagamento sobre o benefício dentro dos últimos cinco anos.</p>
+          </div>
+        </article>
+
+        <article class="impact-card impact-orange eligibility-cta reveal">
+          <div class="step-label step-label-final"><span>✓</span><strong>Próximo passo</strong></div>
+          <div>
+            <h4>Os três passos combinam?</h4>
+            <p>Conte sua situação e receba uma avaliação inicial sem custo.</p>
+            <a class="text-link" href="avaliacao.html">Quero a análise gratuita <span>→</span></a>
+          </div>
+        </article>
+      </div>
+      <p class="eligibility-note reveal">O preenchimento dos critérios não representa garantia de aprovação. A confirmação depende da análise do caso e da documentação.</p>
+    </section>
+
+    <section class="section feature-section" id="simulador">
+      <div class="section-heading centered reveal">
+        <p class="eyebrow"><span></span> Simulador de valor</p>
+        <h2>Quanto você pode ter pago nos últimos cinco anos?</h2>
+        <p>Informe o desconto mensal de Imposto de Renda no seu benefício e veja uma estimativa ilustrativa.</p>
+      </div>
+
+      <div class="feature-grid recuperei-feature-grid">
+        <article class="feature-card feature-large simulator-card reveal">
+          <div class="feature-copy">
+            <span class="feature-icon">R$</span>
+            <h3>Seu desconto mensal de IR</h3>
+            <p>Use o campo ou deslize a barra para ajustar o valor.</p>
+            <label class="simulator-input-wrap" for="simulator-input">
+              <span>R$</span>
+              <input id="simulator-input" type="text" inputmode="numeric" value="380" aria-describedby="simulator-note">
+            </label>
+            <input class="simulator-range" id="simulator-range" type="range" min="50" max="3000" step="10" value="380" aria-label="Ajustar valor mensal do Imposto de Renda">
+          </div>
+          <div class="simulator-result">
+            <span>Estimativa em 1 ano</span>
+            <strong id="estimate-one-year">R$ 4.560</strong>
+            <span>Estimativa em 5 anos</span>
+            <strong class="estimate-main" id="estimate-five-years">R$ 22.800</strong>
+            <small id="simulator-note">Estimativa simples, sem correção monetária. O valor real depende da data do diagnóstico, dos pagamentos e da análise do caso.</small>
+            <a class="button button-orange button-full" id="simulator-whatsapp" href="avaliacao.html">Solicitar análise gratuita <span class="button-dot" aria-hidden="true">→</span></a>
+          </div>
+        </article>
+
+        <article class="feature-card diseases-card reveal">
+          <span class="feature-icon orange-icon">18</span>
+          <h3>Condições previstas em lei</h3>
+          <p>Câncer, cardiopatia grave, Parkinson, cegueira, esclerose múltipla, nefropatia grave, hepatopatia grave e outras.</p>
+          <a class="text-link" href="#faq">Tirar uma dúvida <span>↗</span></a>
+          <div class="disease-tags" aria-hidden="true">
+            <span>Câncer</span><span>Parkinson</span><span>Cardiopatia</span><span>Cegueira</span>
+          </div>
+        </article>
+
+        <article class="feature-card reveal">
+          <span class="feature-icon">✓</span>
+          <h3>Mesmo após o tratamento</h3>
+          <p>O direito pode existir quando a doença está controlada ou já foi tratada. A documentação precisa ser analisada.</p>
+          <div class="report-stack" aria-hidden="true"><i></i><i></i><i></i></div>
+        </article>
+
+        <article class="feature-card feature-dark reveal">
+          <span class="feature-icon">⌁</span>
+          <h3>Privacidade desde o início</h3>
+          <p>Não pedimos laudo nesta página. Informações de saúde só são solicitadas com autorização específica e finalidade explicada.</p>
+          <div class="security-wave" aria-hidden="true"></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section pricing-section trust-section" id="confianca">
+      <div class="section-heading centered reveal">
+        <p class="eyebrow"><span></span> Segurança para decidir com calma</p>
+        <h2>Antes de enviar qualquer documento, saiba com quem está falando.</h2>
+        <p>Somos a Recuperei Consultoria LTDA. Confira sempre nossos dados oficiais.</p>
+      </div>
+
+      <div class="pricing-grid trust-grid">
+        <article class="price-card reveal">
+          <p class="plan-name">Empresa identificada</p>
+          <div class="trust-number">CNPJ</div>
+          <strong class="credential-value">43.008.668/0001-98</strong>
+          <p class="plan-desc">Recuperei Consultoria LTDA, registrada no CRA-SP sob o número 125298.</p>
+          <a class="button button-outline-full" href="tel:08000420676">Ligar para o SAC <span>↗</span></a>
+          <ul>
+            <li>Razão social informada</li>
+            <li>Registro profissional</li>
+            <li>SAC 0800 042-0676</li>
+          </ul>
+        </article>
+
+        <article class="price-card featured reveal">
+          <div class="popular">Sem custo inicial</div>
+          <p class="plan-name">Pagamento no êxito</p>
+          <div class="trust-number">R$ 0</div>
+          <p class="plan-desc">A avaliação inicial é gratuita. Os honorários só são cobrados se a isenção for concedida, conforme as condições apresentadas em contrato.</p>
+          <a class="button button-orange button-full" href="avaliacao.html">Começar gratuitamente <span class="button-dot" aria-hidden="true">→</span></a>
+          <ul>
+            <li>Sem pagamento para analisar</li>
+            <li>Condições apresentadas em contrato</li>
+            <li>Você decide antes de contratar</li>
+          </ul>
+        </article>
+
+        <article class="price-card reveal">
+          <p class="plan-name">Sede física em São Paulo</p>
+          <div class="trust-number">Berrini One</div>
+          <p class="plan-desc">Av. Engenheiro Luís Carlos Berrini, 105, 14º andar, São Paulo/SP.</p>
+          <a class="button button-outline-full" href="#rodape">Ver dados completos <span>↓</span></a>
+          <ul>
+            <li>Atendimento em todo o Brasil</li>
+            <li>Acompanhamento humano</li>
+            <li>Processo conduzido online</li>
+          </ul>
+        </article>
+      </div>
+
+      <aside class="name-alert reveal">
+        <strong>Cuidado com empresas de nome parecido</strong>
+        <p>Existem outras empresas com nomes semelhantes que não têm relação com a RecupereiBR. Antes de compartilhar documentos ou contratar, confira o CNPJ <strong>43.008.668/0001-98</strong>.</p>
+      </aside>
+    </section>
+
+    <section class="testimonial-section" id="depoimentos">
+      <div class="testimonial-heading reveal">
+        <div>
+          <p class="eyebrow eyebrow-light"><span></span> Histórias de quem descobriu esse direito</p>
+          <h2>O que nossos clientes dizem</h2>
+        </div>
+        <div class="testimonial-controls">
+          <button type="button" id="testimonial-prev" aria-label="Depoimento anterior">←</button>
+          <button type="button" id="testimonial-next" aria-label="Próximo depoimento">→</button>
+        </div>
+      </div>
+
+      <div class="testimonial-window reveal">
+        <div class="testimonial-track" id="testimonial-track">
+          <article class="testimonial-card">
+            <div class="quote-mark">“</div>
+            <p>Passando para elogiar o excelente atendimento recebido desde o início do processo. Muito rápidas as medidas para suspender a cobrança de IR. Agora acompanho o retroativo com ótima expectativa.</p>
+            <div class="testimonial-person">
+              <span class="person-avatar person-a"></span>
+              <div><strong>Robson Almeida Miranda</strong><small>Rio de Janeiro, RJ</small></div>
+            </div>
+          </article>
+          <article class="testimonial-card">
+            <div class="quote-mark">“</div>
+            <p>Jamais imaginei ser tão bem atendido e com tanta rapidez sobre minha isenção do Imposto de Renda. Serei um eterno propagador do trabalho de vocês.</p>
+            <div class="testimonial-person">
+              <span class="person-avatar person-b"></span>
+              <div><strong>Nelson Frener</strong><small>Santa Catarina</small></div>
+            </div>
+          </article>
+          <article class="testimonial-card">
+            <div class="quote-mark">“</div>
+            <p>Direito que eu nem sabia que tinha. Agora estou isenta do Imposto de Renda.</p>
+            <div class="testimonial-person">
+              <span class="person-avatar person-c"></span>
+              <div><strong>Versina Monteiro</strong><small>Ceres, GO</small></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section faq-section" id="faq">
+      <div class="section-heading centered reveal">
+        <p class="eyebrow"><span></span> Dúvidas frequentes</p>
+        <h2>Perguntas que todo mundo faz.</h2>
+        <p>Informação clara para você decidir com segurança e conversar com sua família.</p>
+      </div>
+
+      <div class="faq-list reveal">
+        <details class="faq-item">
+          <summary>Como posso conferir se a empresa é verdadeira? <span>+</span></summary>
+          <p>A RecupereiBR é a Recuperei Consultoria LTDA, CNPJ 43.008.668/0001-98, registrada no CRA-SP sob o nº 125298 e com sede física na Av. Berrini, em São Paulo. A avaliação inicial é gratuita.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Vou perder ou reduzir minha aposentadoria? <span>+</span></summary>
+          <p>Não. A isenção altera somente a cobrança do Imposto de Renda sobre o benefício elegível. O valor bruto da aposentadoria, pensão ou reforma não é reduzido por causa do pedido.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Quanto custa o serviço? <span>+</span></summary>
+          <p>A avaliação inicial é gratuita. Os honorários só são cobrados se a isenção for concedida, e todas as condições são apresentadas em contrato antes da contratação.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Posso ter direito mesmo estando curado? <span>+</span></summary>
+          <p>Pode. Há entendimento do STJ de que o direito pode permanecer mesmo quando a doença está controlada ou já foi tratada. Cada caso e sua documentação precisam ser analisados.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Quais documentos são necessários? <span>+</span></summary>
+          <p>Em geral, são analisados laudo médico, comprovante de aposentadoria ou pensão e documentos pessoais. A equipe explica cada etapa e só solicita informações de saúde com autorização específica.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Quanto tempo demora? <span>+</span></summary>
+          <p>O prazo depende do órgão responsável e das características de cada caso. Por isso, não prometemos uma data exata. A equipe acompanha o processo e mantém você informado.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Posso recuperar valores que já paguei? <span>+</span></summary>
+          <p>Pode haver restituição dos valores pagos indevidamente nos últimos cinco anos. O período e o valor dependem da data do diagnóstico, dos pagamentos realizados e da análise individual.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="contato">
+    <div class="newsletter final-cta">
+      <div>
+        <p class="eyebrow eyebrow-light"><span></span> Dê o primeiro passo sem compromisso</p>
+        <h2>Descubra gratuitamente se você pode ter direito.</h2>
+        <p>Preencha o formulário inicial. Nossa equipe explica os próximos passos com clareza e sem pagamento inicial.</p>
+      </div>
+      <div class="final-actions">
+        <a class="button button-orange" href="avaliacao.html">Solicitar avaliação gratuita <span class="button-dot" aria-hidden="true">→</span></a>
+        <a class="button button-footer-ghost" href="tel:08000420676">Ligar 0800 042-0676</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom" id="rodape">
+      <div>
+        <a class="brand brand-light" href="#conteudo">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>Recuperei<span class="brand-accent">BR</span></span>
+        </a>
+        <p>Especialistas em isenção de Imposto de Renda para aposentados, pensionistas e militares reformados com doenças graves.</p>
+      </div>
+      <nav aria-label="Links do rodapé">
+        <a href="#direito">Quem tem direito</a>
+        <a href="#simulador">Simulador</a>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#confianca">Quem somos</a>
+        <a href="#faq">Dúvidas</a>
+      </nav>
+      <div class="footer-meta">
+        <a href="privacidade.html">Política de Privacidade</a>
+        <a href="termos.html">Termos de Serviço</a>
+        <a href="mailto:contato@recupereibr.com.br">contato@recupereibr.com.br</a>
+        <span>Recuperei Consultoria LTDA</span>
+        <span>CNPJ 43.008.668/0001-98 · CRA-SP 125298</span>
+        <span>Av. Eng. Luís Carlos Berrini, 105, 14º andar, São Paulo/SP</span>
+      </div>
+    </div>
+  </footer>
+
+  <a class="whatsapp-float" href="https://wa.me/5511912133116?text=Ol%C3%A1%2C%20quero%20fazer%20uma%20an%C3%A1lise%20gratuita." target="_blank" rel="noopener" aria-label="Falar com a RecupereiBR no WhatsApp">
+    <span aria-hidden="true"><img class="whatsapp-icon" src="assets/whatsapp.svg" alt=""></span>
+    <strong>WhatsApp</strong>
+  </a>
+
+  <script src="advisora.js"></script>
+</body>
+</html>
