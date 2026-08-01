@@ -17,6 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const amountInput = document.getElementById("family-ir-value");
   const amountRange = document.getElementById("family-ir-range");
   const amountEstimate = document.getElementById("family-estimate");
+  const diseaseField = document.getElementById("disease-field");
+  const diseaseSelect = document.getElementById("family-disease");
   const respondentPhone = document.getElementById("respondent-phone");
   const params = new URLSearchParams(window.location.search);
   const createLeadId = () => (
@@ -104,6 +106,15 @@ document.addEventListener("DOMContentLoaded", () => {
     amountInput.value = event.target.value;
   });
 
+  const syncDiseaseField = () => {
+    const health = selectedValue("health");
+    const needsDisease = Boolean(health) && health !== "Não";
+    diseaseField.hidden = !needsDisease;
+    diseaseSelect.required = needsDisease;
+    if (!needsDisease) diseaseSelect.value = "";
+  };
+  form.querySelectorAll('input[name="health"]').forEach((input) => input.addEventListener("change", syncDiseaseField));
+
   const validateCurrentStep = () => {
     const step = steps[currentStep];
     const required = Array.from(step.querySelectorAll("[required]"));
@@ -158,6 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
       benefit: selectedValue("benefit"),
       paysIr: selectedValue("paysIr"),
       health: selectedValue("health"),
+      disease: diseaseSelect.value,
       monthlyIr: monthly,
       estimate: monthly * 60,
       resultType: currentResultType,
@@ -254,6 +266,8 @@ document.addEventListener("DOMContentLoaded", () => {
     showResultStatus("");
     result.scrollIntoView({ behavior: "smooth", block: "start" });
   };
+
+  syncDiseaseField();
 
   nextButton.addEventListener("click", async () => {
     if (!validateCurrentStep()) return;

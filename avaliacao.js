@@ -9,6 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const stepLabel = document.getElementById("form-step-label");
   const stepDescription = document.getElementById("form-step-description");
   const progressBar = document.getElementById("form-progress-bar");
+  const diseaseField = document.getElementById("disease-field");
+  const diseaseSelect = document.getElementById("lead-disease");
   const params = new URLSearchParams(window.location.search);
   let currentStep = 0;
   let formStarted = false;
@@ -39,6 +41,15 @@ document.addEventListener("DOMContentLoaded", () => {
   phone.addEventListener("input", () => {
     phone.value = formatPhone(phone.value);
   });
+
+  const syncDiseaseField = () => {
+    const selected = form.querySelector('input[name="health"]:checked')?.value || "";
+    const needsDisease = Boolean(selected) && selected !== "Não";
+    diseaseField.hidden = !needsDisease;
+    diseaseSelect.required = needsDisease;
+    if (!needsDisease) diseaseSelect.value = "";
+  };
+  form.querySelectorAll('input[name="health"]').forEach((input) => input.addEventListener("change", syncDiseaseField));
 
   const invalidField = (container) => {
     const required = Array.from(container.querySelectorAll("[required]"));
@@ -121,6 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setFieldValue("benefit", benefitMap[quizData.benefit]);
     setFieldValue("paysIr", irMap[quizData.paysIr]);
     setFieldValue("health", quizData.health === "Não" ? "Não" : "Sim");
+    setFieldValue("disease", quizData.disease || "");
     setFieldValue("monthlyIr", String(quizData.monthlyIr || ""));
     currentStep = 1;
     trackEvent("lead_form_prefilled", { source: "family_quiz" });
@@ -249,6 +261,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   loadPreviousAnswers();
+  syncDiseaseField();
   renderStep();
   document.querySelectorAll("h1, h2, h3, p, strong, small, li, legend").forEach(preventWidow);
 });

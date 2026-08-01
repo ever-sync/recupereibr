@@ -1,0 +1,30 @@
+# RecupereiBR
+
+> RecupereiBR orienta aposentados, pensionistas, militares reformados e familiares sobre possível isenção de Imposto de Renda por doença grave e análise de valores pagos indevidamente.
+
+## Site principal
+
+- Início: https://recupereibr.com.br/
+- Avaliação: https://recupereibr.com.br/avaliacao.html
+- Simulação para familiar: https://recupereibr.com.br/simulacao.html
+
+## Conteúdo
+
+- Blog: https://recupereibr.com.br/blog.html
+- Post pilar: https://recupereibr.com.br/post-isencao-imposto-renda-doenca-grave.html
+
+## Entidades principais
+
+- Isenção de Imposto de Renda por doença grave
+- Aposentadoria
+- Pensão
+- Militar reformado ou da reserva
+- Laudo e documentação médica
+- Restituição de valores pagos indevidamente
+
+## Notas editoriais
+
+- O site não promete aprovação.
+- A análise depende do caso concreto e da documentação.
+- A avaliação inicial é gratuita.
+- O conteúdo é informativo e serve para triagem inicial.

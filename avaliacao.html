@@ -100,12 +100,36 @@
 
             <fieldset class="choice-field health-choice">
               <legend>A pessoa tem ou já teve uma condição grave?*</legend>
-              <p>Não precisa informar o diagnóstico nesta etapa.</p>
+              <p>Se a resposta for sim, selecione a condição. Não envie laudos ou documentos nesta etapa.</p>
               <div>
                 <label><input type="radio" name="health" value="Sim" required><span></span>Sim</label>
                 <label><input type="radio" name="health" value="Não"><span></span>Não</label>
                 <label><input type="radio" name="health" value="Não sei"><span></span>Não sei</label>
               </div>
+              <label class="field disease-field" id="disease-field" for="lead-disease" hidden>
+                <span>Qual doença ou condição a pessoa tem ou já teve?*</span>
+                <select id="lead-disease" name="disease">
+                  <option value="">Selecione</option>
+                  <option value="AIDS (Síndrome da Imunodeficiência Adquirida)">AIDS (Síndrome da Imunodeficiência Adquirida)</option>
+                  <option value="Alienação mental">Alienação mental</option>
+                  <option value="Cardiopatia grave">Cardiopatia grave</option>
+                  <option value="Cegueira (inclusive monocular)">Cegueira (inclusive monocular)</option>
+                  <option value="Contaminação por radiação">Contaminação por radiação</option>
+                  <option value="Doença de Paget em estados avançados (osteíte deformante)">Doença de Paget em estados avançados (osteíte deformante)</option>
+                  <option value="Doença de Parkinson">Doença de Parkinson</option>
+                  <option value="Esclerose múltipla">Esclerose múltipla</option>
+                  <option value="Espondiloartrose anquilosante">Espondiloartrose anquilosante</option>
+                  <option value="Fibrose cística (mucoviscidose)">Fibrose cística (mucoviscidose)</option>
+                  <option value="Hanseníase">Hanseníase</option>
+                  <option value="Hepatopatia grave">Hepatopatia grave</option>
+                  <option value="Moléstia profissional">Moléstia profissional</option>
+                  <option value="Nefropatia grave">Nefropatia grave</option>
+                  <option value="Neoplasia maligna">Neoplasia maligna</option>
+                  <option value="Paralisia irreversível e incapacitante">Paralisia irreversível e incapacitante</option>
+                  <option value="Tuberculose ativa">Tuberculose ativa</option>
+                  <option value="Não sei informar">Não sei informar</option>
+                </select>
+              </label>
             </fieldset>
 
             <button class="lead-submit form-next" id="form-next" type="button">
