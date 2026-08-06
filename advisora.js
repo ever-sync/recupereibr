@@ -217,13 +217,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // multipart, e não JSON: o passo 3 carrega anexos
       const payload = new FormData(selfservice);
+      const eventId = window.recupereibr?.novoEventId?.() || "";
       payload.append("source", "autoatendimento_home");
+      payload.append("eventId", eventId);
       payload.append("createdAt", new Date().toISOString());
 
       try {
         const response = await fetch(endpoint, { method: "POST", body: payload });
         if (!response.ok) throw new Error("Falha no envio");
-        trackEvent("generate_lead", { source: "autoatendimento_home" });
+        trackEvent("generate_lead", { source: "autoatendimento_home", eventId });
         showMessage("Recebemos seus dados. Um especialista entra em contato pelo WhatsApp.", "success");
         selfservice.reset();
         refresh();

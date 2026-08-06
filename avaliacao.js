@@ -206,6 +206,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const payload = Object.fromEntries(new FormData(form).entries());
     payload.email = String(payload.email || "").trim().toLowerCase();
     payload.source = source;
+    // mesmo id vai para o n8n e para o pixel: é o que permite a Meta deduplicar
+    payload.eventId = window.recupereibr?.novoEventId?.() || "";
     payload.utmSource = params.get("utm_source") || "";
     payload.utmMedium = params.get("utm_medium") || "";
     payload.utmCampaign = params.get("utm_campaign") || "";
@@ -230,7 +232,8 @@ document.addEventListener("DOMContentLoaded", () => {
         name: payload.name,
         source: payload.source,
         monthlyIr: payload.monthlyIr || "",
-        estimate: payload.estimate || ""
+        estimate: payload.estimate || "",
+        eventId: payload.eventId
       }));
       window.location.assign(
         isSimulationLead

@@ -293,6 +293,8 @@ document.addEventListener("DOMContentLoaded", () => {
     resultSpecialist.firstChild.textContent = "Enviando ";
     showResultStatus("");
     const payload = completePayload();
+    // mesmo id vai para o n8n e para o pixel: é o que permite a Meta deduplicar
+    payload.eventId = window.recupereibr?.novoEventId?.() || "";
 
     try {
       await sendToN8n(payload);
@@ -304,7 +306,8 @@ document.addEventListener("DOMContentLoaded", () => {
         name: payload.respondentName,
         source: "quiz",
         monthlyIr: String(payload.monthlyIr),
-        estimate: String(payload.estimate)
+        estimate: String(payload.estimate),
+        eventId: payload.eventId || ""
       }));
       window.location.assign("obrigado-simulacao.html");
     } catch {
