@@ -148,7 +148,7 @@ summary,
 }
 
 .header-logo {
-  width: 160px;
+  width: 190px;
   height: auto;
   display: block;
   object-fit: contain;
@@ -413,7 +413,7 @@ summary,
   position: relative;
   z-index: 6;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: 1.7fr 1fr 1fr 1fr;
   border: 1px solid var(--line);
   border-radius: 20px;
   background: var(--paper);
@@ -422,11 +422,37 @@ summary,
 
 .home-trust-strip article {
   padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   border-right: 1px solid var(--line);
 }
 
 .home-trust-strip article:last-child {
   border-right: 0;
+}
+
+/* Selo RA Verificada: widget de terceiros de 142x52 com fundo próprio */
+.home-trust-strip .trust-seal {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 14px 18px;
+}
+
+/* base de 150px: quando o texto e o selo não cabem lado a lado, o selo cai para a linha de baixo */
+.home-trust-strip .trust-seal-copy {
+  flex: 1 1 150px;
+}
+
+.home-trust-strip .trust-seal > #ra-verified-seal {
+  flex: 0 0 auto;
+}
+
+/* o logo do RA vem com width sem unidade no style inline, então o `img { width: 100% }` global o esticaria */
+.home-trust-strip .trust-seal img {
+  width: auto;
 }
 
 .home-trust-strip strong,
@@ -634,10 +660,10 @@ summary,
 }
 
 .statement {
-  min-height: 620px;
+  min-height: 480px;
   padding: 80px max(24px, calc((100vw - var(--container)) / 2));
   display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: 90px;
   color: white;
@@ -646,25 +672,30 @@ summary,
 }
 
 .statement-collage {
-  min-height: 430px;
   position: relative;
   display: grid;
   place-items: center;
 }
 
 .statement-feature-art {
-  width: min(100%, 500px);
+  width: min(100%, 620px);
   height: auto;
   display: block;
   object-fit: contain;
   filter: drop-shadow(0 24px 45px rgba(0, 0, 0, 0.16));
 }
 
+/* título curto em duas linhas: fecha na mesma altura da arte ao lado */
 .statement-copy h2 {
   max-width: 720px;
-  margin-bottom: 44px;
-  font-size: clamp(38px, 4.4vw, 67px);
-  line-height: 1.08;
+  margin-bottom: 24px;
+  font-size: clamp(34px, 3.8vw, 54px);
+  line-height: 1.12;
+}
+
+.statement-copy h2 em {
+  color: var(--orange);
+  font-style: normal;
 }
 
 .text-link {
@@ -723,6 +754,200 @@ summary,
 .centered p:last-child {
   margin-right: auto;
   margin-left: auto;
+}
+
+/* Seção "Condições previstas em lei": lista de doenças em pílulas */
+.condition-pills-hint {
+  margin: -38px 0 26px;
+  color: var(--ink-soft);
+  font-size: 14px;
+}
+
+.condition-pills {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  list-style: none;
+}
+
+.condition-pills li {
+  position: relative;
+}
+
+.condition-pill {
+  padding: 14px 22px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
+  font-size: 16px;
+  line-height: 1.25;
+  cursor: help;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.condition-pills li:hover .condition-pill,
+.condition-pill:focus {
+  border-color: var(--green-mid);
+  background: white;
+}
+
+/* balão de descrição: sobe da pílula ao passar o mouse, ao focar pelo teclado ou ao tocar */
+.condition-tip {
+  position: absolute;
+  bottom: calc(100% + 13px);
+  left: 50%;
+  z-index: 20;
+  width: max-content;
+  max-width: min(320px, calc(100vw - 48px));
+  padding: 15px 17px;
+  border-radius: 16px;
+  color: rgba(250, 250, 250, 0.88);
+  background: var(--green);
+  box-shadow: 0 18px 40px rgba(17, 17, 17, 0.22);
+  font-size: 13px;
+  line-height: 1.55;
+  text-align: left;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(calc(-50% + var(--tip-shift, 0px)), 9px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  pointer-events: none;
+}
+
+/* rabinho do balão, ancorado na pílula mesmo quando o balão desloca para não sair da tela */
+.condition-tip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: calc(-7px - var(--tip-shift, 0px));
+  border: 7px solid transparent;
+  border-top-color: var(--green);
+}
+
+.condition-pills li:hover .condition-tip,
+.condition-pill:focus + .condition-tip {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(calc(-50% + var(--tip-shift, 0px)), 0);
+}
+
+/* Carrossel de vídeos do YouTube */
+.video-heading {
+  margin-bottom: 55px;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.video-heading h2 {
+  margin-bottom: 18px;
+  font-size: clamp(46px, 5.2vw, 74px);
+  line-height: 1.02;
+}
+
+.video-heading > div:first-child > p:last-child {
+  max-width: 620px;
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.video-controls {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 8px;
+}
+
+.video-controls button {
+  width: 52px;
+  height: 52px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.video-controls button:hover:not(:disabled) {
+  border-color: var(--green-mid);
+  background: var(--paper);
+}
+
+.video-controls button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.video-window {
+  overflow: hidden;
+}
+
+.video-track {
+  display: flex;
+  gap: 22px;
+  transition: transform 0.45s cubic-bezier(.22, .8, .3, 1);
+}
+
+.video-card {
+  min-width: calc((100% - 44px) / 3);
+}
+
+/* o fundo verde segura o card enquanto a miniatura carrega (ou se o id ainda não foi preenchido) */
+.video-thumb,
+.video-frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: block;
+  border: 0;
+  border-radius: 20px;
+  background: var(--green) center / cover no-repeat;
+}
+
+.video-thumb {
+  position: relative;
+  padding: 0;
+  cursor: pointer;
+}
+
+.video-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 66px;
+  height: 66px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--ink);
+  background: var(--orange);
+  font-size: 19px;
+  transform: translate(-50%, -50%);
+  transition: transform 0.25s ease;
+}
+
+.video-thumb:hover .video-play,
+.video-thumb:focus-visible .video-play {
+  transform: translate(-50%, -50%) scale(1.09);
+}
+
+/* o `main` no seletor eleva a especificidade acima da escala global (main h3 { font-size: 40px !important }),
+   que é feita para títulos de seção e não para títulos de card */
+main .video-card h3 {
+  margin: 22px 0 8px;
+  font-size: 20px !important;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.video-card p {
+  color: var(--ink-soft);
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .services-shell {
@@ -1365,10 +1590,50 @@ summary,
 }
 
 .testimonial-card > p {
-  margin: auto 0 40px;
+  margin: auto 0 18px;
   color: rgba(255,255,255,.82);
   font-size: 16px;
   line-height: 1.65;
+}
+
+/* depoimentos reais têm tamanhos muito diferentes; o corte por linhas mantém os
+   cards alinhados sem editar a fala de ninguém, e o botão abre o texto na íntegra */
+.testimonial-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 8;
+  overflow: hidden;
+}
+
+.testimonial-card.is-expanded .testimonial-text {
+  display: block;
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+
+.testimonial-more {
+  width: max-content;
+  margin: -8px 0 18px;
+  padding: 0 0 3px;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.85);
+  background: transparent;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.testimonial-more:hover {
+  border-bottom-color: var(--lime);
+  color: var(--lime);
+}
+
+.testimonial-rating {
+  margin-bottom: 22px;
+  color: #ffc94d;
+  font-size: 17px;
+  letter-spacing: 3px;
 }
 
 .testimonial-person {
@@ -1377,17 +1642,22 @@ summary,
   gap: 12px;
 }
 
+/* iniciais no lugar de foto: são clientes reais, e uma imagem de banco no lugar
+   do rosto deles seria uma pessoa que não existe assinando um depoimento que existe */
 .person-avatar {
   width: 44px;
   height: 44px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 50%;
-  background-position: center;
-  background-size: cover;
+  color: var(--lime);
+  background: rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
 }
-
-.person-a { background-image: url("assets/avatar-woman-1.jpg"); }
-.person-b { background-image: url("assets/avatar-man-1.jpg"); }
-.person-c { background-image: url("assets/avatar-woman-2.jpg"); }
 
 .testimonial-person strong,
 .testimonial-person small {
@@ -1531,6 +1801,13 @@ summary,
   display: grid;
   grid-template-columns: 1.2fr 0.7fr 1fr;
   gap: 70px;
+}
+
+.footer-logo {
+  width: 210px;
+  height: auto;
+  display: block;
+  object-fit: contain;
 }
 
 .brand-light .brand-mark {
@@ -1736,10 +2013,6 @@ summary,
     gap: 45px;
   }
 
-  .statement-collage {
-    min-height: 370px;
-  }
-
   .section {
     width: min(100% - 36px, var(--container));
     padding: 90px 0;
@@ -1785,6 +2058,10 @@ summary,
     min-width: calc((100% - 18px) / 2);
   }
 
+  .video-card {
+    min-width: calc((100% - 22px) / 2);
+  }
+
   .footer-bottom {
     grid-template-columns: 1fr 1fr;
   }
@@ -1792,11 +2069,20 @@ summary,
 
 @media (max-width: 560px) {
   .header-logo {
-    width: 142px;
+    width: 168px;
   }
 
   .hero h1 {
     font-size: 44px;
+  }
+
+  .condition-pills {
+    gap: 9px;
+  }
+
+  .condition-pill {
+    padding: 11px 17px;
+    font-size: 14px;
   }
 
   .hero-actions .button {
@@ -1863,12 +2149,8 @@ summary,
     padding-bottom: 70px;
   }
 
-  .statement-collage {
-    min-height: 315px;
-  }
-
   .statement-copy h2 {
-    font-size: 38px;
+    font-size: 34px;
   }
 
   .service-stage {
@@ -1917,12 +2199,14 @@ summary,
   }
 
   .testimonial-heading,
+  .video-heading,
   .blog-heading {
     align-items: flex-start;
     flex-direction: column;
   }
 
-  .testimonial-card {
+  .testimonial-card,
+  .video-card {
     min-width: 100%;
   }
 
@@ -2070,10 +2354,14 @@ summary,
 
 .statement-copy > p:not(.eyebrow) {
   max-width: 610px;
-  margin: -8px 0 28px;
+  margin: 0 0 22px;
   color: rgba(255, 255, 255, 0.62);
-  font-size: 15px;
-  line-height: 1.7;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.statement-copy .eyebrow {
+  margin-bottom: 16px;
 }
 
 .eligibility-grid {
@@ -2118,6 +2406,311 @@ summary,
 .eligibility-grid .impact-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 22px 44px rgba(0, 0, 0, 0.18);
+}
+
+/* ---- Autoatendimento: formulário nos cards da seção "Quem tem direito" ---- */
+.selfservice-form .impact-card {
+  justify-content: flex-start;
+  gap: 24px;
+}
+
+/* travado sai do verde e vira cinza: o contraste diz sozinho o que ainda não está disponível,
+   sem opacidade global, que borraria o texto do aviso junto */
+/* seletor longo de propósito: o card 3 tem fundo próprio em
+   `.eligibility-grid .impact-card:nth-child(3)`, que vencia um seletor mais curto */
+.eligibility-grid .impact-card.selfservice-card[data-locked="true"] {
+  border-color: rgba(255, 255, 255, 0.09);
+  background: linear-gradient(155deg, #333d3b 0%, #262e2d 100%);
+}
+
+.selfservice-card[data-locked="true"] .step-label {
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.selfservice-card[data-locked="true"] .step-label span {
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.selfservice-card[data-locked="true"] .selfservice-body {
+  display: none;
+}
+
+.selfservice-card[data-locked="true"]:hover {
+  transform: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.step-lock {
+  margin: auto 0 !important;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-size: 14px !important;
+  line-height: 1.45;
+}
+
+.step-lock span {
+  flex: 0 0 auto;
+  font-size: 17px;
+}
+
+.selfservice-card:not([data-locked="true"]) .step-lock {
+  display: none;
+}
+
+/* passo concluído ganha contorno no rótulo */
+.selfservice-card[data-done="true"] .step-label {
+  border-color: var(--orange);
+}
+
+.selfservice-body {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+}
+
+main .selfservice-card h4,
+main .selfservice-cta h4 {
+  margin: 0;
+  font-size: 21px !important;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+main .selfservice-card h4 {
+  color: white;
+}
+
+.field-help {
+  margin: -8px 0 0 !important;
+  color: rgba(255, 255, 255, 0.58) !important;
+  font-size: 13px !important;
+  line-height: 1.5;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field > span {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 11px;
+  color: white;
+  background: rgba(0, 0, 0, 0.2);
+  font-size: 15px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.field select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, rgba(255, 255, 255, 0.6) 50%), linear-gradient(135deg, rgba(255, 255, 255, 0.6) 50%, transparent 50%);
+  background-position: calc(100% - 18px) 51%, calc(100% - 13px) 51%;
+  background-repeat: no-repeat;
+  background-size: 5px 5px, 5px 5px;
+  cursor: pointer;
+}
+
+.field select option {
+  color: var(--ink);
+  background: white;
+}
+
+.field input::placeholder {
+  color: rgba(255, 255, 255, 0.32);
+}
+
+.field input:focus,
+.field select:focus {
+  border-color: var(--orange);
+  background: rgba(0, 0, 0, 0.32);
+  outline: none;
+}
+
+.field input[aria-invalid="true"] {
+  border-color: #ffb0a1;
+}
+
+.field-currency {
+  position: relative;
+}
+
+.field-currency i {
+  position: absolute;
+  top: 50%;
+  left: 13px;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 13px;
+  font-style: normal;
+  transform: translateY(-50%);
+}
+
+.field-currency input {
+  padding-left: 40px;
+}
+
+.field-note {
+  margin: 0 !important;
+  color: rgba(255, 255, 255, 0.58) !important;
+  font-size: 13px !important;
+  line-height: 1.5;
+}
+
+.field-note strong {
+  color: var(--orange);
+}
+
+.field-file input[type="file"] {
+  padding: 11px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.field-file input[type="file"]::file-selector-button {
+  margin-right: 10px;
+  padding: 7px 12px;
+  border: 0;
+  border-radius: 8px;
+  color: var(--ink);
+  background: var(--orange);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.field-file em {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12.5px;
+  font-style: normal;
+}
+
+.field-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.field-consent input {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  accent-color: var(--orange);
+  cursor: pointer;
+}
+
+.field-consent a {
+  color: white;
+  text-decoration: underline;
+}
+
+.selfservice-cta {
+  justify-content: space-between;
+}
+
+.selfservice-mascot {
+  width: min(100%, 235px);
+  height: auto;
+  margin: 0 auto;
+  display: block;
+}
+
+/* card final travado: mesmo cinza dos passos. O !important derrota o
+   `.eligibility-cta { background: ... !important }`, e o texto precisa virar claro junto */
+.eligibility-grid .impact-card.selfservice-cta[data-locked="true"] {
+  border-color: rgba(255, 255, 255, 0.09);
+  background: linear-gradient(155deg, #333d3b 0%, #262e2d 100%) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.selfservice-cta[data-locked="true"]:hover {
+  transform: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.selfservice-cta[data-locked="true"] h4,
+main .selfservice-cta[data-locked="true"] p {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+
+.selfservice-cta[data-locked="true"] .step-label {
+  border-color: rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.selfservice-cta[data-locked="true"] .step-label span {
+  color: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.selfservice-cta[data-locked="true"] .selfservice-mascot {
+  opacity: 0.4;
+  filter: grayscale(1);
+}
+
+.selfservice-cta[data-locked="true"] .selfservice-submit {
+  border-color: rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.selfservice-cta[data-locked="true"] .selfservice-submit span {
+  color: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+main .selfservice-cta p {
+  font-size: 14px !important;
+  line-height: 1.55;
+}
+
+.selfservice-submit {
+  margin-top: 16px;
+  padding: 0 0 7px;
+  border: 0;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.35);
+  background: transparent;
+  cursor: pointer;
+}
+
+.selfservice-submit:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.form-message {
+  margin: 14px 0 0 !important;
+  font-size: 13px !important;
+  line-height: 1.5;
+}
+
+.form-message:empty {
+  display: none;
+}
+
+.form-message.error {
+  color: #7d2a17 !important;
+}
+
+.form-message.success {
+  color: var(--green) !important;
+  font-weight: 600;
 }
 
 .eligibility-grid .impact-card:not(:last-child)::after {

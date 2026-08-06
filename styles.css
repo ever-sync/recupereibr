@@ -231,6 +231,13 @@ h1, h2, h3, h4, h5, h6 {
   gap: 12px;
 }
 
+.header-logo {
+  width: 190px;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
 .logo-icon {
   background: linear-gradient(135deg, var(--primary-navy-light), var(--primary-navy));
   color: white;

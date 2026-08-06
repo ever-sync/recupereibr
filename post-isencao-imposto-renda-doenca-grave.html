@@ -19,6 +19,7 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="advisora.css">
   <link rel="stylesheet" href="blog.css">
+  <link rel="stylesheet" href="footer.css">
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -104,6 +105,7 @@
         <a href="index.html#simulador">Simulador</a>
         <a href="index.html#como-funciona">Como funciona</a>
         <a href="blog.html" aria-current="page">Blog</a>
+        <a href="quem-somos.html">Quem somos</a>
         <a href="index.html#faq">Dúvidas</a>
       </nav>
 
@@ -114,27 +116,65 @@
     </div>
   </header>
 
-  <main id="conteudo" class="blog-main">
-    <section class="post-hero">
-      <p class="eyebrow post-kicker"><span></span> Blog · Conteúdo pilar</p>
-      <h1>Quem tem direito à isenção de Imposto de Renda por doença grave</h1>
-      <p>Se a pessoa recebe aposentadoria, pensão ou reforma e existe desconto de Imposto de Renda no benefício, pode haver direito à isenção e à análise de valores pagos indevidamente nos últimos cinco anos.</p>
-      <div class="post-meta-strip">
-        <span>Por RecupereiBR</span>
-        <span>•</span>
-        <span>Atualizado em <time datetime="2026-08-01" data-post-updated>01/08/2026</time></span>
-        <span>•</span>
-        <span>Leitura estimada: 8 min</span>
+  <main id="conteudo" class="blog-main post-page">
+    <section class="post-hero-band">
+      <div class="post-hero-inner">
+        <div class="post-hero-copy">
+          <p class="eyebrow eyebrow-light"><span></span> Guia completo</p>
+          <h1>Quem tem direito à isenção de Imposto de Renda por doença&nbsp;grave</h1>
+          <p>Se você recebe aposentadoria, pensão ou reforma e existe desconto de Imposto de Renda no benefício, pode haver direito à isenção e à devolução do que foi pago nos últimos cinco anos.</p>
+          <div class="post-hero-actions">
+            <a class="button button-orange" href="avaliacao.html">Fazer avaliação gratuita <span class="button-dot" aria-hidden="true">&rarr;</span></a>
+            <a class="button button-ghost-light" href="#indice">Ver o índice</a>
+          </div>
+          <p class="post-hero-note">Avaliação sem custo &middot; Nenhum documento é pedido agora</p>
+        </div>
+        <div class="post-hero-art">
+          <img src="assets/hero-senior.jpg" alt="Pessoa idosa consultando informações no notebook em casa">
+        </div>
       </div>
     </section>
 
     <section class="post-section">
+      <nav class="breadcrumb" aria-label="Trilha de navegação">
+        <a href="index.html">Início</a>
+        <span aria-hidden="true">&raquo;</span>
+        <a href="blog.html">Blog</a>
+        <span aria-hidden="true">&raquo;</span>
+        <span aria-current="page">Quem tem direito à isenção por doença grave</span>
+      </nav>
+
+      <div class="post-meta-strip">
+        <span>Por RecupereiBR</span>
+        <span aria-hidden="true">&bull;</span>
+        <span>Atualizado em <time datetime="2026-08-01" data-post-updated>01/08/2026</time></span>
+        <span aria-hidden="true">&bull;</span>
+        <span>Leitura de 8 min</span>
+      </div>
+
       <div class="post-layout">
         <article class="post-content">
+          <details class="post-index" id="indice" open>
+            <summary>
+              <span>Índice</span>
+              <i aria-hidden="true"></i>
+            </summary>
+            <ol class="post-index-list">
+              <li><a href="#quem-pode-ter-direito">Quem pode ter direito</a></li>
+              <li><a href="#tres-pontos-da-analise">Os três pontos que abrem a análise</a></li>
+              <li><a href="#a-doenca-precisa-estar-ativa">A doença precisa estar ativa?</a></li>
+              <li><a href="#quais-documentos-costumam-ser-avaliados">Quais documentos são avaliados</a></li>
+              <li><a href="#o-que-pode-ser-analisado-alem-da-isencao">O que pode voltar além da isenção</a></li>
+              <li><a href="#quando-vale-pedir-avaliacao">Quando vale pedir uma avaliação</a></li>
+              <li><a href="#conclusao">Conclusão</a></li>
+              <li><a href="#perguntas-frequentes">Perguntas frequentes</a></li>
+            </ol>
+          </details>
+
           <div class="post-content-card">
             <section class="post-summary" aria-labelledby="resumo-rapido">
               <h2 id="resumo-rapido">Resumo rápido</h2>
-              <p>Na prática, a análise costuma começar por três perguntas: qual benefício a pessoa recebe, se existe ou existiu condição de saúde prevista em lei e se há ou houve desconto de Imposto de Renda sobre esse rendimento. Quando os três pontos se alinham, vale aprofundar a análise.</p>
+              <p>A análise costuma começar por três perguntas: qual benefício a pessoa recebe, se existe ou existiu condição de saúde prevista em lei e se há ou houve desconto de Imposto de Renda sobre esse rendimento. Quando os três pontos se alinham, vale aprofundar.</p>
             </section>
 
             <section id="quem-pode-ter-direito">
@@ -174,7 +214,7 @@
 
             <section id="o-que-pode-ser-analisado-alem-da-isencao">
               <h2>O que pode ser analisado além da isenção</h2>
-              <p>Além da interrupção do desconto futuro, pode haver análise de <strong>valores pagos indevidamente nos últimos cinco anos</strong>. Isso não significa que haverá recuperação automática em todos os casos, mas é uma frente relevante da avaliação.</p>
+              <p>Além da interrupção do desconto futuro, pode haver análise de <strong>valores pagos indevidamente nos últimos cinco anos</strong>. Isso não significa recuperação automática em todos os casos, mas é uma frente relevante da avaliação.</p>
 
               <table>
                 <thead>
@@ -208,86 +248,55 @@
 
             <section id="conclusao">
               <h2>Conclusão</h2>
-              <p>A isenção de Imposto de Renda por doença grave não deve ser tratada como promessa genérica. O melhor caminho é uma triagem simples, objetiva e responsável: entender o benefício, a condição de saúde e o desconto de IR. Se esses pontos combinarem, a análise individual passa a fazer sentido.</p>
-              <p><a class="text-link" href="avaliacao.html">Fazer avaliação gratuita <span>→</span></a></p>
+              <p>A isenção de Imposto de Renda por doença grave não deve ser tratada como promessa genérica. O melhor caminho é uma triagem simples e responsável: entender o benefício, a condição de saúde e o desconto de IR. Se esses pontos combinarem, a análise individual passa a fazer sentido.</p>
+              <p><a class="text-link" href="avaliacao.html">Fazer avaliação gratuita <span aria-hidden="true">&rarr;</span></a></p>
+            </section>
+
+            <section id="perguntas-frequentes">
+              <h2>Perguntas frequentes</h2>
+              <div class="post-faq-list">
+                <article class="post-faq-item">
+                  <h3>Quem pode ter direito à isenção?</h3>
+                  <p>Geralmente, quem recebe benefício elegível, teve ou tem condição de saúde analisável e sofre ou sofreu incidência de IR sobre esse rendimento.</p>
+                </article>
+                <article class="post-faq-item">
+                  <h3>É preciso estar doente no momento?</h3>
+                  <p>Nem sempre. Há casos em que a condição controlada ou já tratada ainda exige análise individual.</p>
+                </article>
+                <article class="post-faq-item">
+                  <h3>Posso avaliar valores pagos nos últimos anos?</h3>
+                  <p>Sim, pode haver análise dos últimos cinco anos, dependendo do histórico e da documentação disponível.</p>
+                </article>
+              </div>
             </section>
           </div>
         </article>
 
-        <aside class="post-sidebar" aria-label="Navegação e contexto do artigo">
-          <div class="post-sidebar-card">
-            <h3>Neste artigo</h3>
-            <ul class="post-toc">
-              <li><a href="#quem-pode-ter-direito">Quem pode ter direito</a></li>
-              <li><a href="#tres-pontos-da-analise">Três pontos da análise</a></li>
-              <li><a href="#a-doenca-precisa-estar-ativa">Doença ativa</a></li>
-              <li><a href="#quais-documentos-costumam-ser-avaliados">Documentos</a></li>
-              <li><a href="#o-que-pode-ser-analisado-alem-da-isencao">Valores pagos</a></li>
-              <li><a href="#quando-vale-pedir-avaliacao">Quando vale avaliar</a></li>
+        <aside class="post-sidebar" aria-label="Próximos passos e navegação">
+          <div class="post-sidebar-cta">
+            <p class="sidebar-badge">Avaliação gratuita</p>
+            <a class="button button-dark button-full" href="avaliacao.html">Quero saber se tenho direito <span class="button-dot" aria-hidden="true">&rarr;</span></a>
+            <ul class="sidebar-checks">
+              <li><a href="index.html#doencas">As 18 condições previstas em lei</a></li>
+              <li><a href="index.html#simulador">Simular quanto pode ser devolvido</a></li>
+              <li><a href="index.html#direito">Enviar laudo pelo autoatendimento</a></li>
+              <li><a href="index.html#depoimentos">Depoimentos de quem já conseguiu</a></li>
+              <li><a href="index.html#confianca">Quem somos e nossos registros</a></li>
+              <li><a href="index.html#faq">Dúvidas mais frequentes</a></li>
             </ul>
+            <p class="sidebar-note">Você só paga honorários se a isenção for concedida.</p>
           </div>
 
           <div class="post-sidebar-card">
-            <h3>Sinais fortes para conversão</h3>
-            <ul class="post-key-points">
-              <li>Recebe aposentadoria, pensão ou reforma militar.</li>
-              <li>Há ou houve desconto de IR no benefício.</li>
-              <li>Existe condição de saúde que pode se enquadrar.</li>
-              <li>Familiar buscando orientação para o titular.</li>
-            </ul>
-          </div>
-
-          <div class="post-sidebar-card">
-            <h3>Resumo para IA</h3>
-            <ul class="llm-points">
-              <li>Entidade principal: isenção de IR por doença grave.</li>
-              <li>ICP: aposentados, pensionistas, militares reformados e familiares.</li>
-              <li>Intenção: informacional com transição para avaliação.</li>
+            <h3>Categorias</h3>
+            <ul class="sidebar-cats">
+              <li><a href="blog.html">Isenção de IR</a></li>
+              <li><a href="blog.html">Doenças previstas em lei</a></li>
+              <li><a href="blog.html">Documentação</a></li>
+              <li><a href="blog.html">Restituição</a></li>
             </ul>
           </div>
         </aside>
-      </div>
-    </section>
-
-    <section class="post-section">
-      <div class="section-head related-head">
-        <p class="eyebrow"><span></span> Blocos GEO / IA SEO</p>
-        <h2>Fatos claros e respostas objetivas.</h2>
-      </div>
-      <div class="fact-grid">
-        <article class="fact-card">
-          <strong>Intenção principal</strong>
-          <p>Responder quem pode ter direito e quando vale avançar para análise.</p>
-        </article>
-        <article class="fact-card">
-          <strong>Entidades importantes</strong>
-          <p>Isenção de Imposto de Renda, doença grave, aposentadoria, pensão, militar reformado, laudo e restituição.</p>
-        </article>
-        <article class="fact-card">
-          <strong>Próxima ação</strong>
-          <p>Levar o leitor para uma avaliação inicial gratuita e objetiva.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="post-section">
-      <div class="section-head related-head">
-        <p class="eyebrow"><span></span> FAQ editorial</p>
-        <h2>Perguntas rápidas para SEO e snippet.</h2>
-      </div>
-      <div class="post-faq-list">
-        <article class="post-faq-item">
-          <h3>Quem pode ter direito à isenção?</h3>
-          <p>Geralmente, quem recebe benefício elegível, teve ou tem condição de saúde analisável e sofre ou sofreu incidência de IR sobre esse rendimento.</p>
-        </article>
-        <article class="post-faq-item">
-          <h3>É preciso estar doente no momento?</h3>
-          <p>Nem sempre. Há casos em que a condição controlada ou já tratada ainda exige análise individual.</p>
-        </article>
-        <article class="post-faq-item">
-          <h3>Posso avaliar valores pagos nos últimos anos?</h3>
-          <p>Sim, pode haver análise dos últimos cinco anos, dependendo do histórico e da documentação disponível.</p>
-        </article>
       </div>
     </section>
 
@@ -299,60 +308,47 @@
           <p>Você pode seguir como titular ou como familiar responsável, sem envio imediato de documentos.</p>
         </div>
         <div class="final-actions">
-          <a class="button button-orange" href="avaliacao.html">Quero fazer avaliação <span class="button-dot" aria-hidden="true">→</span></a>
+          <a class="button button-orange" href="avaliacao.html">Quero fazer avaliação <span class="button-dot" aria-hidden="true">&rarr;</span></a>
         </div>
-      </div>
-    </section>
-
-    <section class="post-section">
-      <div class="section-head related-head">
-        <p class="eyebrow"><span></span> Próximos posts</p>
-        <h2>Estrutura pronta para cluster.</h2>
-      </div>
-      <div class="related-grid">
-        <article class="blog-card">
-          <div class="blog-card-body">
-            <span class="blog-tag">Cluster</span>
-            <h3>Quais doenças podem ser analisadas</h3>
-            <p>Conteúdo para capturar busca por lista de doenças, dúvidas e enquadramento inicial.</p>
-          </div>
-        </article>
-        <article class="blog-card">
-          <div class="blog-card-body">
-            <span class="blog-tag">Cluster</span>
-            <h3>Como funciona a documentação</h3>
-            <p>Conteúdo para responder dúvidas práticas sobre laudo, comprovantes e próximos passos.</p>
-          </div>
-        </article>
-        <article class="blog-card">
-          <div class="blog-card-body">
-            <span class="blog-tag">Cluster</span>
-            <h3>Como um familiar pode iniciar a análise</h3>
-            <p>Conteúdo focado em intenção de busca de filhos, cônjuges e responsáveis.</p>
-          </div>
-        </article>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="footer-bottom">
+  <footer class="site-footer" id="contato">
+    <div class="footer-cta">
       <div>
-        <a class="brand brand-light" href="index.html">
-          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span>Recuperei<span class="brand-accent">BR</span></span>
+        <p class="footer-eyebrow"><span></span> Dê o primeiro passo sem compromisso</p>
+        <h2>Descubra gratuitamente se você pode ter direito.</h2>
+        <p>Preencha o formulário inicial. Nossa equipe explica os próximos passos com clareza e sem pagamento inicial.</p>
+      </div>
+      <div class="footer-actions">
+        <a class="footer-button footer-button-primary" href="avaliacao.html">Solicitar avaliação gratuita <i aria-hidden="true">&rarr;</i></a>
+        <a class="footer-button footer-button-ghost" href="tel:08000420676">Ligar 0800 042-0676</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom" id="rodape">
+      <div>
+        <a class="footer-brand" href="index.html" aria-label="RecupereiBR, página inicial">
+          <img class="footer-logo" src="assets/recupereibr-logo-white.png" alt="RecupereiBR">
         </a>
-        <p>Conteúdo educativo e jornada de avaliação para casos de possível isenção de Imposto de Renda.</p>
+        <p>Especialistas em isenção de Imposto de Renda para aposentados, pensionistas e militares reformados com doenças graves.</p>
       </div>
       <nav aria-label="Links do rodapé">
-        <a href="index.html">Início</a>
+        <a href="index.html#direito">Quem tem direito</a>
+        <a href="index.html#doencas">Doenças previstas</a>
+        <a href="index.html#simulador">Simulador</a>
+        <a href="quem-somos.html">Quem somos</a>
         <a href="blog.html">Blog</a>
-        <a href="privacidade.html">Privacidade</a>
-        <a href="termos.html">Termos</a>
+        <a href="index.html#faq">Dúvidas</a>
       </nav>
       <div class="footer-meta">
+        <a href="privacidade.html">Política de Privacidade</a>
+        <a href="termos.html">Termos de Serviço</a>
+        <a href="mailto:contato@recupereibr.com.br">contato@recupereibr.com.br</a>
         <span>Recuperei Consultoria LTDA</span>
         <span>CNPJ 43.008.668/0001-98 · CRA-SP 125298</span>
+        <span>Av. Eng. Luís Carlos Berrini, 105, 14º andar, São Paulo/SP</span>
       </div>
     </div>
   </footer>

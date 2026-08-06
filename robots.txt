@@ -1,4 +1,13 @@
 User-agent: *
 Allow: /
 
+# Páginas de confirmação: só fazem sentido logo após o envio do formulário
+# e já são noindex no HTML. Bloqueadas aqui para não gastar rastreamento.
+Disallow: /obrigado-avaliacao.html
+Disallow: /obrigado-simulacao.html
+
+# Rascunho antigo da home, sem link em nenhuma página.
+# Indexado, concorreria com a home pelas mesmas palavras-chave.
+Disallow: /recupereibr-home-v2.html
+
 Sitemap: https://recupereibr.com.br/sitemap.xml

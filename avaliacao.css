@@ -291,6 +291,10 @@
   font-size: 14px;
 }
 
+.disease-field {
+  margin-top: 16px;
+}
+
 .choice-field > div {
   margin-top: 11px;
   display: flex;
@@ -298,7 +302,7 @@
   gap: 8px;
 }
 
-.choice-field label {
+.choice-field > div > label {
   min-height: 48px;
   padding: 0 15px;
   position: relative;
@@ -312,31 +316,31 @@
   cursor: pointer;
 }
 
-.choice-field input,
+.choice-field > div > label input,
 .lead-consent input {
   position: absolute;
   opacity: 0;
 }
 
-.choice-field label > span {
+.choice-field > div > label > span {
   width: 16px;
   height: 16px;
   border: 1px solid rgba(255, 255, 255, 0.36);
   border-radius: 50%;
 }
 
-.choice-field label:has(input:checked) {
+.choice-field > div > label:has(input:checked) {
   border-color: var(--orange);
   color: var(--ink);
   background: var(--orange);
 }
 
-.choice-field label:has(input:checked) > span {
+.choice-field > div > label:has(input:checked) > span {
   border: 5px solid var(--green);
   background: white;
 }
 
-.choice-field label:has(input:focus-visible),
+.choice-field > div > label:has(input:focus-visible),
 .lead-consent:has(input:focus-visible) > span {
   outline: 3px solid var(--orange);
   outline-offset: 3px;
@@ -740,7 +744,7 @@
     grid-template-columns: repeat(3, 1fr);
   }
 
-  .choice-field label {
+  .choice-field > div > label {
     padding: 0 10px;
     justify-content: center;
   }

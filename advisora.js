@@ -82,75 +82,235 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  const services = [
-    {
-      id: "avaliacao",
-      number: "01",
-      title: "Primeiro, entendemos o seu caso",
-      text: "Verificamos o benefício que você recebe, o desconto de Imposto de Renda e a condição de saúde relatada. A avaliação inicial é gratuita e sem compromisso.",
-      image: "assets/advisor.jpg"
-    },
-    {
-      id: "documentos",
-      number: "02",
-      title: "Você recebe orientação para reunir os documentos",
-      text: "Explicamos o que será necessário e ajudamos a conferir as informações para evitar dúvidas, erros e retrabalho.",
-      image: "assets/meeting.jpg"
-    },
-    {
-      id: "solicitacao",
-      number: "03",
-      title: "Cuidamos do pedido e acompanhamos o andamento",
-      text: "Preparamos a solicitação para o órgão responsável e mantemos você informado durante o processo.",
-      image: "assets/team.jpg"
-    },
-    {
-      id: "recuperacao",
-      number: "04",
-      title: "Com a aprovação, buscamos o benefício completo",
-      text: "Além de interromper o desconto do Imposto de Renda, avaliamos os valores pagos indevidamente que podem ser recuperados, respeitando o limite legal.",
-      image: "assets/advisor.jpg"
-    }
-  ];
+  // ---- Autoatendimento: cada passo só libera o seguinte quando fica completo ----
+  const selfservice = document.getElementById("selfservice-form");
 
-  const tabs = Array.from(document.querySelectorAll(".service-tab"));
-  const servicePanel = document.getElementById("service-panel");
-  const serviceImage = document.getElementById("service-image");
-  let serviceIndex = 0;
+  if (selfservice) {
+    const cards = Array.from(selfservice.querySelectorAll("[data-step]"));
+    const submitButton = selfservice.querySelector(".selfservice-submit");
+    const ctaText = document.getElementById("selfservice-cta-text");
+    const estimate = document.getElementById("selfservice-estimate");
+    const filesHint = document.getElementById("selfservice-files");
+    const message = document.getElementById("selfservice-message");
+    const phone = selfservice.querySelector('[name="phone"]');
+    const monthlyIr = selfservice.querySelector('[name="monthlyIr"]');
+    const documents = selfservice.querySelector('[name="documents"]');
+    const currency = new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+      maximumFractionDigits: 0
+    });
+    const MAX_FILE_BYTES = 10 * 1024 * 1024;
 
-  const renderService = (index) => {
-    serviceIndex = (index + services.length) % services.length;
-    const service = services[serviceIndex];
+    const onlyDigits = (value) => String(value).replace(/\D/g, "");
 
-    tabs.forEach((tab, tabIndex) => {
-      const active = tabIndex === serviceIndex;
-      tab.classList.toggle("active", active);
-      tab.setAttribute("aria-selected", String(active));
+    const formatPhone = (value) => {
+      const digits = onlyDigits(value).slice(0, 11);
+      if (digits.length <= 2) return digits;
+      if (digits.length <= 6) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
+      if (digits.length <= 10) return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
+      return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
+    };
+
+    const stepComplete = (step) => {
+      if (step === 1) {
+        const name = selfservice.querySelector('[name="name"]').value.trim();
+        const benefit = selfservice.querySelector('[name="benefit"]').value;
+        return name.length >= 3 && onlyDigits(phone.value).length >= 10 && Boolean(benefit);
+      }
+      if (step === 2) return Number(onlyDigits(monthlyIr.value)) > 0;
+      if (step === 3) {
+        const consent = selfservice.querySelector('[name="healthConsent"]').checked;
+        return documents.files.length > 0 && consent;
+      }
+      return false;
+    };
+
+    const refresh = () => {
+      let unlocked = true;
+
+      cards.forEach((card) => {
+        const step = Number(card.dataset.step);
+        if (step === 1) {
+          card.dataset.done = String(stepComplete(1));
+          return;
+        }
+        // um passo só abre se todos os anteriores estiverem completos
+        unlocked = unlocked && stepComplete(step - 1);
+        card.dataset.locked = String(!unlocked);
+        if (step < 4) card.dataset.done = String(unlocked && stepComplete(step));
+      });
+
+      const ready = stepComplete(1) && stepComplete(2) && stepComplete(3);
+      if (submitButton) submitButton.disabled = !ready;
+      if (ctaText) {
+        ctaText.textContent = ready
+          ? "Um especialista analisa e retorna com o resultado, sem custo."
+          : "Complete os três passos ao lado para liberar o envio.";
+      }
+    };
+
+    phone?.addEventListener("input", () => {
+      phone.value = formatPhone(phone.value);
     });
 
-    if (servicePanel) {
-      servicePanel.querySelector(".panel-number").textContent = service.number;
-      servicePanel.querySelector("h3").textContent = service.title;
-      servicePanel.querySelector("p").textContent = service.text;
-      servicePanel.querySelectorAll("h3, p").forEach((element) => {
-        delete element.dataset.widowProtected;
-        preventWidow(element);
-      });
-    }
+    monthlyIr?.addEventListener("input", () => {
+      monthlyIr.value = onlyDigits(monthlyIr.value).slice(0, 6);
+      const fiveYears = Number(monthlyIr.value || 0) * 60;
+      if (estimate) {
+        estimate.innerHTML = `Em cinco anos, isso representa cerca de <strong>${currency.format(fiveYears)}</strong>.`;
+      }
+    });
 
-    if (serviceImage) {
-      serviceImage.style.backgroundImage = `url("${service.image}")`;
-    }
+    documents?.addEventListener("change", () => {
+      const files = Array.from(documents.files);
+      const tooBig = files.filter((file) => file.size > MAX_FILE_BYTES);
+
+      if (tooBig.length) {
+        documents.value = "";
+        if (filesHint) filesHint.textContent = `${tooBig[0].name} passa de 10 MB. Escolha um arquivo menor.`;
+      } else if (files.length) {
+        if (filesHint) {
+          filesHint.textContent = files.length === 1
+            ? `1 arquivo anexado: ${files[0].name}`
+            : `${files.length} arquivos anexados`;
+        }
+      } else if (filesHint) {
+        filesHint.textContent = "PDF, JPG ou PNG · até 10 MB cada";
+      }
+
+      refresh();
+    });
+
+    selfservice.addEventListener("input", refresh);
+    selfservice.addEventListener("change", refresh);
+    refresh();
+
+    selfservice.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!(stepComplete(1) && stepComplete(2) && stepComplete(3))) return;
+
+      const endpoint = String(
+        window.RECUPEREIBR_SELFSERVICE_ENDPOINT || selfservice.dataset.endpoint || ""
+      ).trim();
+
+      const showMessage = (text, type) => {
+        if (!message) return;
+        message.textContent = text;
+        message.className = `form-message ${type}`;
+      };
+
+      if (!endpoint) {
+        const isPreview = ["", "localhost", "127.0.0.1"].includes(window.location.hostname);
+        trackEvent("selfservice_integration_missing");
+        showMessage(
+          isPreview
+            ? "Formulário validado. Falta conectar o endereço que vai receber os dados."
+            : "Não foi possível enviar agora. Fale com a gente pelo 0800 042-0676.",
+          isPreview ? "success" : "error"
+        );
+        return;
+      }
+
+      submitButton.disabled = true;
+      showMessage("Enviando…", "");
+
+      // multipart, e não JSON: o passo 3 carrega anexos
+      const payload = new FormData(selfservice);
+      payload.append("source", "autoatendimento_home");
+      payload.append("createdAt", new Date().toISOString());
+
+      try {
+        const response = await fetch(endpoint, { method: "POST", body: payload });
+        if (!response.ok) throw new Error("Falha no envio");
+        trackEvent("generate_lead", { source: "autoatendimento_home" });
+        showMessage("Recebemos seus dados. Um especialista entra em contato pelo WhatsApp.", "success");
+        selfservice.reset();
+        refresh();
+      } catch (error) {
+        submitButton.disabled = false;
+        showMessage("Não foi possível enviar agora. Tente novamente ou ligue 0800 042-0676.", "error");
+      }
+    });
+  }
+
+  const videoTrack = document.getElementById("video-track");
+  const videoPrev = document.getElementById("video-prev");
+  const videoNext = document.getElementById("video-next");
+  let videoIndex = 0;
+
+  const visibleVideos = () => {
+    if (window.innerWidth <= 560) return 1;
+    if (window.innerWidth <= 820) return 2;
+    return 3;
   };
 
-  tabs.forEach((tab, index) => {
-    tab.addEventListener("click", () => renderService(index));
+  const maxVideoIndex = () => Math.max(0, videoTrack.children.length - visibleVideos());
+
+  const updateVideos = () => {
+    if (!videoTrack) return;
+    const maxIndex = maxVideoIndex();
+    videoIndex = Math.min(Math.max(videoIndex, 0), maxIndex);
+
+    // com poucos vídeos todos cabem na tela; as setas ficam inertes e são desativadas
+    if (videoPrev) videoPrev.disabled = maxIndex === 0;
+    if (videoNext) videoNext.disabled = maxIndex === 0;
+
+    const card = videoTrack.querySelector(".video-card");
+    if (!card) return;
+    const gap = 22;
+    videoTrack.style.transform = `translateX(-${videoIndex * (card.getBoundingClientRect().width + gap)}px)`;
+  };
+
+  updateVideos();
+
+  videoPrev?.addEventListener("click", () => {
+    videoIndex -= 1;
+    updateVideos();
   });
 
-  document.querySelectorAll("[data-service-direction]").forEach((button) => {
-    button.addEventListener("click", () => {
-      renderService(serviceIndex + Number(button.dataset.serviceDirection));
+  videoNext?.addEventListener("click", () => {
+    videoIndex = videoIndex >= maxVideoIndex() ? 0 : videoIndex + 1;
+    updateVideos();
+  });
+
+  // miniatura montada a partir do id, e o player só é criado no clique:
+  // nada do YouTube (script, cookie, requisição) entra na página antes de o visitante querer assistir
+  document.querySelectorAll(".video-thumb").forEach((thumb) => {
+    const videoId = thumb.dataset.youtubeId;
+    if (!videoId) return;
+
+    thumb.style.backgroundImage = `url("https://i.ytimg.com/vi/${videoId}/hqdefault.jpg")`;
+
+    thumb.addEventListener("click", () => {
+      const frame = document.createElement("iframe");
+      frame.className = "video-frame";
+      frame.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`;
+      frame.title = thumb.dataset.videoTitle || "Vídeo";
+      frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+      frame.allowFullscreen = true;
+      thumb.replaceWith(frame);
     });
+  });
+
+  // o botão "Ler completo" só aparece nos depoimentos que realmente foram cortados
+  document.querySelectorAll(".testimonial-card").forEach((card) => {
+    const text = card.querySelector(".testimonial-text");
+    const button = card.querySelector(".testimonial-more");
+    if (!text || !button) return;
+
+    const checkOverflow = () => {
+      if (card.classList.contains("is-expanded")) return;
+      button.hidden = text.scrollHeight <= text.clientHeight + 1;
+    };
+
+    button.addEventListener("click", () => {
+      const expanded = card.classList.toggle("is-expanded");
+      button.textContent = expanded ? "Mostrar menos" : "Ler completo";
+    });
+
+    checkOverflow();
+    window.addEventListener("resize", checkOverflow);
   });
 
   const track = document.getElementById("testimonial-track");
@@ -185,7 +345,10 @@ document.addEventListener("DOMContentLoaded", () => {
     updateTestimonials();
   });
 
-  window.addEventListener("resize", updateTestimonials);
+  window.addEventListener("resize", () => {
+    updateTestimonials();
+    updateVideos();
+  });
 
   const simulatorInput = document.getElementById("simulator-input");
   const simulatorRange = document.getElementById("simulator-range");
@@ -238,6 +401,27 @@ document.addEventListener("DOMContentLoaded", () => {
   simulatorRange?.addEventListener("input", (event) => {
     updateSimulator(event.target.value, "range");
     if (simulatorInput) simulatorInput.value = event.target.value;
+  });
+
+  // balões das condições: desloca na horizontal para não vazar da viewport nas pílulas das pontas
+  const alignConditionTip = (item) => {
+    const tip = item.querySelector(".condition-tip");
+    if (!tip) return;
+
+    tip.style.setProperty("--tip-shift", "0px");
+    const rect = tip.getBoundingClientRect();
+    const margin = 16;
+    let shift = 0;
+
+    if (rect.left < margin) shift = margin - rect.left;
+    else if (rect.right > window.innerWidth - margin) shift = window.innerWidth - margin - rect.right;
+
+    tip.style.setProperty("--tip-shift", `${Math.round(shift)}px`);
+  };
+
+  document.querySelectorAll(".condition-pills li").forEach((item) => {
+    item.addEventListener("pointerenter", () => alignConditionTip(item));
+    item.addEventListener("focusin", () => alignConditionTip(item));
   });
 
   document.querySelectorAll(
