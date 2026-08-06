@@ -202,3 +202,39 @@
     justify-content: space-between;
   }
 }
+
+/* ---- redes sociais ---- */
+.site-footer .footer-social {
+  margin: 26px 0 0;
+  padding: 0;
+  display: flex;
+  gap: 10px;
+  list-style: none;
+}
+
+.site-footer .footer-social a {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.72);
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.site-footer .footer-social a:hover,
+.site-footer .footer-social a:focus-visible {
+  border-color: #a7fd96;
+  color: #083630;
+  background: #a7fd96;
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+.site-footer .footer-social svg {
+  width: 19px;
+  height: 19px;
+  display: block;
+  fill: currentColor;
+}
