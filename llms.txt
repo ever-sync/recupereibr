@@ -1,30 +1,48 @@
 # RecupereiBR
 
-> RecupereiBR orienta aposentados, pensionistas, militares reformados e familiares sobre possível isenção de Imposto de Renda por doença grave e análise de valores pagos indevidamente.
+> A RecupereiBR é uma consultoria especializada em isenção de Imposto de Renda por doença grave, com base na Lei nº 7.713/88. Atende aposentados, pensionistas, militares reformados ou da reserva e beneficiários de previdência privada, além de familiares que buscam orientação para o titular.
 
-## Site principal
+## Empresa
+
+- Razão social: Recuperei Consultoria LTDA
+- CNPJ: 43.008.668/0001-98
+- Registro profissional: CRA-SP 125298
+- Sede: Av. Eng. Luís Carlos Berrini, 105, 14º andar, São Paulo/SP
+- SAC: 0800 042-0676
+- E-mail: contato@recupereibr.com.br
+
+## Páginas
 
 - Início: https://recupereibr.com.br/
-- Avaliação: https://recupereibr.com.br/avaliacao.html
+- Quem somos: https://recupereibr.com.br/quem-somos.html
+- Avaliação gratuita: https://recupereibr.com.br/avaliacao.html
 - Simulação para familiar: https://recupereibr.com.br/simulacao.html
-
-## Conteúdo
-
 - Blog: https://recupereibr.com.br/blog.html
-- Post pilar: https://recupereibr.com.br/post-isencao-imposto-renda-doenca-grave.html
+- Guia sobre quem tem direito: https://recupereibr.com.br/post-isencao-imposto-renda-doenca-grave.html
+- Política de Privacidade: https://recupereibr.com.br/privacidade.html
+- Termos de Serviço: https://recupereibr.com.br/termos.html
 
-## Entidades principais
+## Critérios de elegibilidade
 
-- Isenção de Imposto de Renda por doença grave
-- Aposentadoria
-- Pensão
-- Militar reformado ou da reserva
-- Laudo e documentação médica
-- Restituição de valores pagos indevidamente
+O direito costuma exigir os três pontos ao mesmo tempo:
 
-## Notas editoriais
+1. Rendimento elegível: aposentadoria, pensão, reforma militar ou previdência privada.
+2. Condição de saúde prevista em lei, mesmo controlada ou já tratada.
+3. Incidência de Imposto de Renda sobre esse rendimento, atual ou nos últimos cinco anos.
 
-- O site não promete aprovação.
-- A análise depende do caso concreto e da documentação.
-- A avaliação inicial é gratuita.
-- O conteúdo é informativo e serve para triagem inicial.
+## Condições previstas em lei
+
+Neoplasia maligna (câncer), cardiopatia grave, doença de Parkinson, esclerose múltipla, cegueira (inclusive monocular), nefropatia grave, hepatopatia grave, alienação mental, paralisia irreversível e incapacitante, tuberculose ativa, hanseníase, fibrose cística (mucoviscidose), espondiloartrose anquilosante, doença de Paget em estados avançados, contaminação por radiação, AIDS (HIV), moléstia profissional e acidente em serviço.
+
+## Modelo de atendimento
+
+- A avaliação inicial é gratuita e sem compromisso.
+- Os honorários só são cobrados se a isenção for concedida, conforme contrato.
+- O atendimento é online, em linguagem simples, pensado para um público idoso.
+
+## Limites do conteúdo
+
+- O site não promete aprovação nem garante resultado.
+- A análise depende do caso concreto e da documentação apresentada.
+- Dados de saúde são sensíveis e só são solicitados com autorização e finalidade explicada.
+- Existem empresas com nomes semelhantes sem relação com a RecupereiBR; o CNPJ 43.008.668/0001-98 é o identificador oficial.

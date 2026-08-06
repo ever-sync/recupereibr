@@ -273,3 +273,17 @@ main .sobre-passos h3 {
     grid-template-columns: 1fr;
   }
 }
+
+/* página 404: hero de coluna única, sem a arte lateral */
+.erro-inner {
+  grid-template-columns: 1fr;
+  max-width: 760px;
+}
+
+.sobre-lista li a {
+  color: inherit;
+}
+
+.sobre-lista li a:hover strong {
+  text-decoration: underline;
+}
