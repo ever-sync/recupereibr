@@ -237,8 +237,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }));
       window.location.assign(
         isSimulationLead
-          ? "obrigado-simulacao.html"
-          : "obrigado-avaliacao.html"
+          ? "/obrigado-simulacao"
+          : "/obrigado-avaliacao"
       );
       return;
     } catch {

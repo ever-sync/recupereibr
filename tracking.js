@@ -12,6 +12,20 @@
    ========================================================= */
 (function () {
   var DATASET_ID = "1069596948024447";
+  var GA4_ID = "G-7VDNRXZQ5Q";
+
+  /* ---- Google Analytics 4 ---- */
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  window.gtag = window.gtag || gtag;
+
+  var ga = document.createElement("script");
+  ga.async = true;
+  ga.src = "https://www.googletagmanager.com/gtag/js?id=" + GA4_ID;
+  document.head.appendChild(ga);
+
+  gtag("js", new Date());
+  gtag("config", GA4_ID);
 
   /* trecho oficial da Meta */
   !function(f,b,e,v,n,t,s)
@@ -35,9 +49,16 @@
     return "evt-" + Date.now() + "-" + Math.random().toString(16).slice(2);
   };
 
+  // dispara nas duas plataformas de uma vez, com os nomes que cada uma espera
   window.recupereibr.rastrear = function (evento, parametros, eventId) {
-    if (typeof fbq !== "function") return;
-    fbq("track", evento, parametros || {}, eventId ? { eventID: eventId } : undefined);
+    if (typeof fbq === "function") {
+      fbq("track", evento, parametros || {}, eventId ? { eventID: eventId } : undefined);
+    }
+
+    var nomeGa4 = { Lead: "generate_lead", Contact: "contact" }[evento];
+    if (nomeGa4 && typeof window.gtag === "function") {
+      window.gtag("event", nomeGa4, Object.assign({}, parametros, { transaction_id: eventId || undefined }));
+    }
   };
 
   document.addEventListener("DOMContentLoaded", function () {

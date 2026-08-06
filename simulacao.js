@@ -309,7 +309,7 @@ document.addEventListener("DOMContentLoaded", () => {
         estimate: String(payload.estimate),
         eventId: payload.eventId || ""
       }));
-      window.location.assign("obrigado-simulacao.html");
+      window.location.assign("/obrigado-simulacao");
     } catch {
       showResultStatus("Seus dados iniciais foram salvos, mas não conseguimos enviar o resultado. Tente novamente.");
     } finally {

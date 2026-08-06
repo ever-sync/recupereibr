@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  document.querySelectorAll('a[href^="avaliacao.html"]:not([data-track])').forEach((link) => {
+  document.querySelectorAll('a[href^="/avaliacao"]:not([data-track])').forEach((link) => {
     link.addEventListener("click", () => {
       trackEvent("cta_click", {
         cta_name: "avaliacao",
