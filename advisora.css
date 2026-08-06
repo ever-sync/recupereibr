@@ -1028,7 +1028,7 @@ main .video-card h3 {
 
 .service-image {
   min-height: 520px;
-  background-image: url("assets/advisor.jpg");
+  background-image: url("assets/advisor.webp");
   background-position: center;
   background-size: cover;
   transition: background-image 0.35s ease;
@@ -1158,7 +1158,7 @@ main .video-card h3 {
 }
 
 .impact-image {
-  background-image: url("assets/team.jpg");
+  background-image: url("assets/team.webp");
   background-position: center;
   background-size: cover;
 }
@@ -1712,9 +1712,9 @@ main .video-card h3 {
   font-size: 10px;
 }
 
-.blog-image-a { background-image: url("assets/meeting.jpg"); }
-.blog-image-b { background-image: url("assets/team.jpg"); }
-.blog-image-c { background-image: url("assets/advisor.jpg"); }
+.blog-image-a { background-image: url("assets/meeting.webp"); }
+.blog-image-b { background-image: url("assets/team.webp"); }
+.blog-image-c { background-image: url("assets/advisor.webp"); }
 
 .blog-copy {
   padding: 23px 2px 27px;
