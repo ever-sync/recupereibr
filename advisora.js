@@ -446,6 +446,98 @@ document.addEventListener("DOMContentLoaded", () => {
     reveals.forEach((element) => element.classList.add("visible"));
   }
 
+  // ---- Efeitos de entrada e de rolagem ----
+  const semMovimento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const animados = document.querySelectorAll("[data-reveal], [data-reveal-stagger]");
+
+  if (animados.length && "IntersectionObserver" in window && !semMovimento) {
+    // numera os filhos para o CSS escalonar o atraso de cada um
+    document.querySelectorAll("[data-reveal-stagger]").forEach((grupo) => {
+      Array.from(grupo.children).forEach((filho, indice) => {
+        filho.style.setProperty("--reveal-index", String(indice));
+      });
+    });
+
+    const entradaObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        entradaObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.15, rootMargin: "0px 0px -8% 0px" });
+
+    animados.forEach((element) => entradaObserver.observe(element));
+  } else {
+    animados.forEach((element) => element.classList.add("is-visible"));
+  }
+
+  // parallax: um único rAF para todos os elementos, em vez de um listener por elemento
+  const camadas = Array.from(document.querySelectorAll("[data-parallax]"));
+
+  if (camadas.length && !semMovimento) {
+    let agendado = false;
+
+    const posicionar = () => {
+      agendado = false;
+      const alturaJanela = window.innerHeight;
+
+      camadas.forEach((camada) => {
+        const caixa = camada.getBoundingClientRect();
+        if (caixa.bottom < 0 || caixa.top > alturaJanela) return;
+
+        // -1 quando o elemento está saindo por cima, 1 quando ainda vem de baixo
+        const progresso = (caixa.top + caixa.height / 2 - alturaJanela / 2) / (alturaJanela / 2);
+        const intensidade = Number(camada.dataset.parallax) || 18;
+        camada.style.transform = `translate3d(0, ${(progresso * intensidade).toFixed(1)}px, 0)`;
+      });
+    };
+
+    const aoRolar = () => {
+      if (agendado) return;
+      agendado = true;
+      requestAnimationFrame(posicionar);
+    };
+
+    window.addEventListener("scroll", aoRolar, { passive: true });
+    window.addEventListener("resize", aoRolar);
+    posicionar();
+  }
+
+  // contagem crescente do valor estimado na hero
+  const contador = document.getElementById("hero-estimate");
+
+  if (contador && "IntersectionObserver" in window && !semMovimento) {
+    const alvo = Number(contador.textContent.replace(/\D/g, ""));
+    const moeda = new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+      maximumFractionDigits: 0
+    });
+
+    if (alvo > 0) {
+      const contarObserver = new IntersectionObserver((entries) => {
+        if (!entries[0].isIntersecting) return;
+        contarObserver.disconnect();
+
+        const duracao = 1100;
+        const inicio = performance.now();
+
+        const passo = (agora) => {
+          const t = Math.min((agora - inicio) / duracao, 1);
+          // desacelera no fim: o número "assenta" em vez de parar seco
+          const suave = 1 - Math.pow(1 - t, 3);
+          contador.textContent = moeda.format(Math.round(alvo * suave));
+          if (t < 1) requestAnimationFrame(passo);
+        };
+
+        requestAnimationFrame(passo);
+      }, { threshold: 0.4 });
+
+      contarObserver.observe(contador);
+    }
+  }
+
   document.querySelector(".newsletter-form")?.addEventListener("submit", (event) => {
     event.preventDefault();
     const button = event.currentTarget.querySelector("button");

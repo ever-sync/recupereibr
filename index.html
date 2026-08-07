@@ -15,6 +15,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="advisora.css">
+  <link rel="stylesheet" href="efeitos.css">
   <link rel="stylesheet" href="footer.css">
 </head>
 <body>
@@ -50,7 +51,7 @@
 
   <main id="conteudo">
     <section class="hero">
-      <div class="hero-copy reveal">
+      <div class="hero-copy reveal" data-reveal-stagger style="--reveal-step:110ms">
         <p class="eyebrow"><span></span> Lei nº 7.713/88 · Análise gratuita</p>
         <h1>Você pode ficar isento de <em>Imposto de Renda</em> e recuperar até 5 anos pagos.</h1>
         <p class="hero-lead">Aposentados, pensionistas e militares reformados que têm ou já tiveram uma doença grave podem ter direito à isenção do Imposto de Renda e à recuperação de valores pagos nos últimos cinco anos.</p>
@@ -67,13 +68,13 @@
         </div>
       </div>
 
-      <div class="hero-visual reveal">
+      <div class="hero-visual reveal" data-reveal="right">
         <div class="orange-orbit" aria-hidden="true"></div>
         <div class="hero-photo">
           <img class="hero-family-photo" src="assets/hero-familia.webp" alt="Casal de idosos sorrindo ao lado de um familiar">
         </div>
 
-        <div class="float-card analytics-card">
+        <div class="float-card analytics-card" data-parallax="-22">
           <span class="float-icon">✓</span>
           <div>
             <strong>Análise 100% gratuita</strong>
@@ -81,7 +82,7 @@
           </div>
         </div>
 
-        <div class="float-card transformation-card">
+        <div class="float-card transformation-card" data-parallax="26">
           <span class="float-icon orange">✦</span>
           <div>
             <strong>Atendimento 24h pelo WhatsApp</strong>
@@ -89,7 +90,7 @@
           </div>
         </div>
 
-        <div class="expense-card hero-estimate-card">
+        <div class="expense-card hero-estimate-card" data-parallax="-16">
           <span class="estimate-label">Estimativa em 5 anos</span>
           <strong id="hero-estimate">R$ 54.000</strong>
           <small>Considerando R$ 900 de desconto em IR por mês</small>
@@ -101,7 +102,7 @@
       </div>
     </section>
 
-    <section class="home-trust-strip" aria-label="Segurança e condições do atendimento">
+    <section class="home-trust-strip" aria-label="Segurança e condições do atendimento" data-reveal-stagger style="--reveal-step:80ms">
       <article class="trust-seal">
         <div class="trust-seal-copy">
           <strong>Empresa verificada</strong>
@@ -150,19 +151,19 @@
     </section>
 
     <section class="statement" id="sobre">
-      <div class="statement-copy reveal">
+      <div class="statement-copy reveal" data-reveal="left">
         <p class="eyebrow eyebrow-light"><span></span> Um direito que pode fazer diferença</p>
         <h2>O imposto pode parar.<br><em>O dinheiro pode voltar.</em></h2>
         <p>A RecupereiBR torna esse caminho mais simples, com orientação clara, atendimento humano e acompanhamento do início ao fim.</p>
         <a class="text-link light" href="#como-funciona">Entenda o processo <span>↗</span></a>
       </div>
-      <div class="statement-collage reveal">
-        <img class="statement-feature-art" src="assets/beneficios-isencao.webp" alt="O que a isenção pode viabilizar: viajar com a família, investir e ter segurança financeira, quitar dívidas, ajudar nas despesas da casa e comprar medicamentos para cuidar melhor da sua saúde">
+      <div class="statement-collage reveal" data-reveal="right">
+        <img class="statement-feature-art" data-parallax="16" src="assets/beneficios-isencao.webp" alt="O que a isenção pode viabilizar: viajar com a família, investir e ter segurança financeira, quitar dívidas, ajudar nas despesas da casa e comprar medicamentos para cuidar melhor da sua saúde">
       </div>
     </section>
 
     <section class="section conditions-section" id="doencas">
-      <div class="section-heading reveal">
+      <div class="section-heading reveal" data-reveal="blur">
         <p class="eyebrow"><span></span> Condições previstas em lei</p>
         <h2>As doenças que dão direito à&nbsp;isenção.</h2>
         <p>A Lei nº 7.713/88 define as condições que garantem a isenção do Imposto de Renda para aposentados, pensionistas e militares reformados. O direito pode existir mesmo quando a doença já foi tratada ou está controlada.</p>
@@ -170,7 +171,7 @@
 
       <p class="condition-pills-hint">Passe o mouse ou toque em uma condição para ver o que ela abrange.</p>
 
-      <ul class="condition-pills reveal">
+      <ul class="condition-pills reveal" data-reveal-stagger="scale" style="--reveal-step:38ms">
         <li>
           <button class="condition-pill" type="button" aria-describedby="cond-cancer">Neoplasia maligna (câncer)</button>
           <span class="condition-tip" id="cond-cancer" role="tooltip">Crescimento anormal de células com potencial de se espalhar pelo corpo. Mesmo com a doença controlada ou já curada pode haver direito à isenção (Súmula 587 do STJ).</span>
@@ -247,7 +248,7 @@
     </section>
 
     <section class="testimonial-section" id="depoimentos">
-      <div class="testimonial-heading reveal">
+      <div class="testimonial-heading reveal" data-reveal="blur">
         <div>
           <p class="eyebrow eyebrow-light"><span></span> Histórias de quem descobriu esse direito</p>
           <h2>O que nossos clientes dizem</h2>
@@ -259,7 +260,7 @@
       </div>
 
       <div class="testimonial-window reveal">
-        <div class="testimonial-track" id="testimonial-track">
+        <div class="testimonial-track" id="testimonial-track" data-reveal-stagger style="--reveal-step:110ms">
           <article class="testimonial-card">
             <div class="quote-mark">“</div>
             <p class="testimonial-text">Boa tarde. Passando para elogiar o excelente atendimento recebido, da empresa RECUPEREI BR, desde o início, quando dei entrada no processo após diagnóstico de doença abrangida pela lei. Muito tempestivas as medidas impetradas objetivando a suspensão da cobrança de IR no contra-cheque, no que houve êxito bem rapidamente. Na continuidade, após ter recebido o feedback quanto ao desfecho/despacho conclusivo, estão sendo tomadas as medidas objetivando o pagamento de valores retroativos à data do meu diagnóstico da doença que motivou o enquadramento do pleito à legislação vigente. Estou no aguardo dessa etapa com ótima expectativa, diante da firmeza com que o processo vem sendo conduzido. Recomendo a empresa para todos aqueles que necessitarem desse tipo de assessoria, prestada com assertividade, tempestividade e excelência.</p>
@@ -297,7 +298,7 @@
     <!-- Para adicionar um vídeo: duplique um card e troque o data-youtube-id pelo id do YouTube
          (o trecho depois de v= na URL). A miniatura é montada a partir dele, sem segundo lugar para editar. -->
     <section class="section video-section" id="como-funciona">
-      <div class="video-heading reveal">
+      <div class="video-heading reveal" data-reveal="blur">
         <div>
           <p class="eyebrow"><span></span> Do primeiro contato ao resultado</p>
           <h2>Entenda o processo em&nbsp;vídeo.</h2>
@@ -310,7 +311,7 @@
       </div>
 
       <div class="video-window reveal">
-        <div class="video-track" id="video-track">
+        <div class="video-track" id="video-track" data-reveal-stagger="scale" style="--reveal-step:110ms">
           <article class="video-card">
             <button class="video-thumb" type="button" data-youtube-id="CGp6QNFpDL0" data-video-title="Vídeo institucional - RecupereiBR" aria-label="Assistir ao vídeo: Vídeo institucional da RecupereiBR">
               <span class="video-play" aria-hidden="true">▶</span>
@@ -339,7 +340,7 @@
     </section>
 
     <section class="impact-section" id="direito">
-      <div class="impact-heading reveal">
+      <div class="impact-heading reveal" data-reveal="blur">
         <div>
           <p class="eyebrow eyebrow-light"><span></span> Autoatendimento</p>
           <h2>Faça sua pré-análise de forma rápida e prática: envie seu laudo e agilize seu&nbsp;atendimento!</h2>
@@ -349,7 +350,7 @@
 
       <!-- data-endpoint: URL que recebe o formulário (multipart/form-data, por causa dos anexos).
            Pode ser definida aqui ou em window.RECUPEREIBR_SELFSERVICE_ENDPOINT. -->
-      <form class="impact-grid eligibility-grid selfservice-form" id="selfservice-form" data-endpoint="" novalidate>
+      <form class="impact-grid eligibility-grid selfservice-form" id="selfservice-form" data-endpoint="" novalidate data-reveal-stagger style="--reveal-step:110ms">
         <article class="impact-card selfservice-card reveal" data-step="1">
           <div class="step-label"><span>01</span><strong>Passo 1</strong></div>
           <div class="selfservice-body">
@@ -437,7 +438,7 @@
         <p>Informe o desconto mensal de Imposto de Renda no seu benefício e veja uma estimativa ilustrativa.</p>
       </div>
 
-      <div class="feature-grid recuperei-feature-grid">
+      <div class="feature-grid recuperei-feature-grid" data-reveal-stagger="scale" style="--reveal-step:100ms">
         <article class="feature-card feature-large simulator-card reveal">
           <div class="feature-copy">
             <span class="feature-icon">R$</span>
@@ -492,7 +493,7 @@
         <p>Somos a Recuperei Consultoria LTDA. Confira sempre nossos dados oficiais.</p>
       </div>
 
-      <div class="pricing-grid trust-grid">
+      <div class="pricing-grid trust-grid" data-reveal-stagger style="--reveal-step:110ms">
         <article class="price-card reveal">
           <p class="plan-name">Empresa identificada</p>
           <div class="trust-number">CNPJ</div>
@@ -545,7 +546,7 @@
         <p>Informação clara para você decidir com segurança e conversar com sua família.</p>
       </div>
 
-      <div class="faq-list reveal">
+      <div class="faq-list reveal" data-reveal-stagger style="--reveal-step:60ms">
         <details class="faq-item">
           <summary>Como posso conferir se a empresa é verdadeira? <span>+</span></summary>
           <p>A RecupereiBR é a Recuperei Consultoria LTDA, CNPJ 43.008.668/0001-98, registrada no CRA-SP sob o nº 125298 e com sede física na Av. Berrini, em São Paulo. A avaliação inicial é gratuita.</p>

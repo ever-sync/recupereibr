@@ -1,0 +1,73 @@
+/* =========================================================
+   Efeitos de entrada e de rolagem
+
+   Sem biblioteca: o site já tem IntersectionObserver e o navegador
+   anima transform/opacity na GPU. Framer Motion custaria 45 KB
+   comprimidos para fazer o mesmo nestes casos.
+
+   Só transform e opacity são animados — as duas únicas propriedades
+   que não forçam o navegador a recalcular layout a cada quadro.
+   ========================================================= */
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 0.8, 0.3, 1),
+    transform 0.7s cubic-bezier(0.22, 0.8, 0.3, 1);
+  transition-delay: calc(var(--reveal-index, 0) * 90ms);
+  will-change: transform, opacity;
+}
+
+[data-reveal="left"]   { transform: translateX(-34px); }
+[data-reveal="right"]  { transform: translateX(34px); }
+[data-reveal="scale"]  { transform: scale(0.94); }
+[data-reveal="blur"]   { transform: translateY(20px); filter: blur(7px); }
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  will-change: auto;
+}
+
+/* filhos em sequência: cada um entra um pouco depois do anterior */
+[data-reveal-stagger] > * {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.62s cubic-bezier(0.22, 0.8, 0.3, 1),
+    transform 0.62s cubic-bezier(0.22, 0.8, 0.3, 1);
+  transition-delay: calc(var(--reveal-index, 0) * var(--reveal-step, 70ms));
+}
+
+[data-reveal-stagger="scale"] > * {
+  transform: translateY(16px) scale(0.95);
+}
+
+[data-reveal-stagger].is-visible > * {
+  opacity: 1;
+  transform: none;
+}
+
+/* deslocamento sutil na rolagem, alimentado por rAF no advisora.js */
+[data-parallax] {
+  will-change: transform;
+}
+
+/* o site inteiro já respeita isto, mas aqui é essencial:
+   parallax e stagger são exatamente o tipo de movimento que
+   incomoda quem tem sensibilidade vestibular */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-reveal-stagger] > * {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+
+  [data-parallax] {
+    transform: none !important;
+  }
+}
