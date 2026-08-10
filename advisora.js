@@ -222,6 +222,11 @@ document.addEventListener("DOMContentLoaded", () => {
       payload.append("eventId", eventId);
       payload.append("createdAt", new Date().toISOString());
 
+      // mesma atribuição dos outros formulários, para o lead do autoatendimento
+      // também poder voltar como conversão offline
+      const atribuicao = window.recupereibr?.atribuicao?.() || {};
+      Object.keys(atribuicao).forEach((chave) => payload.append(chave, atribuicao[chave]));
+
       try {
         const response = await fetch(endpoint, { method: "POST", body: payload });
         if (!response.ok) throw new Error("Falha no envio");

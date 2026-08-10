@@ -42,11 +42,14 @@ document.addEventListener("DOMContentLoaded", () => {
     phone.value = formatPhone(phone.value);
   });
 
+  /* O diagnóstico é opcional. `health = Sim` já basta para qualificar o lead, e
+     o detalhe é pergunta de ligação, não de formulário: obrigar alguém a
+     selecionar "Neoplasia maligna" num select, antes de confiar na empresa, era
+     o ponto de abandono mais caro da página. */
   const syncDiseaseField = () => {
     const selected = form.querySelector('input[name="health"]:checked')?.value || "";
     const needsDisease = Boolean(selected) && selected !== "Não";
     diseaseField.hidden = !needsDisease;
-    diseaseSelect.required = needsDisease;
     if (!needsDisease) diseaseSelect.value = "";
   };
   form.querySelectorAll('input[name="health"]').forEach((input) => input.addEventListener("change", syncDiseaseField));
@@ -82,13 +85,74 @@ document.addEventListener("DOMContentLoaded", () => {
       step.classList.toggle("active", active);
     });
 
-    const contactStep = currentStep === 1;
+    // o contato é o passo 1 desde a inversão da ordem (ver comentário no HTML)
+    const contactStep = currentStep === 0;
     stepLabel.textContent = `Passo ${currentStep + 1} de 2`;
     stepDescription.textContent = contactStep
-      ? "Agora informe seu nome, WhatsApp e melhor e-mail."
-      : "Responda algumas perguntas rápidas. Não envie documentos por aqui.";
-    progressBar.style.width = contactStep ? "100%" : "50%";
+      ? "Comece pelo seu nome, WhatsApp e melhor e-mail."
+      : "Agora algumas perguntas rápidas. Não envie documentos por aqui.";
+    progressBar.style.width = contactStep ? "50%" : "100%";
     clearMessage();
+  };
+
+  const origem = () => params.get("origem") || "landing_avaliacao";
+  const isSimulationLead = () => ["quiz", "simulador"].includes(origem());
+  const resolverEndpoint = () =>
+    String(
+      isSimulationLead()
+        ? window.RECUPEREIBR_SIMULATION_ENDPOINT || form.dataset.simulationEndpoint
+        : window.RECUPEREIBR_LEAD_ENDPOINT || form.dataset.endpoint
+    ).trim();
+
+  /* Envia o contato assim que ele é preenchido, antes das perguntas de
+     qualificação — mesmo padrão do quiz de /simulacao. Quem desistir no passo 2
+     já entrou como lead, em vez de sumir sem deixar rastro.
+
+     Best-effort de propósito: se falhar, o fluxo continua e o envio final ainda
+     tem sua chance. Bloquear aqui trocaria um lead parcial por lead nenhum. */
+  /* A captura parcial só pode ser enviada a um fluxo que saiba distinguir
+     `event: "lead_started"` do envio final — senão o n8n grava o mesmo lead duas
+     vezes. O fluxo de Simulação (webhook 8ded9705) já trata esse evento; o de
+     Captação (f48d604b) ainda não. Até ele tratar, ligue manualmente com
+     `window.RECUPEREIBR_CAPTURA_PARCIAL = true`. */
+  const capturaParcialAtiva = () =>
+    window.RECUPEREIBR_CAPTURA_PARCIAL === true || isSimulationLead();
+
+  let leadCaptured = false;
+  const capturarContato = async () => {
+    if (leadCaptured || !capturaParcialAtiva()) return;
+    const endpoint = resolverEndpoint();
+    if (!endpoint) return;
+
+    const contato = {
+      name: form.elements.name.value.trim(),
+      phone: form.elements.phone.value.trim(),
+      email: form.elements.email.value.trim().toLowerCase(),
+      consent: Boolean(form.elements.consent?.checked),
+      source: origem(),
+      event: "lead_started",
+      eventId: window.recupereibr?.novoEventId?.() || "",
+      ...(window.recupereibr?.atribuicao?.() || {}),
+      createdAt: new Date().toISOString()
+    };
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(contato)
+      });
+      if (!response.ok) throw new Error("Falha na captura parcial");
+      leadCaptured = true;
+      trackEvent("generate_lead", {
+        source: contato.source,
+        stage: "lead_started",
+        persona: "idoso",
+        eventId: contato.eventId
+      });
+    } catch {
+      trackEvent("lead_form_partial_error", { source: contato.source });
+    }
   };
 
   const loadPreviousAnswers = () => {
@@ -134,7 +198,8 @@ document.addEventListener("DOMContentLoaded", () => {
     setFieldValue("health", quizData.health === "Não" ? "Não" : "Sim");
     setFieldValue("disease", quizData.disease || "");
     setFieldValue("monthlyIr", String(quizData.monthlyIr || ""));
-    currentStep = 1;
+    // a qualificação veio pronta do quiz; o passo que falta é o contato, que
+    // agora é o primeiro — por isso não mexemos em currentStep
     trackEvent("lead_form_prefilled", { source: "family_quiz" });
   };
 
@@ -146,33 +211,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  nextButton.addEventListener("click", () => {
+  nextButton.addEventListener("click", async () => {
     const invalid = invalidField(steps[0]);
-    if (invalid) {
-      showMessage("Responda os campos desta etapa para continuar.", "error");
-      invalid.focus();
-      return;
-    }
-    trackEvent("lead_form_step_complete", { step: 1 });
-    currentStep = 1;
-    renderStep();
-    document.getElementById("lead-name").focus();
-  });
-
-  backButton.addEventListener("click", () => {
-    currentStep = 0;
-    renderStep();
-    document.getElementById("lead-for").focus();
-  });
-
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const invalid = invalidField(steps[1]);
-
     if (invalid) {
       showMessage(
         invalid.type === "checkbox"
-          ? "Confirme a autorização para enviar o formulário."
+          ? "Confirme a autorização para continuar."
           : "Informe nome, WhatsApp e e-mail válidos para continuar.",
         "error"
       );
@@ -180,14 +224,35 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const source = params.get("origem") || "landing_avaliacao";
-    const simulationSources = ["quiz", "simulador"];
-    const isSimulationLead = simulationSources.includes(source);
-    const endpoint = String(
-      isSimulationLead
-        ? window.RECUPEREIBR_SIMULATION_ENDPOINT || form.dataset.simulationEndpoint
-        : window.RECUPEREIBR_LEAD_ENDPOINT || form.dataset.endpoint
-    ).trim();
+    nextButton.disabled = true;
+    await capturarContato();
+    nextButton.disabled = false;
+
+    trackEvent("lead_form_step_complete", { step: 1 });
+    currentStep = 1;
+    renderStep();
+    document.getElementById("lead-for").focus();
+  });
+
+  backButton.addEventListener("click", () => {
+    currentStep = 0;
+    renderStep();
+    document.getElementById("lead-name").focus();
+  });
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    // o passo 2 agora é a qualificação; o contato já foi validado e enviado antes
+    const invalid = invalidField(steps[1]);
+
+    if (invalid) {
+      showMessage("Responda os campos desta etapa para enviar.", "error");
+      invalid.focus();
+      return;
+    }
+
+    const source = origem();
+    const endpoint = resolverEndpoint();
     if (!endpoint) {
       const isPreview = ["", "localhost", "127.0.0.1"].includes(window.location.hostname);
       trackEvent("lead_form_integration_missing");
@@ -208,10 +273,9 @@ document.addEventListener("DOMContentLoaded", () => {
     payload.source = source;
     // mesmo id vai para o n8n e para o pixel: é o que permite a Meta deduplicar
     payload.eventId = window.recupereibr?.novoEventId?.() || "";
-    payload.utmSource = params.get("utm_source") || "";
-    payload.utmMedium = params.get("utm_medium") || "";
-    payload.utmCampaign = params.get("utm_campaign") || "";
-    payload.gclid = params.get("gclid") || "";
+    // atribuição da sessão inteira, não só desta URL: quem chegou pela home
+    // e navegou até aqui traria os campos vazios se lêssemos só location.search
+    Object.assign(payload, window.recupereibr?.atribuicao?.() || {});
     payload.createdAt = new Date().toISOString();
 
     try {
@@ -225,6 +289,7 @@ document.addEventListener("DOMContentLoaded", () => {
       form.reset();
       trackEvent("generate_lead", {
         source: payload.source,
+        persona: "idoso",
         lead_for: payload.leadFor,
         benefit: payload.benefit
       });
@@ -236,7 +301,7 @@ document.addEventListener("DOMContentLoaded", () => {
         eventId: payload.eventId
       }));
       window.location.assign(
-        isSimulationLead
+        isSimulationLead()
           ? "/obrigado-simulacao"
           : "/obrigado-avaliacao"
       );

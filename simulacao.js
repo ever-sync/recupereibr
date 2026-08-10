@@ -151,10 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
     respondentPhone: String(form.elements.respondentPhone?.value || "").trim(),
     respondentEmail: String(form.elements.respondentEmail?.value || "").trim().toLowerCase(),
     contactConsent: Boolean(form.elements.contactConsent?.checked),
-    utmSource: params.get("utm_source") || "",
-    utmMedium: params.get("utm_medium") || "",
-    utmCampaign: params.get("utm_campaign") || "",
-    gclid: params.get("gclid") || "",
+    ...(window.recupereibr?.atribuicao?.() || {}),
     pageUrl: window.location.href,
     createdAt: new Date().toISOString()
   });
@@ -205,7 +202,8 @@ document.addEventListener("DOMContentLoaded", () => {
       leadCaptured = true;
       trackEvent("generate_lead", {
         source: "family_quiz",
-        stage: "lead_started"
+        stage: "lead_started",
+        persona: "filho"
       });
       return true;
     } catch {

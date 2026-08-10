@@ -43,16 +43,86 @@
   /* ---- utilidades expostas para os demais scripts ---- */
   window.recupereibr = window.recupereibr || {};
 
+  /* ---------------------------------------------------------
+     Atribuição de tráfego pago
+
+     Antes, cada formulário lia os parâmetros só da própria URL. Quem
+     clicava no anúncio, caía na home e depois navegava até /avaliacao
+     chegava ao CRM como "acesso_direto": o gclid se perdia no caminho e
+     o lead nunca podia ser enviado de volta como conversão offline.
+
+     Aqui os identificadores são capturados na primeira página e guardados
+     pela sessão inteira. Um clique novo em anúncio sobrescreve, porque
+     representa uma nova intenção.
+     --------------------------------------------------------- */
+  var CHAVE_ATRIB = "recupereibrAtribuicao";
+  var IDS_CLIQUE = ["gclid", "gbraid", "wbraid", "fbclid", "ttclid", "msclkid"];
+  var UTMS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"];
+
+  function lerCookie(nome) {
+    var achado = document.cookie.split("; ").find(function (linha) {
+      return linha.indexOf(nome + "=") === 0;
+    });
+    return achado ? achado.split("=")[1] : "";
+  }
+
+  (function capturarAtribuicao() {
+    var url = new URLSearchParams(window.location.search);
+    var guardado = {};
+    try { guardado = JSON.parse(sessionStorage.getItem(CHAVE_ATRIB) || "{}"); } catch (e) {}
+
+    var temCliqueNovo = IDS_CLIQUE.some(function (id) { return url.get(id); });
+    if (temCliqueNovo) guardado = {};
+
+    IDS_CLIQUE.concat(UTMS).forEach(function (campo) {
+      var valor = url.get(campo);
+      if (valor) guardado[campo] = valor;
+    });
+
+    if (!guardado.landingPage) guardado.landingPage = window.location.pathname;
+    if (!guardado.referrer) guardado.referrer = document.referrer || "";
+    if (!guardado.primeiroAcesso) guardado.primeiroAcesso = new Date().toISOString();
+
+    try { sessionStorage.setItem(CHAVE_ATRIB, JSON.stringify(guardado)); } catch (e) {}
+  })();
+
+  window.recupereibr.atribuicao = function () {
+    var dados = {};
+    try { dados = JSON.parse(sessionStorage.getItem(CHAVE_ATRIB) || "{}"); } catch (e) {}
+
+    // cookies do pixel: sem eles a API de Conversões perde muito na
+    // correspondência, que é justamente o 6.1/10 do Gerenciador
+    dados.fbp = lerCookie("_fbp");
+    dados.fbc = lerCookie("_fbc");
+
+    // a Meta só grava _fbc quando o pixel carrega depois do clique;
+    // se o fbclid veio na URL e o cookie ainda não existe, monta o valor
+    if (!dados.fbc && dados.fbclid) {
+      dados.fbc = "fb.1." + Date.now() + "." + dados.fbclid;
+    }
+
+    dados.paginaConversao = window.location.pathname;
+    dados.userAgent = navigator.userAgent;
+    return dados;
+  };
+
   // id único por evento, base da deduplicação com a API de Conversões
   window.recupereibr.novoEventId = function () {
     if (window.crypto && window.crypto.randomUUID) return window.crypto.randomUUID();
     return "evt-" + Date.now() + "-" + Math.random().toString(16).slice(2);
   };
 
+  /* Eventos padrão da Meta. Qualquer nome fora desta lista precisa ir por
+     `trackCustom`: com `track`, o Gerenciador de Eventos descarta o evento
+     silenciosamente e ele nunca fica disponível para otimização. */
+  var EVENTOS_PADRAO = ["PageView", "Lead", "Contact", "CompleteRegistration",
+    "ViewContent", "InitiateCheckout", "SubmitApplication", "Schedule", "Search"];
+
   // dispara nas duas plataformas de uma vez, com os nomes que cada uma espera
   window.recupereibr.rastrear = function (evento, parametros, eventId) {
     if (typeof fbq === "function") {
-      fbq("track", evento, parametros || {}, eventId ? { eventID: eventId } : undefined);
+      var metodo = EVENTOS_PADRAO.indexOf(evento) === -1 ? "trackCustom" : "track";
+      fbq(metodo, evento, parametros || {}, eventId ? { eventID: eventId } : undefined);
     }
 
     var nomeGa4 = { Lead: "generate_lead", Contact: "contact" }[evento];
@@ -79,7 +149,10 @@
       if (!jaEnviado) {
         window.recupereibr.rastrear("Lead", {
           content_name: tipoObrigado === "simulacao" ? "Simulação para familiar" : "Avaliação gratuita",
-          content_category: dados.source || "desconhecida"
+          content_category: dados.source || "desconhecida",
+          // sem isto os dois funis viram um Lead só, e não dá para montar
+          // público nem semente de lookalike separados por persona
+          persona: tipoObrigado === "simulacao" ? "filho" : "idoso"
         }, dados.eventId);
         try { sessionStorage.setItem(chaveUsada, dados.eventId || tipoObrigado); } catch (e) {}
       }
@@ -97,6 +170,48 @@
         window.recupereibr.rastrear("Lead", {
           content_name: "Autoatendimento",
           content_category: "autoatendimento_home"
+        }, registro.eventId);
+      }
+
+      /* -----------------------------------------------------------------
+         Meio de funil
+
+         Estes passos já existiam no dataLayer (GA4), mas nunca chegavam ao
+         Pixel: o repasse acima exige `source === "autoatendimento_home"`, e
+         os fluxos de /simulacao e /avaliacao usam outros valores. Resultado:
+         a Meta só enxergava PageView e o Lead final, e não havia evento
+         intermediário em que otimizar um público de meio de funil.
+
+         `persona` separa os dois funis paralelos do site:
+           filho → /simulacao ("Ajude quem cuidou de você")
+           idoso → /avaliacao ("Descubra se você pode parar de pagar")
+
+         Não repassar `disease`, `health` nem `result_type`: os dois primeiros
+         são condição de saúde e o terceiro deriva dela. Mandar isso à Meta
+         viola a Personalized Attributes Policy e põe o dataset em risco.
+         ----------------------------------------------------------------- */
+      var MEIO_DE_FUNIL = {
+        lead_started: { evento: "InicioCadastro", persona: "filho" },
+        family_quiz_complete: { evento: "SimulacaoCompleta", persona: "filho" }
+      };
+
+      /* `lead_started` sai das duas páginas com o mesmo significado — contato
+         capturado, qualificação ainda por vir — então cada uma envia a própria
+         `persona`, que tem precedência sobre o default do mapa.
+
+         `lead_form_start` ficou de fora de propósito: dispara no `focusin`, ou
+         seja, em qualquer toque num campo. Otimizar por ele faria a Meta
+         perseguir quem só encostou no formulário, e o evento não significaria a
+         mesma coisa nas duas personas. */
+      var chaveMeio = registro.stage === "lead_started" ? "lead_started" : registro.event;
+      var meio = MEIO_DE_FUNIL[chaveMeio];
+      if (meio) {
+        var chaveDedup = chaveMeio + ":" + (registro.eventId || "unico");
+        if (jaEnviados[chaveDedup]) return;
+        jaEnviados[chaveDedup] = true;
+        window.recupereibr.rastrear(meio.evento, {
+          content_category: registro.persona || meio.persona,
+          content_name: registro.source || chaveMeio
         }, registro.eventId);
       }
 
