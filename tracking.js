@@ -146,6 +146,7 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     var tipoObrigado = document.body.dataset.thankType;
+    var desqualificado = document.body.dataset.leadStatus === "desqualificado";
 
     /* Lead nas páginas de obrigado: só chegam aqui os envios que deram certo,
        o que torna a conversão mais confiável que disparar no clique do botão */
@@ -160,24 +161,41 @@
       try { jaEnviado = sessionStorage.getItem(chaveUsada) === (dados.eventId || tipoObrigado); } catch (e) {}
 
       if (!jaEnviado) {
-        var personaLead = tipoObrigado === "simulacao" ? "filho" : "idoso";
-        var paramsLead = {
-          content_name: tipoObrigado === "simulacao" ? "Simulação para familiar" : "Avaliação gratuita",
-          content_category: dados.source || "desconhecida",
-          persona: personaLead
-        };
+        /* Páginas de retorno para quem não atende os critérios NÃO disparam Lead.
 
-        // o Lead padrão é a conversão de referência e vale em qualquer cenário
-        window.recupereibr.rastrear("Lead", paramsLead, dados.eventId);
+           Contá-las como conversão ensinaria a Meta a procurar mais gente que
+           não tem direito — o algoritmo otimiza para o que recebe, e ele receberia
+           o sinal errado. Além disso inflaria o número de leads e mascararia o
+           custo por lead real.
 
-        /* o par por persona vai junto porque o parâmetro acima é descartado sob
-           configuração básica; sem estes, os dois funis viram um número só e não
-           há como semear lookalike separado */
-        window.recupereibr.rastrear(
-          "Lead" + window.recupereibr.capitalizar(personaLead),
-          paramsLead,
-          dados.eventId
-        );
+           Vale como evento próprio porque serve para o oposto: montar público de
+           EXCLUSÃO e medir quanto do tráfego chega fora do perfil. */
+        if (desqualificado) {
+          window.recupereibr.rastrear("LeadDesqualificado", {
+            content_name: "Fora dos critérios",
+            content_category: tipoObrigado,
+            motivo: tipoObrigado
+          }, dados.eventId);
+        } else {
+          var personaLead = tipoObrigado === "simulacao" ? "filho" : "idoso";
+          var paramsLead = {
+            content_name: tipoObrigado === "simulacao" ? "Simulação para familiar" : "Avaliação gratuita",
+            content_category: dados.source || "desconhecida",
+            persona: personaLead
+          };
+
+          // o Lead padrão é a conversão de referência e vale em qualquer cenário
+          window.recupereibr.rastrear("Lead", paramsLead, dados.eventId);
+
+          /* o par por persona vai junto porque o parâmetro acima é descartado sob
+             configuração básica; sem estes, os dois funis viram um número só e não
+             há como semear lookalike separado */
+          window.recupereibr.rastrear(
+            "Lead" + window.recupereibr.capitalizar(personaLead),
+            paramsLead,
+            dados.eventId
+          );
+        }
         try { sessionStorage.setItem(chaveUsada, dados.eventId || tipoObrigado); } catch (e) {}
       }
     }

@@ -16,10 +16,18 @@ document.addEventListener("DOMContentLoaded", () => {
     .split(/\s+/)[0]
     .replace(/[^\p{L}'-]/gu, "");
 
+  // Nas páginas de fora-dos-critérios o nome vem antes da notícia: dirigir-se à
+  // pessoa antes de dizer que não há direito soa menos automático.
+  const TITULOS = {
+    "simulacao": (nome) => `${nome}, recebemos sua simulação.`,
+    "avaliacao": (nome) => `${nome}, recebemos sua solicitação.`,
+    "sem-beneficio": (nome) => `${nome}, a isenção ainda não se aplica ao seu caso.`,
+    "sem-condicao": (nome) => `${nome}, o caso não se encaixa nos critérios.`
+  };
+
   if (firstName) {
-    title.textContent = type === "simulacao"
-      ? `${firstName}, recebemos sua simulação.`
-      : `${firstName}, recebemos sua solicitação.`;
+    const montar = TITULOS[type] || TITULOS.avaliacao;
+    title.textContent = montar(firstName);
   }
 
   if (type === "simulacao" && estimateBox && estimateValue) {

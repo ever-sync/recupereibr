@@ -74,6 +74,66 @@
   font-weight: 700;
 }
 
+/* ---------------------------------------------------------------
+   Variante informativa — retorno para quem não atende os critérios.
+
+   O mesmo layout, com o sinal em tom neutro. O círculo lime e o "✓
+   Tudo certo" seriam cruéis aqui: a pessoa acabou de descobrir que
+   não tem o direito, e muitas vezes está lidando com doença na
+   família. Confirmar o recebimento continua necessário; comemorar, não.
+   --------------------------------------------------------------- */
+.thank-page-neutral .thank-icon,
+.thank-page-neutral .thank-header i {
+  color: var(--green);
+  background: var(--cream);
+  border: 1px solid var(--line);
+}
+
+.thank-page-neutral .thank-icon {
+  font-size: 26px;
+  font-weight: 500;
+}
+
+/* Bloco de encaminhamento: o que dá para fazer, já que a análise não segue. */
+.thank-page-neutral .thank-next {
+  background: var(--cream);
+}
+
+.thank-alt-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.thank-alt-links a {
+  display: block;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--paper);
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.thank-alt-links a span {
+  display: block;
+  margin-top: 3px;
+  color: var(--ink-soft);
+  font-weight: 400;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.thank-alt-links a:hover,
+.thank-alt-links a:focus-visible {
+  border-color: var(--green);
+}
+
 .thank-copy h1 {
   max-width: 720px;
   margin: 0 0 22px;
