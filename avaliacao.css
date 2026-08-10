@@ -277,6 +277,16 @@
 .field select:focus {
   border-color: var(--orange);
   box-shadow: 0 0 0 3px rgba(167, 253, 150, 0.22);
+  /* Reposto de proposito, por colisao de cascata.
+
+     `.field` nasceu em advisora.css desenhado para fundo escuro: texto branco
+     sobre `rgba(0, 0, 0, .2)`. Aqui o campo e o oposto — claro, com texto
+     escuro — e o bloco acima sobrescreve o estado normal. Faltava o estado de
+     foco: advisora.css tem `background: rgba(0, 0, 0, .32)` em `:focus` com a
+     mesma especificidade, entao ele vencia por ordem de carregamento e o campo
+     escurecia por baixo do texto `--ink`, sumindo da tela. */
+  color: var(--ink);
+  background-color: var(--paper);
 }
 
 .choice-field {

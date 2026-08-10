@@ -504,6 +504,42 @@
 .contact-fields input:focus {
   border-color: var(--green);
   box-shadow: 0 0 0 3px rgba(167, 253, 150, 0.35);
+  color: var(--ink);
+  background: white;
+}
+
+/* O select de condicao usa a classe `.field`, que nasceu em advisora.css para
+   fundo escuro: rotulo e texto em branco sobre preto translucido. O card do
+   quiz e claro, entao aquilo rende 1.61:1 — o texto simplesmente some. Aqui o
+   campo volta para a mesma linguagem dos campos de contato acima.
+
+   Prefixado com `.quiz-card` de proposito: a especificidade maior vence o
+   advisora.css independentemente da ordem de carregamento das folhas. */
+.quiz-card .field > span {
+  color: var(--quiz-muted);
+}
+
+.quiz-card .field select {
+  min-height: 56px;
+  padding: 0 16px;
+  border: 1px solid var(--quiz-border);
+  border-radius: 13px;
+  color: var(--ink);
+  background-color: white;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--green) 50%),
+    linear-gradient(135deg, var(--green) 50%, transparent 50%);
+  background-position: calc(100% - 19px) 25px, calc(100% - 14px) 25px;
+  background-repeat: no-repeat;
+  background-size: 5px 5px, 5px 5px;
+  font-size: 16px;
+}
+
+.quiz-card .field select:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(167, 253, 150, 0.35);
+  color: var(--ink);
+  background-color: white;
 }
 
 .consent-check {
