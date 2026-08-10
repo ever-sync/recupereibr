@@ -97,6 +97,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const origem = () => params.get("origem") || "landing_avaliacao";
   const isSimulationLead = () => ["quiz", "simulador"].includes(origem());
+
+  /* A isenção da Lei nº 7.713/88 exige duas coisas ao mesmo tempo: receber um
+     benefício previdenciário E ter uma das condições previstas. Faltando
+     qualquer uma delas não há o que analisar, e a pessoa merece saber na hora
+     em vez de esperar por uma ligação que não viria.
+
+     `paysIr = "Não"` de propósito NÃO desqualifica: quem não tem desconto hoje
+     pode ter pago nos cinco anos anteriores, e esse valor é recuperável. */
+  const motivoDesqualificacao = (payload) => {
+    if (payload.benefit === "Nenhuma das opções") return "sem-beneficio";
+    if (payload.health === "Não") return "sem-condicao";
+    return null;
+  };
+
+  const destinoObrigado = (motivo) => {
+    if (motivo) return `/obrigado-${motivo}`;
+    return isSimulationLead() ? "/obrigado-simulacao" : "/obrigado-avaliacao";
+  };
   const resolverEndpoint = () =>
     String(
       isSimulationLead()
