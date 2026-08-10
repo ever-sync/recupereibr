@@ -296,6 +296,13 @@ document.addEventListener("DOMContentLoaded", () => {
     Object.assign(payload, window.recupereibr?.atribuicao?.() || {});
     payload.createdAt = new Date().toISOString();
 
+    /* Vai para o n8n junto com o resto: o lead continua sendo registrado, mas
+       sinalizado, para que a cadência do SDR não seja disparada para quem a
+       própria página acabou de informar que está fora dos critérios. */
+    const motivo = motivoDesqualificacao(payload);
+    payload.qualified = motivo === null;
+    payload.disqualifiedReason = motivo;
+
     try {
       const response = await fetch(endpoint, {
         method: "POST",
@@ -308,6 +315,7 @@ document.addEventListener("DOMContentLoaded", () => {
       trackEvent("generate_lead", {
         source: payload.source,
         persona: "idoso",
+        qualified: payload.qualified,
         lead_for: payload.leadFor,
         benefit: payload.benefit
       });
@@ -318,11 +326,7 @@ document.addEventListener("DOMContentLoaded", () => {
         estimate: payload.estimate || "",
         eventId: payload.eventId
       }));
-      window.location.assign(
-        isSimulationLead()
-          ? "/obrigado-simulacao"
-          : "/obrigado-avaliacao"
-      );
+      window.location.assign(destinoObrigado(motivo));
       return;
     } catch {
       trackEvent("lead_form_error", { source: payload.source });

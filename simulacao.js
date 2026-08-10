@@ -294,6 +294,17 @@ document.addEventListener("DOMContentLoaded", () => {
     // mesmo id vai para o n8n e para o pixel: é o que permite a Meta deduplicar
     payload.eventId = window.recupereibr?.novoEventId?.() || "";
 
+    /* Mesmos dois critérios da /avaliacao, com os rótulos do quiz. "Ainda não
+       sei" não desqualifica de propósito — é incerteza, não ausência de direito,
+       e vale a conversa. Só "Nenhum desses" e "Não" fecham a porta. */
+    const motivo = payload.benefit === "Nenhum desses"
+      ? "sem-beneficio"
+      : payload.health === "Não"
+        ? "sem-condicao"
+        : null;
+    payload.qualified = motivo === null;
+    payload.disqualifiedReason = motivo;
+
     try {
       await sendToN8n(payload);
       trackEvent("simulation_contact_requested", {
@@ -307,7 +318,7 @@ document.addEventListener("DOMContentLoaded", () => {
         estimate: String(payload.estimate),
         eventId: payload.eventId || ""
       }));
-      window.location.assign("/obrigado-simulacao");
+      window.location.assign(motivo ? `/obrigado-${motivo}` : "/obrigado-simulacao");
     } catch {
       showResultStatus("Seus dados iniciais foram salvos, mas não conseguimos enviar o resultado. Tente novamente.");
     } finally {
