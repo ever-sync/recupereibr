@@ -179,7 +179,7 @@
 }
 
 .form-heading > span {
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.72);
   font-size: 16px;
   line-height: 1.5;
 }
@@ -287,7 +287,7 @@
 
 .choice-field > p {
   margin: 6px 0 11px;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.72);
   font-size: 14px;
 }
 
@@ -368,7 +368,7 @@
 }
 
 .lead-consent strong {
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.72);
   font-size: 14px;
   font-weight: 500;
   line-height: 1.5;
@@ -458,7 +458,7 @@
 
 .form-security p {
   margin: 0;
-  color: rgba(255, 255, 255, 0.48);
+  color: rgba(255, 255, 255, 0.72);
   font-size: 13px;
   line-height: 1.5;
 }
@@ -629,7 +629,7 @@
 }
 
 .lead-final > div:last-child p {
-  color: rgba(255, 255, 255, 0.58);
+  color: rgba(255, 255, 255, 0.72);
   font-size: 13px;
   line-height: 1.6;
 }

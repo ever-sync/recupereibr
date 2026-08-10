@@ -1,4 +1,11 @@
 :root {
+  /* O site tem uma única paleta, clara. Sem esta declaração, o navegador de
+     quem usa o sistema em modo escuro aplica o próprio estilo aos controles de
+     formulário — select, option, autofill, campos de data — e pinta fundo
+     escuro por baixo de texto que o CSS definiu como escuro. O resultado é
+     campo ilegível em uma página que, no resto, continua clara. */
+  color-scheme: light;
+
   --ink: #111111;
   --ink-soft: rgba(17, 17, 17, 0.56);
   --cream: #efeeeb;

@@ -5,6 +5,10 @@
 
 /* DESIGN TOKENS */
 :root {
+  /* Paleta única e clara — ver a nota em advisora.css. Sem isto, o navegador
+     em modo escuro repinta controles e superfícies padrão por baixo do texto. */
+  color-scheme: light;
+
   /* Color Palette */
   --primary-navy: #0a2540;
   --primary-navy-light: #1e3a8a;
