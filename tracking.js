@@ -106,6 +106,19 @@
     return dados;
   };
 
+  /* A conta está sob "configuração básica": a Meta classificou o site em categoria
+     restrita e descarta parâmetros personalizados e tudo que venha depois do
+     domínio na URL. Isso significa que `content_category` NÃO pode ser a única
+     forma de separar as personas — ele é removido antes de chegar ao dataset.
+
+     Por isso a persona vai no próprio nome do evento, que sempre passa. Os
+     parâmetros continuam sendo enviados: se a restrição cair depois de uma
+     revisão de categoria, eles voltam a valer sem precisar mexer no código. */
+  window.recupereibr.capitalizar = function (texto) {
+    if (!texto) return "";
+    return texto.charAt(0).toUpperCase() + texto.slice(1);
+  };
+
   // id único por evento, base da deduplicação com a API de Conversões
   window.recupereibr.novoEventId = function () {
     if (window.crypto && window.crypto.randomUUID) return window.crypto.randomUUID();
@@ -147,13 +160,24 @@
       try { jaEnviado = sessionStorage.getItem(chaveUsada) === (dados.eventId || tipoObrigado); } catch (e) {}
 
       if (!jaEnviado) {
-        window.recupereibr.rastrear("Lead", {
+        var personaLead = tipoObrigado === "simulacao" ? "filho" : "idoso";
+        var paramsLead = {
           content_name: tipoObrigado === "simulacao" ? "Simulação para familiar" : "Avaliação gratuita",
           content_category: dados.source || "desconhecida",
-          // sem isto os dois funis viram um Lead só, e não dá para montar
-          // público nem semente de lookalike separados por persona
-          persona: tipoObrigado === "simulacao" ? "filho" : "idoso"
-        }, dados.eventId);
+          persona: personaLead
+        };
+
+        // o Lead padrão é a conversão de referência e vale em qualquer cenário
+        window.recupereibr.rastrear("Lead", paramsLead, dados.eventId);
+
+        /* o par por persona vai junto porque o parâmetro acima é descartado sob
+           configuração básica; sem estes, os dois funis viram um número só e não
+           há como semear lookalike separado */
+        window.recupereibr.rastrear(
+          "Lead" + window.recupereibr.capitalizar(personaLead),
+          paramsLead,
+          dados.eventId
+        );
         try { sessionStorage.setItem(chaveUsada, dados.eventId || tipoObrigado); } catch (e) {}
       }
     }
@@ -191,8 +215,8 @@
          viola a Personalized Attributes Policy e põe o dataset em risco.
          ----------------------------------------------------------------- */
       var MEIO_DE_FUNIL = {
-        lead_started: { evento: "InicioCadastro", persona: "filho" },
-        family_quiz_complete: { evento: "SimulacaoCompleta", persona: "filho" }
+        lead_started: { evento: "InicioCadastro", persona: "filho", porPersona: true },
+        family_quiz_complete: { evento: "SimulacaoCompleta", persona: "filho", porPersona: false }
       };
 
       /* `lead_started` sai das duas páginas com o mesmo significado — contato
@@ -209,10 +233,12 @@
         var chaveDedup = chaveMeio + ":" + (registro.eventId || "unico");
         if (jaEnviados[chaveDedup]) return;
         jaEnviados[chaveDedup] = true;
-        window.recupereibr.rastrear(meio.evento, {
-          content_category: registro.persona || meio.persona,
-          content_name: registro.source || chaveMeio
-        }, registro.eventId);
+        var persona = registro.persona || meio.persona;
+        window.recupereibr.rastrear(
+          meio.porPersona ? meio.evento + window.recupereibr.capitalizar(persona) : meio.evento,
+          { content_category: persona, content_name: registro.source || chaveMeio },
+          registro.eventId
+        );
       }
 
       if (registro.event === "whatsapp_click" || registro.event === "phone_click") {
