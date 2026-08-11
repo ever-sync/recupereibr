@@ -2250,6 +2250,34 @@ main .video-card h3 {
   }
 }
 
+.service-clarification {
+  width: min(100% - 48px, 1180px);
+  margin: 24px auto 72px;
+  padding: 18px 22px;
+  display: flex;
+  gap: 10px 18px;
+  align-items: flex-start;
+  border: 1px solid rgba(8, 54, 48, 0.16);
+  border-radius: 14px;
+  background: #f4f8f6;
+  color: #294640;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.service-clarification strong {
+  flex: 0 0 auto;
+  color: #083630;
+}
+
+@media (max-width: 700px) {
+  .service-clarification {
+    width: min(100% - 28px, 1180px);
+    margin-bottom: 48px;
+    flex-direction: column;
+  }
+}
+
 /* RecupereiBR content and conversion components */
 
 .brand-accent,

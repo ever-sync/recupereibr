@@ -2,6 +2,13 @@
 
 > A RecupereiBR é uma consultoria especializada em isenção de Imposto de Renda por doença grave, com base na Lei nº 7.713/88. Atende aposentados, pensionistas, militares reformados ou da reserva e beneficiários de previdência privada, além de familiares que buscam orientação para o titular.
 
+## Natureza do serviço
+
+- A RecupereiBR presta consultoria administrativa para análise e condução de pedidos de isenção tributária.
+- Não é banco, fintech, instituição financeira, escritório de investimentos ou correspondente bancário.
+- Não oferece empréstimos, crédito, conta, cartão, investimentos, antecipação ou compra de créditos.
+- Eventual isenção ou restituição é decidida e processada pelo órgão competente; não há garantia de aprovação, prazo ou valor.
+
 ## Empresa
 
 - Razão social: Recuperei Consultoria LTDA

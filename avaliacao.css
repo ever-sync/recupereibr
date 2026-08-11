@@ -84,6 +84,22 @@
   line-height: 1.65;
 }
 
+.lead-service-note {
+  max-width: 610px;
+  margin: -16px 0 28px;
+  padding: 14px 16px;
+  border: 1px solid rgba(8, 54, 48, 0.16);
+  border-radius: 12px;
+  background: #f4f8f6;
+  color: var(--ink-soft);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.lead-service-note strong {
+  color: var(--ink);
+}
+
 .lead-benefits {
   max-width: 590px;
   margin: 0;

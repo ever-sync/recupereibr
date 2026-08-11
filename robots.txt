@@ -5,5 +5,7 @@ Allow: /
 # e já são noindex no HTML. Bloqueadas aqui para não gastar rastreamento.
 Disallow: /obrigado-avaliacao
 Disallow: /obrigado-simulacao
+Disallow: /obrigado-sem-beneficio
+Disallow: /obrigado-sem-condicao
 
 Sitemap: https://recupereibr.com.br/sitemap.xml
