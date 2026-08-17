@@ -1649,8 +1649,6 @@ main .video-card h3 {
   gap: 12px;
 }
 
-/* iniciais no lugar de foto: são clientes reais, e uma imagem de banco no lugar
-   do rosto deles seria uma pessoa que não existe assinando um depoimento que existe */
 .person-avatar {
   width: 44px;
   height: 44px;
@@ -1664,6 +1662,7 @@ main .video-card h3 {
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.04em;
+  object-fit: cover;
 }
 
 .testimonial-person strong,
