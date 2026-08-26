@@ -1460,6 +1460,24 @@ main .video-card h3 {
   font-weight: 600;
 }
 
+.featured-card-heading {
+  margin-bottom: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.featured-card-heading .popular {
+  position: static;
+  flex: 0 0 auto;
+}
+
+.featured-card-heading .plan-name {
+  margin-bottom: 0;
+  text-align: right;
+}
+
 .price {
   min-height: 72px;
   display: flex;
@@ -3043,6 +3061,12 @@ main .selfservice-cta p {
   font-size: clamp(35px, 4vw, 52px);
   font-weight: 500;
   letter-spacing: -0.06em;
+}
+
+.trust-number sup {
+  margin-left: 3px;
+  font-size: 0.45em;
+  vertical-align: super;
 }
 
 .credential-value {
