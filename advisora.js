@@ -101,6 +101,8 @@ document.addEventListener("DOMContentLoaded", () => {
       maximumFractionDigits: 0
     });
     const MAX_FILE_BYTES = 10 * 1024 * 1024;
+    const MAX_TOTAL_FILE_BYTES = 15 * 1024 * 1024;
+    const MAX_FILES = 5;
 
     const onlyDigits = (value) => String(value).replace(/\D/g, "");
 
@@ -121,7 +123,14 @@ document.addEventListener("DOMContentLoaded", () => {
       if (step === 2) return Number(onlyDigits(monthlyIr.value)) > 0;
       if (step === 3) {
         const consent = selfservice.querySelector('[name="healthConsent"]').checked;
-        return documents.files.length > 0 && consent;
+        const files = Array.from(documents.files);
+        const totalBytes = files.reduce((sum, file) => sum + file.size, 0);
+        const filesAreValid =
+          files.length > 0 &&
+          files.length <= MAX_FILES &&
+          totalBytes <= MAX_TOTAL_FILE_BYTES &&
+          files.every((file) => file.size <= MAX_FILE_BYTES);
+        return filesAreValid && consent;
       }
       return false;
     };
@@ -165,10 +174,17 @@ document.addEventListener("DOMContentLoaded", () => {
     documents?.addEventListener("change", () => {
       const files = Array.from(documents.files);
       const tooBig = files.filter((file) => file.size > MAX_FILE_BYTES);
+      const totalBytes = files.reduce((sum, file) => sum + file.size, 0);
 
       if (tooBig.length) {
         documents.value = "";
         if (filesHint) filesHint.textContent = `${tooBig[0].name} passa de 10 MB. Escolha um arquivo menor.`;
+      } else if (files.length > MAX_FILES) {
+        documents.value = "";
+        if (filesHint) filesHint.textContent = `Envie no máximo ${MAX_FILES} arquivos por atendimento.`;
+      } else if (totalBytes > MAX_TOTAL_FILE_BYTES) {
+        documents.value = "";
+        if (filesHint) filesHint.textContent = "Os arquivos juntos passam de 15 MB. Reduza ou compacte os documentos.";
       } else if (files.length) {
         if (filesHint) {
           filesHint.textContent = files.length === 1
@@ -176,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
             : `${files.length} arquivos anexados`;
         }
       } else if (filesHint) {
-        filesHint.textContent = "PDF, JPG ou PNG · até 10 MB cada";
+        filesHint.textContent = "PDF, JPG, PNG ou HEIC · até 5 arquivos e 15 MB no total";
       }
 
       refresh();
@@ -227,6 +243,7 @@ document.addEventListener("DOMContentLoaded", () => {
       payload.append("health", "Não sei");
       payload.append("consent", "true");
       payload.append("contactConsent", "true");
+      payload.append("estimate", String(Number(onlyDigits(monthlyIr.value)) * 60));
       payload.append("pageUrl", window.location.href);
       payload.append("createdAt", new Date().toISOString());
 
