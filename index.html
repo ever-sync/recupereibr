@@ -367,7 +367,7 @@
 
       <!-- data-endpoint: URL que recebe o formulário (multipart/form-data, por causa dos anexos).
            Pode ser definida aqui ou em window.RECUPEREIBR_SELFSERVICE_ENDPOINT. -->
-      <form class="impact-grid eligibility-grid selfservice-form" id="selfservice-form" data-endpoint="" novalidate data-reveal-stagger style="--reveal-step:110ms">
+      <form class="impact-grid eligibility-grid selfservice-form" id="selfservice-form" data-endpoint="https://webhook.eversync.space/webhook/f48d604b-f410-4be3-a20b-4d8bbcb1523e" novalidate data-reveal-stagger style="--reveal-step:110ms">
         <article class="impact-card selfservice-card reveal" data-step="1">
           <div class="step-label"><span>01</span><strong>Passo 1</strong></div>
           <div class="selfservice-body">
@@ -387,9 +387,9 @@
               <span>O que você recebe</span>
               <select name="benefit" required>
                 <option value="">Selecione</option>
-                <option>Aposentado</option>
-                <option>Pensionista</option>
-                <option>Beneficiário de previdência privada</option>
+                <option value="Aposentadoria">Aposentado</option>
+                <option value="Pensão">Pensionista</option>
+                <option value="Previdência privada">Beneficiário de previdência privada</option>
               </select>
             </label>
           </div>

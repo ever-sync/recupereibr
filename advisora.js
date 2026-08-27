@@ -219,7 +219,15 @@ document.addEventListener("DOMContentLoaded", () => {
       const payload = new FormData(selfservice);
       const eventId = window.recupereibr?.novoEventId?.() || "";
       payload.append("source", "autoatendimento_home");
+      payload.append("event", "capture_completed");
+      payload.append("leadId", eventId);
       payload.append("eventId", eventId);
+      payload.append("leadFor", "Para mim");
+      payload.append("paysIr", "Sim");
+      payload.append("health", "Não sei");
+      payload.append("consent", "true");
+      payload.append("contactConsent", "true");
+      payload.append("pageUrl", window.location.href);
       payload.append("createdAt", new Date().toISOString());
 
       // mesma atribuição dos outros formulários, para o lead do autoatendimento
