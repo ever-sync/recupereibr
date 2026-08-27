@@ -80,7 +80,7 @@
 .simulation-intro h1 {
   max-width: 670px;
   margin-bottom: 26px;
-  font-size: clamp(48px, 5vw, 72px);
+  font-size: 50px;
   line-height: 0.98;
   font-weight: 600;
 }

@@ -71,7 +71,7 @@
 .lead-copy h1 {
   max-width: 650px;
   margin-bottom: 28px;
-  font-size: clamp(52px, 5.3vw, 76px);
+  font-size: 50px;
   line-height: 0.98;
   font-weight: 600;
 }
