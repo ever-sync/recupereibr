@@ -2924,9 +2924,10 @@ main .selfservice-cta p {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  border: 1px solid rgba(8, 54, 48, 0.22);
+  border: 1px solid var(--green);
   border-radius: 999px;
-  color: var(--ink);
+  color: white;
+  background: var(--green);
   text-decoration: none;
 }
 
@@ -2938,7 +2939,7 @@ main .selfservice-cta p {
   place-items: center;
   border-radius: 50%;
   color: white;
-  background: var(--green);
+  background: rgba(255, 255, 255, 0.14);
 }
 
 .eligibility-note {
