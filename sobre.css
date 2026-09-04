@@ -56,6 +56,7 @@
   height: 420px;
   border-radius: var(--radius);
   object-fit: cover;
+  object-position: center;
 }
 
 /* ---- pilares ---- */
