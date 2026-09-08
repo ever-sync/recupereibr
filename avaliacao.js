@@ -235,7 +235,7 @@ document.addEventListener("DOMContentLoaded", () => {
       showMessage(
         invalid.type === "checkbox"
           ? "Confirme a autorização para continuar."
-          : "Informe nome, WhatsApp e e-mail válidos para continuar.",
+          : "Informe nome e WhatsApp válidos. Se preencher o e-mail, confira se ele está correto.",
         "error"
       );
       invalid.focus();
@@ -312,13 +312,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!response.ok) throw new Error("Falha no envio");
       form.reset();
-      trackEvent("generate_lead", {
-        source: payload.source,
-        persona: "idoso",
-        qualified: payload.qualified,
-        lead_for: payload.leadFor,
-        benefit: payload.benefit
-      });
       sessionStorage.setItem("recupereibrThankYou", JSON.stringify({
         name: payload.name,
         source: payload.source,

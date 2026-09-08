@@ -693,7 +693,35 @@
   }
 
   .lead-copy {
-    padding-top: 10px;
+    display: contents;
+  }
+
+  .lead-copy .eyebrow {
+    order: 1;
+  }
+
+  .lead-copy h1 {
+    order: 2;
+  }
+
+  .lead-copy .lead-intro {
+    order: 3;
+  }
+
+  .lead-form-card {
+    order: 4;
+  }
+
+  .lead-copy .lead-service-note {
+    order: 5;
+  }
+
+  .lead-copy .lead-benefits {
+    order: 6;
+  }
+
+  .lead-copy .lead-identity {
+    order: 7;
   }
 
   .lead-form-card {
