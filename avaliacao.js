@@ -123,18 +123,16 @@ document.addEventListener("DOMContentLoaded", () => {
     ).trim();
 
   /* Envia o contato assim que ele é preenchido, antes das perguntas de
-     qualificação — mesmo padrão do quiz de /simulacao. Quem desistir no passo 2
-     já entrou como lead, em vez de sumir sem deixar rastro.
-
-     Best-effort de propósito: se falhar, o fluxo continua e o envio final ainda
-     tem sua chance. Bloquear aqui trocaria um lead parcial por lead nenhum. */
-  /* A captura parcial só pode ser enviada a um fluxo que saiba distinguir
-     `event: "lead_started"` do envio final — senão o n8n grava o mesmo lead duas
-     vezes. O fluxo de Simulação (webhook 8ded9705) já trata esse evento; o de
-     Captação (f48d604b) ainda não. Até ele tratar, ligue manualmente com
-     `window.RECUPEREIBR_CAPTURA_PARCIAL = true`. */
+     qualificação. Os dois fluxos do n8n distinguem `lead_started` do envio
+     final: o primeiro apenas registra/atualiza o lead no RD; o atendimento
+     automático só é iniciado depois da conclusão do formulário. */
   const capturaParcialAtiva = () =>
-    window.RECUPEREIBR_CAPTURA_PARCIAL === true || isSimulationLead();
+    window.RECUPEREIBR_CAPTURA_PARCIAL !== false;
+
+  /* O mesmo identificador acompanha o cadastro iniciado e a conclusão. Isso
+     permite correlacionar os dois eventos e evita que uma tentativa repetida
+     gere identidades diferentes no CRM. */
+  const leadEventId = window.recupereibr?.novoEventId?.() || "";
 
   let leadCaptured = false;
   const capturarContato = async () => {
@@ -149,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
       consent: Boolean(form.elements.consent?.checked),
       source: origem(),
       event: "lead_started",
-      eventId: window.recupereibr?.novoEventId?.() || "",
+      eventId: leadEventId,
       ...(window.recupereibr?.atribuicao?.() || {}),
       createdAt: new Date().toISOString()
     };
@@ -290,7 +288,7 @@ document.addEventListener("DOMContentLoaded", () => {
     payload.email = String(payload.email || "").trim().toLowerCase();
     payload.source = source;
     // mesmo id vai para o n8n e para o pixel: é o que permite a Meta deduplicar
-    payload.eventId = window.recupereibr?.novoEventId?.() || "";
+    payload.eventId = leadEventId;
     // atribuição da sessão inteira, não só desta URL: quem chegou pela home
     // e navegou até aqui traria os campos vazios se lêssemos só location.search
     Object.assign(payload, window.recupereibr?.atribuicao?.() || {});
