@@ -38,6 +38,11 @@ document.addEventListener("DOMContentLoaded", () => {
     return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
   };
 
+  const isValidBrazilianPhone = (value) => {
+    const digits = String(value || "").replace(/\D/g, "");
+    return (digits.length === 10 || digits.length === 11) && !digits.startsWith("0");
+  };
+
   phone.addEventListener("input", () => {
     phone.value = formatPhone(phone.value);
   });
@@ -61,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return !container.querySelector(`input[name="${field.name}"]:checked`);
       }
       if (field.type === "checkbox") return !field.checked;
-      if (field.type === "tel") return field.value.replace(/\D/g, "").length < 10;
+      if (field.type === "tel") return !isValidBrazilianPhone(field.value);
       if (field.type === "email") return !field.validity.valid;
       return !field.value.trim();
     });
