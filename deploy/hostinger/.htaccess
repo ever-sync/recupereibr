@@ -1,0 +1,46 @@
+# Instalar na raiz de public_html, junto com index.html.
+Options -Indexes -MultiViews
+DirectoryIndex index.html
+AddDefaultCharset UTF-8
+ErrorDocument 404 /404.html
+
+RewriteEngine On
+
+# Manter HTTPS e o dominio canonico em producao.
+# O dominio temporario da Hostinger continua disponivel para a conferencia.
+RewriteCond %{HTTP_HOST} ^www\.recupereibr\.com\.br$ [NC]
+RewriteRule ^ https://recupereibr.com.br%{REQUEST_URI} [R=301,L]
+
+RewriteCond %{HTTP_HOST} ^recupereibr\.com\.br$ [NC]
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP:X-Forwarded-Proto} !^https$ [NC]
+RewriteRule ^ https://recupereibr.com.br%{REQUEST_URI} [R=301,L]
+
+# /index e /index.html representam a pagina inicial.
+RewriteCond %{THE_REQUEST} "\s/+index(?:\.html)?(?:[?\s])"
+RewriteRule ^index(?:\.html)?$ / [R=301,L]
+
+# Preservar as URLs sem .html usadas nos anuncios e no sitemap.
+# REDIRECT_STATUS evita redirecionar a pagina interna de erro 404.
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteCond %{THE_REQUEST} "\s/+[^?\s]+\.html(?:[?\s])"
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^([A-Za-z0-9_-]+)\.html$ /$1 [R=301,L]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([A-Za-z0-9_-]+)/+$ /$1 [R=301,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^([A-Za-z0-9_-]+)$ $1.html [L]
+
+# Revalidar paginas; permitir atualizacoes de arquivos com o mesmo nome.
+<IfModule mod_headers.c>
+    <FilesMatch "\.html$">
+        Header set Cache-Control "no-cache"
+    </FilesMatch>
+    <FilesMatch "\.(?:css|js|png|jpe?g|webp|gif|svg|ico|avif|woff2?|ttf|otf)$">
+        Header set Cache-Control "public, max-age=86400"
+    </FilesMatch>
+</IfModule>
