@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const diseaseField = document.getElementById("disease-field");
   const diseaseSelect = document.getElementById("lead-disease");
   const params = new URLSearchParams(window.location.search);
+  const validation = window.recupereibrForms;
   let currentStep = 0;
   let formStarted = false;
 
@@ -32,29 +33,26 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const formatPhone = (value) => {
-    const digits = value.replace(/\D/g, "").slice(0, 11);
+    const normalized = validation.normalizePhone(value);
+    const digits = (normalized ? normalized.slice(2) : value.replace(/\D/g, "")).slice(0, 11);
     if (digits.length <= 2) return digits;
     if (digits.length <= 7) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
     return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
   };
 
   const isValidBrazilianPhone = (value) => {
-    const digits = String(value || "").replace(/\D/g, "");
-    return (digits.length === 10 || digits.length === 11) && !digits.startsWith("0");
+    return Boolean(validation.normalizePhone(value));
   };
 
   phone.addEventListener("input", () => {
     phone.value = formatPhone(phone.value);
   });
 
-  /* O diagnóstico é opcional. `health = Sim` já basta para qualificar o lead, e
-     o detalhe é pergunta de ligação, não de formulário: obrigar alguém a
-     selecionar "Neoplasia maligna" num select, antes de confiar na empresa, era
-     o ponto de abandono mais caro da página. */
   const syncDiseaseField = () => {
     const selected = form.querySelector('input[name="health"]:checked')?.value || "";
     const needsDisease = Boolean(selected) && selected !== "Não";
     diseaseField.hidden = !needsDisease;
+    diseaseSelect.required = needsDisease;
     if (!needsDisease) diseaseSelect.value = "";
   };
   form.querySelectorAll('input[name="health"]').forEach((input) => input.addEventListener("change", syncDiseaseField));
@@ -67,7 +65,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       if (field.type === "checkbox") return !field.checked;
       if (field.type === "tel") return !isValidBrazilianPhone(field.value);
-      if (field.type === "email") return !field.validity.valid;
+      if (field.type === "email") return !validation.validEmail(field.value);
+      if (field.name === "name") return field.value.trim().length < 2;
       return !field.value.trim();
     });
   };
@@ -122,59 +121,13 @@ document.addEventListener("DOMContentLoaded", () => {
   };
   const resolverEndpoint = () =>
     String(
-      isSimulationLead()
+      (isSimulationLead()
         ? window.RECUPEREIBR_SIMULATION_ENDPOINT || form.dataset.simulationEndpoint
-        : window.RECUPEREIBR_LEAD_ENDPOINT || form.dataset.endpoint
+        : window.RECUPEREIBR_LEAD_ENDPOINT || form.dataset.endpoint) || ""
     ).trim();
 
-  /* Envia o contato assim que ele é preenchido, antes das perguntas de
-     qualificação. Os dois fluxos do n8n distinguem `lead_started` do envio
-     final: o primeiro apenas registra/atualiza o lead no RD; o atendimento
-     automático só é iniciado depois da conclusão do formulário. */
-  const capturaParcialAtiva = () =>
-    window.RECUPEREIBR_CAPTURA_PARCIAL !== false;
-
-  /* O mesmo identificador acompanha o cadastro iniciado e a conclusão. Isso
-     permite correlacionar os dois eventos e evita que uma tentativa repetida
-     gere identidades diferentes no CRM. */
-  const leadEventId = window.recupereibr?.novoEventId?.() || "";
-
-  let leadCaptured = false;
-  const capturarContato = async () => {
-    if (leadCaptured || !capturaParcialAtiva()) return;
-    const endpoint = resolverEndpoint();
-    if (!endpoint) return;
-
-    const contato = {
-      name: form.elements.name.value.trim(),
-      phone: form.elements.phone.value.trim(),
-      email: form.elements.email.value.trim().toLowerCase(),
-      consent: Boolean(form.elements.consent?.checked),
-      source: origem(),
-      event: "lead_started",
-      eventId: leadEventId,
-      ...(window.recupereibr?.atribuicao?.() || {}),
-      createdAt: new Date().toISOString()
-    };
-
-    try {
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(contato)
-      });
-      if (!response.ok) throw new Error("Falha na captura parcial");
-      leadCaptured = true;
-      trackEvent("generate_lead", {
-        source: contato.source,
-        stage: "lead_started",
-        persona: "idoso",
-        eventId: contato.eventId
-      });
-    } catch {
-      trackEvent("lead_form_partial_error", { source: contato.source });
-    }
-  };
+  // Stable across retries; only the completed form is sent.
+  const leadEventId = window.recupereibr?.novoEventId?.() || crypto.randomUUID();
 
   const loadPreviousAnswers = () => {
     const origin = params.get("origem") || "acesso_direto";
@@ -232,22 +185,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  nextButton.addEventListener("click", async () => {
+  nextButton.addEventListener("click", () => {
     const invalid = invalidField(steps[0]);
     if (invalid) {
       showMessage(
         invalid.type === "checkbox"
           ? "Confirme a autorização para continuar."
-          : "Informe nome e WhatsApp válidos. Se preencher o e-mail, confira se ele está correto.",
+          : "Informe seu nome, WhatsApp com DDD e um e-mail válido.",
         "error"
       );
       invalid.focus();
       return;
     }
-
-    nextButton.disabled = true;
-    await capturarContato();
-    nextButton.disabled = false;
 
     trackEvent("lead_form_step_complete", { step: 1 });
     currentStep = 1;
@@ -263,15 +212,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    // o passo 2 agora é a qualificação; o contato já foi validado e enviado antes
-    const invalid = invalidField(steps[1]);
+    if (submitButton.disabled) return;
+    const invalid = invalidField(form);
 
     if (invalid) {
-      showMessage("Responda os campos desta etapa para enviar.", "error");
+      currentStep = steps.findIndex((step) => step.contains(invalid));
+      renderStep();
+      showMessage("Preencha todos os campos obrigatórios para enviar.", "error");
       invalid.focus();
       return;
     }
 
+    const payload = Object.fromEntries(new FormData(form).entries());
+    const checked = validation.validate(payload);
+    if (!checked.valid) {
+      showMessage(validation.validationMessage(checked.missingFields), "error");
+      return;
+    }
     const source = origem();
     const endpoint = resolverEndpoint();
     if (!endpoint) {
@@ -289,9 +246,12 @@ document.addEventListener("DOMContentLoaded", () => {
     submitButton.disabled = true;
     submitButton.firstChild.textContent = "Enviando ";
 
-    const payload = Object.fromEntries(new FormData(form).entries());
+    payload.name = payload.name.trim();
+    payload.phone = "+" + checked.phoneDigits;
+    payload.consent = Boolean(form.elements.consent.checked);
     payload.email = String(payload.email || "").trim().toLowerCase();
     payload.source = source;
+    payload.event = "capture_completed";
     // mesmo id vai para o n8n e para o pixel: é o que permite a Meta deduplicar
     payload.eventId = leadEventId;
     // atribuição da sessão inteira, não só desta URL: quem chegou pela home
@@ -313,8 +273,8 @@ document.addEventListener("DOMContentLoaded", () => {
         body: JSON.stringify(payload)
       });
 
-      if (!response.ok) throw new Error("Falha no envio");
-      form.reset();
+      await validation.confirmSaved(response);
+      trackEvent("generate_lead", { source, stage: "capture_completed", eventId: leadEventId });
       sessionStorage.setItem("recupereibrThankYou", JSON.stringify({
         name: payload.name,
         source: payload.source,
@@ -324,9 +284,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }));
       window.location.assign(destinoObrigado(motivo));
       return;
-    } catch {
+    } catch (error) {
       trackEvent("lead_form_error", { source: payload.source });
-      showMessage("Não foi possível enviar agora. Tente novamente ou ligue para 0800 042-0676.", "error");
+      showMessage(error.message || "Não foi possível enviar agora. Tente novamente ou ligue para 0800 042-0676.", "error");
     } finally {
       submitButton.disabled = false;
       submitButton.firstChild.textContent = "Solicitar avaliação gratuita ";

@@ -27,9 +27,10 @@ document.addEventListener("DOMContentLoaded", () => {
       : `lead-${Date.now()}-${Math.random().toString(16).slice(2)}`
   );
   let currentStep = 0;
-  let leadCaptured = false;
   let currentResultType = "needs_review";
-  const leadId = createLeadId();
+  let leadId = createLeadId();
+  let eventId = window.recupereibr?.novoEventId?.() || createLeadId();
+  const validation = window.recupereibrForms;
 
   const trackEvent = (eventName, parameters = {}) => {
     window.dataLayer = window.dataLayer || [];
@@ -55,15 +56,15 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const formatPhone = (value) => {
-    const digits = String(value).replace(/\D/g, "").slice(0, 11);
+    const normalized = validation.normalizePhone(value);
+    const digits = (normalized ? normalized.slice(2) : String(value).replace(/\D/g, "")).slice(0, 11);
     if (digits.length <= 2) return digits;
     if (digits.length <= 7) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
     return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
   };
 
   const isValidBrazilianPhone = (value) => {
-    const digits = String(value || "").replace(/\D/g, "");
-    return (digits.length === 10 || digits.length === 11) && !digits.startsWith("0");
+    return Boolean(validation.normalizePhone(value));
   };
 
   respondentPhone.addEventListener("input", () => {
@@ -129,7 +130,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       if (field.type === "checkbox") return !field.checked;
       if (field.type === "tel") return !isValidBrazilianPhone(field.value);
-      if (field.type === "email") return !field.validity.valid;
+      if (field.type === "email") return !validation.validEmail(field.value);
+      if (field.name === "respondentName") return field.value.trim().length < 2;
       return !field.value.trim();
     });
 
@@ -190,34 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
-    if (!response.ok) throw new Error("Falha no envio");
-  };
-
-  const captureLead = async () => {
-    if (leadCaptured) return true;
-    nextButton.disabled = true;
-    nextButton.firstChild.textContent = "Salvando ";
-    showStatus("");
-
-    try {
-      await sendToN8n({
-        ...basePayload(),
-        event: "lead_started"
-      });
-      leadCaptured = true;
-      trackEvent("generate_lead", {
-        source: "family_quiz",
-        stage: "lead_started",
-        persona: "filho"
-      });
-      return true;
-    } catch {
-      showStatus("Não foi possível liberar a simulação agora. Confira sua conexão e tente novamente.");
-      return false;
-    } finally {
-      nextButton.disabled = false;
-      nextButton.firstChild.textContent = "Continuar ";
-    }
+    return validation.confirmSaved(response);
   };
 
   const renderStep = () => {
@@ -272,9 +247,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   syncDiseaseField();
 
-  nextButton.addEventListener("click", async () => {
+  nextButton.addEventListener("click", () => {
     if (!validateCurrentStep()) return;
-    if (currentStep === 0 && !(await captureLead())) return;
 
     trackEvent("family_quiz_step_complete", { step: currentStep + 1 });
     if (currentStep === steps.length - 1) {
@@ -292,12 +266,29 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   resultSpecialist.addEventListener("click", async () => {
+    if (resultSpecialist.disabled) return;
+    const payload = completePayload();
+    const checked = validation.validate(payload);
+    if (!checked.valid) {
+      result.hidden = true;
+      document.querySelector(".quiz-top").hidden = false;
+      document.querySelector(".progress-track").hidden = false;
+      document.querySelector(".quiz-navigation").hidden = false;
+      const names = { name: "respondentName", phone: "respondentPhone", email: "respondentEmail", consent: "contactConsent" };
+      const field = form.elements[names[checked.missingFields[0]] || checked.missingFields[0]];
+      const element = field?.length ? field[0] : field;
+      currentStep = Math.max(0, steps.findIndex((step) => element && step.contains(element)));
+      renderStep();
+      showStatus(validation.validationMessage(checked.missingFields));
+      element?.focus();
+      return;
+    }
     resultSpecialist.disabled = true;
     resultSpecialist.firstChild.textContent = "Enviando ";
     showResultStatus("");
-    const payload = completePayload();
     // mesmo id vai para o n8n e para o pixel: é o que permite a Meta deduplicar
-    payload.eventId = window.recupereibr?.novoEventId?.() || "";
+    payload.eventId = eventId;
+    payload.respondentPhone = "+" + checked.phoneDigits;
 
     /* Mesmos dois critérios da /avaliacao, com os rótulos do quiz. "Ainda não
        sei" não desqualifica de propósito — é incerteza, não ausência de direito,
@@ -312,6 +303,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       await sendToN8n(payload);
+      trackEvent("generate_lead", { source: "family_quiz", stage: "simulation_completed", eventId });
       trackEvent("simulation_contact_requested", {
         source: "family_quiz",
         result_type: currentResultType
@@ -324,8 +316,8 @@ document.addEventListener("DOMContentLoaded", () => {
         eventId: payload.eventId || ""
       }));
       window.location.assign(motivo ? `/obrigado-${motivo}` : "/obrigado-simulacao");
-    } catch {
-      showResultStatus("Seus dados iniciais foram salvos, mas não conseguimos enviar o resultado. Tente novamente.");
+    } catch (error) {
+      showResultStatus(error.message || "Não foi possível confirmar o envio. Suas respostas continuam aqui; tente novamente.");
     } finally {
       resultSpecialist.disabled = false;
       resultSpecialist.firstChild.textContent = "Quero falar com um especialista ";
@@ -334,6 +326,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   restartButton.addEventListener("click", () => {
     form.reset();
+    leadId = createLeadId();
+    eventId = window.recupereibr?.novoEventId?.() || createLeadId();
+    syncDiseaseField();
     amountInput.value = "380";
     amountRange.value = "380";
     updateAmount(380);

@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="advisora.css">
-  <link rel="stylesheet" href="avaliacao.css">
+  <link rel="stylesheet" href="avaliacao.css?v=20261020">
   <link rel="stylesheet" href="footer.css">
 </head>
 <body class="lead-page">
@@ -73,20 +73,8 @@
           <div class="form-message" id="form-message" role="alert" aria-live="assertive"></div>
           <div class="form-progress" aria-hidden="true"><span id="form-progress-bar"></span></div>
 
-          <!--
-            Passo 1: contato. Passo 2: qualificação.
-
-            A ordem é deliberada e espelha o quiz de /simulacao. Antes era o
-            inverso: a pessoa precisava declarar a própria condição de saúde
-            antes de deixar qualquer contato, e quem desistia ali — a pergunta
-            mais pesada do formulário — se perdia por completo, porque nada
-            tinha sido enviado ainda.
-
-            Também resolve a ordem do consentimento: a autorização passa a ser
-            dada antes de qualquer dado de saúde ser digitado, e não depois
-            (LGPD Art. 11, que exige consentimento específico e destacado para
-            dado sensível).
-          -->
+          <!-- Contato e consentimento vêm primeiro. O envio acontece somente
+               depois da qualificação completa, no último botão. -->
           <section class="lead-form-step active" data-form-step="1">
             <div class="form-grid">
               <label class="field field-full" for="lead-name">
@@ -100,8 +88,8 @@
               </label>
 
               <label class="field field-full" for="lead-email">
-                <span>Seu melhor e-mail <small>(opcional)</small></span>
-                <input id="lead-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="voce@exemplo.com.br">
+                <span>Seu melhor e-mail*</span>
+                <input id="lead-email" name="email" type="email" inputmode="email" autocomplete="email" required placeholder="voce@exemplo.com.br">
               </label>
             </div>
 
@@ -155,16 +143,16 @@
 
             <fieldset class="choice-field health-choice">
               <legend>A pessoa tem ou já teve uma condição grave?*</legend>
-              <p>Se a resposta for sim, você pode indicar a condição — mas não é obrigatório. Não envie laudos ou documentos nesta etapa.</p>
+              <p>Se houver uma condição, selecione qual é ou marque “Não sei informar”. Não envie laudos ou documentos nesta etapa.</p>
               <div>
                 <label><input type="radio" name="health" value="Sim" required><span></span>Sim</label>
                 <label><input type="radio" name="health" value="Não"><span></span>Não</label>
                 <label><input type="radio" name="health" value="Não sei"><span></span>Não sei</label>
               </div>
               <label class="field disease-field" id="disease-field" for="lead-disease" hidden>
-                <span>Qual doença ou condição? (opcional)</span>
+                <span>Qual doença ou condição?*</span>
                 <select id="lead-disease" name="disease">
-                  <option value="">Prefiro não informar agora</option>
+                  <option value="">Selecione</option>
                   <option value="AIDS (Síndrome da Imunodeficiência Adquirida)">AIDS (Síndrome da Imunodeficiência Adquirida)</option>
                   <option value="Alienação mental">Alienação mental</option>
                   <option value="Cardiopatia grave">Cardiopatia grave</option>
@@ -291,6 +279,7 @@
     </div>
   </footer>
 
-  <script src="avaliacao.js"></script>
+  <script src="form-validation.js?v=20261020"></script>
+  <script src="avaliacao.js?v=20261020"></script>
 </body>
 </html>

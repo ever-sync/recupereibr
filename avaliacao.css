@@ -217,7 +217,8 @@
   transition: width 220ms ease;
 }
 
-.lead-form-step[hidden] {
+.lead-form-step[hidden],
+.disease-field[hidden] {
   display: none;
 }
 

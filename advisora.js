@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (step === 1) {
         const name = selfservice.querySelector('[name="name"]').value.trim();
         const benefit = selfservice.querySelector('[name="benefit"]').value;
-        return name.length >= 3 && onlyDigits(phone.value).length >= 10 && Boolean(benefit);
+        return name.length >= 3 && Boolean(window.recupereibrForms.normalizePhone(phone.value)) && Boolean(benefit);
       }
       if (step === 2) return Number(onlyDigits(monthlyIr.value)) > 0;
       if (step === 3) {
@@ -204,6 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     selfservice.addEventListener("submit", async (event) => {
       event.preventDefault();
+      if (submitButton.disabled) return;
       if (!(stepComplete(1) && stepComplete(2) && stepComplete(3))) return;
 
       const endpoint = String(
@@ -254,14 +255,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
       try {
         const response = await fetch(endpoint, { method: "POST", body: payload });
-        if (!response.ok) throw new Error("Falha no envio");
+        await window.recupereibrForms.confirmSaved(response);
         trackEvent("generate_lead", { source: "autoatendimento_home", eventId });
         showMessage("Recebemos seus dados. Um especialista entra em contato pelo WhatsApp.", "success");
         selfservice.reset();
         refresh();
       } catch (error) {
         submitButton.disabled = false;
-        showMessage("Não foi possível enviar agora. Tente novamente ou ligue 0800 042-0676.", "error");
+        showMessage(error.message || "Não foi possível enviar agora. Tente novamente ou ligue 0800 042-0676.", "error");
       }
     });
   }
