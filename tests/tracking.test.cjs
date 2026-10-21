@@ -10,7 +10,7 @@ function run({url='https://recupereibr.com.br/obrigado-avaliacao',ref='',storage
   const sessionStorage={getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)};
   vm.runInNewContext(source,{window,document,sessionStorage,URL,Date,Math});
   handlers.DOMContentLoaded();
-  return {window,pixel,storage,submit:handlers.submit,leads:()=>window.dataLayer.filter(e=>e[0]==='event'&&e[1]==='generate_lead')};
+  return {window,pixel,storage,submit:handlers.submit,click:handlers.click,auxclick:handlers.auxclick,leads:()=>window.dataLayer.filter(e=>e[0]==='event'&&e[1]==='generate_lead')};
 }
 test('direct thank-you visits do not create leads',()=>assert.equal(run().leads().length,0));
 test('valid RD attempt plus same-origin redirect counts once; reload does not',()=>{
@@ -41,4 +41,25 @@ test('paid attribution survives an internal form link without forwarding answers
  const link={href:'https://recupereibr.com.br/avaliacao?origem=home'};
  run({url:'https://recupereibr.com.br/?utm_source=google&utm_campaign=campaign1&gclid=click1&disease=private',links:[link]});
  const target=new URL(link.href);assert.equal(target.searchParams.get('utm_source'),'google');assert.equal(target.searchParams.get('gclid'),'click1');assert.equal(target.searchParams.has('disease'),false);
+});
+test('simulator links rewritten after load preserve attribution on click',()=>{
+ const link={href:'https://recupereibr.com.br/avaliacao?origem=home'};
+ const r=run({url:'https://recupereibr.com.br/?utm_source=google&utm_campaign=campaign1&gclid=click1',links:[link]});
+ link.href='avaliacao.html?origem=simulador';
+ r.click({target:{closest:()=>link}});
+ const target=new URL(link.href);
+ assert.equal(target.searchParams.get('origem'),'simulador');
+ assert.equal(target.searchParams.get('utm_campaign'),'campaign1');
+ assert.equal(target.searchParams.get('gclid'),'click1');
+ const external={href:'https://other.example/avaliacao'};
+ r.auxclick({target:{closest:()=>external}});
+ assert.equal(external.href,'https://other.example/avaliacao');
+});
+test('a fresh source does not inherit a previous channel click ID',()=>{
+ const storage=new Map();
+ run({url:'https://recupereibr.com.br/?utm_source=google&gclid=old-click&utm_campaign=old',storage});
+ const r=run({url:'https://recupereibr.com.br/?utm_source=facebook&utm_campaign=new',storage});
+ const attr=r.window.recupereibr.atribuicao();
+ assert.equal(attr.utm_source,'facebook');assert.equal(attr.utm_campaign,'new');
+ assert.equal(attr.gclid,undefined);
 });

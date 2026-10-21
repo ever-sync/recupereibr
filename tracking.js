@@ -26,7 +26,7 @@
   if (changed) window.history.replaceState(null, "", current.pathname + current.search + current.hash);
 
   var attribution = read(ATTR_KEY);
-  if (["gclid", "gbraid", "wbraid", "fbclid"].some(function (key) { return current.searchParams.has(key); })) attribution = {};
+  if (["utm_source", "gclid", "gbraid", "wbraid", "fbclid"].some(function (key) { return current.searchParams.has(key); })) attribution = {};
   ATTR_FIELDS.forEach(function (key) {
     var value = current.searchParams.get(key);
     if (value && value.length <= 250) attribution[key] = value;
@@ -76,16 +76,27 @@
     write(PENDING_KEY, { id: window.recupereibr.novoEventId(), at: Date.now() });
   }, true);
 
-  document.addEventListener("DOMContentLoaded", function () {
-    // Mantém a origem do anúncio ao sair da home para o formulário RD.
-    document.querySelectorAll('a[href]').forEach(function (link) {
-      var target = new URL(link.href, window.location.href);
-      if (target.origin !== window.location.origin || FORM_PATHS.indexOf(target.pathname) === -1) return;
-      ATTR_FIELDS.forEach(function (key) {
-        if (!target.searchParams.has(key) && attribution[key]) target.searchParams.set(key, attribution[key]);
-      });
-      link.href = target.toString();
+  function preserveAttribution(link) {
+    if (!link) return;
+    var target;
+    try { target = new URL(link.href, window.location.href); } catch (_) { return; }
+    if (target.origin !== window.location.origin || FORM_PATHS.indexOf(target.pathname) === -1) return;
+    ATTR_FIELDS.forEach(function (key) {
+      if (!target.searchParams.has(key) && attribution[key]) target.searchParams.set(key, attribution[key]);
     });
+    link.href = target.toString();
+  }
+
+  // O simulador altera seu link após o carregamento. Reaplica a origem antes
+  // da navegação, inclusive em cliques sobre um elemento interno do botão.
+  function preserveClickedAttribution(event) {
+    if (event.target && event.target.closest) preserveAttribution(event.target.closest('a[href]'));
+  }
+  document.addEventListener("click", preserveClickedAttribution, true);
+  document.addEventListener("auxclick", preserveClickedAttribution, true);
+
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll('a[href]').forEach(preserveAttribution);
 
     if (THANK_PATHS.indexOf(window.location.pathname) !== -1) {
       var pending = read(PENDING_KEY);
