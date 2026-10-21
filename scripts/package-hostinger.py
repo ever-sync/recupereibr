@@ -50,7 +50,7 @@ def main():
 
     # A configuracao da hospedagem e a unica adicao ao conteudo publico.
     files[".htaccess"] = (ROOT / "deploy/hostinger/.htaccess").read_bytes()
-    required = {"index.html", "advisora.js", "404.html", "avaliacao.html", "simulacao.html", "tracking.js"}
+    required = {"index.html", "advisora.js", "404.html", "avaliacao.html", "tracking.js"}
     missing = required - files.keys()
     if missing:
         raise SystemExit("Arquivos obrigatorios ausentes no commit: " + ", ".join(sorted(missing)))

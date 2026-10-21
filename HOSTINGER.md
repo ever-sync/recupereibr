@@ -9,7 +9,7 @@ O site usa HTML, CSS e JavaScript. Use uma hospedagem com a opção **Site perso
 3. Abra **Sites → Painel → Gerenciador de arquivos → public_html**.
 4. Envie `recupereibr-hostinger.zip` e extraia seu conteúdo diretamente nessa pasta. `index.html`, `.htaccess`, `avaliacao.html` e a pasta `assets` devem ficar dentro de `public_html`, sem uma pasta intermediária.
 5. Confira se não existe uma página inicial antiga, como `index.php` ou `default.php`, assumindo a página inicial. Preserve o backup antes de retirar arquivos antigos do destino.
-6. Confira a página inicial, `/avaliacao`, `/simulacao`, `/blog` e as páginas de agradecimento no domínio temporário. Os links canônicos e os links absolutos de produção continuam apontando para `recupereibr.com.br`.
+6. Confira a página inicial, `/avaliacao`, `/blog` e as páginas de agradecimento no domínio temporário. Os links canônicos e os links absolutos de produção continuam apontando para `recupereibr.com.br`.
 7. Configure `recupereibr.com.br` e `www.recupereibr.com.br` no painel, habilite o certificado SSL para ambos e use os apontamentos de DNS informados pela Hostinger. Preserve os registros de e-mail e os subdomínios das integrações.
 8. Depois da publicação, valide as páginas e acompanhe um envio autorizado/real de formulário até o RD Station, incluindo o responsável atribuído. Retire o ZIP de `public_html` depois de extraí-lo.
 

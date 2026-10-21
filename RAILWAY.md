@@ -25,7 +25,7 @@ railway up --project 3e549685-76dc-4706-afab-a55132f78b7a --environment 1f5fd5de
 ```
 
 Aguardar `SUCCESS` do ID retornado e conferir paginas, assets e formularios na
-URL do Railway. Verificar `/avaliacao`, `/simulacao`, redirecionamentos com
+URL do Railway. Verificar `/avaliacao`, redirecionamentos com
 parametros e o status 404 de caminhos inexistentes e arquivos internos.
 O Caddy usa `PORT` fornecido pela plataforma; `SITE_ROOT` permite testar o mesmo
 servidor localmente, mantendo `/app` como padrao de producao.
@@ -42,6 +42,8 @@ Confirmar resolucao DNS, verificacao de propriedade, certificado HTTPS e o
 conteudo publicado no dominio principal. Apenas cadastrar o dominio no Railway
 nao conclui o apontamento.
 
-O fluxo dos formularios continua utilizando os webhooks existentes do n8n. A
-interface so confirma o envio com `{ok: true, synchronized: true}`; uma resposta
-HTTP 200 isolada nao comprova que os dados foram gravados no RD.
+A pagina `/avaliacao` utiliza o formulario incorporado do RD Station, com envio
+nativo pela plataforma. O autoatendimento da pagina inicial continua utilizando
+o webhook existente do n8n e so confirma o envio com
+`{ok: true, synchronized: true}`. Uma resposta HTTP 200 isolada nao comprova que
+os dados foram gravados no RD.
