@@ -4,10 +4,11 @@ O site estatico e servido pelo Caddy do Railpack. O upload inclui apenas paginas
 estilos, JavaScript, arquivos publicos e assets; scripts de automacao, testes,
 metadados e backups nao sao publicados.
 
-- Projeto: `837a0685-8f64-4a72-86ac-91a38e0bd131`
-- Ambiente: `81427875-d0b6-42d6-8574-a732d03822db` (production)
-- Servico: `1d0af971-ae8b-4f0e-b0c2-1907ac7f22dc` (recupereibr-site)
-- Endereco Railway: https://recupereibr-site-production.up.railway.app
+- Workspace: gridlabs002's Projects
+- Projeto: `3e549685-76dc-4706-afab-a55132f78b7a` (RecupereiBR Site)
+- Ambiente: `1f5fd5de-4545-4ec7-84f3-361c68160451` (production)
+- Servico: `67575fdb-c94d-4e1d-a063-42cdef91e07e` (recupereibr-site)
+- Endereco Railway: https://recupereibr-site-production-3702.up.railway.app
 - Dominio principal: https://recupereibr.com.br
 
 ## Publicar
@@ -16,7 +17,7 @@ Utilizar um checkout limpo do commit confirmado em `origin/main`. O servico
 existente recebe os arquivos via CLI; um push no Git nao substitui o deploy.
 
 ```sh
-railway up --project 837a0685-8f64-4a72-86ac-91a38e0bd131 --environment 81427875-d0b6-42d6-8574-a732d03822db --service 1d0af971-ae8b-4f0e-b0c2-1907ac7f22dc --detach --json -m "Atualiza site RecupereiBR"
+railway up --project 3e549685-76dc-4706-afab-a55132f78b7a --environment 1f5fd5de-4545-4ec7-84f3-361c68160451 --service 67575fdb-c94d-4e1d-a063-42cdef91e07e --detach --json -m "Atualiza site RecupereiBR"
 ```
 
 Aguardar `SUCCESS` do ID retornado e conferir paginas, assets e formularios na
@@ -24,6 +25,10 @@ URL do Railway. Verificar `/avaliacao`, `/simulacao`, redirecionamentos com
 parametros e o status 404 de caminhos inexistentes e arquivos internos.
 O Caddy usa `PORT` fornecido pela plataforma; `SITE_ROOT` permite testar o mesmo
 servidor localmente, mantendo `/app` como padrao de producao.
+
+O projeto antigo `837a0685-8f64-4a72-86ac-91a38e0bd131`, no workspace EverSync,
+recusou novos deploys com "Your trial has expired" em 20/10/2026. Os demais
+servicos desse projeto foram preservados; a migracao abrange apenas o site.
 
 ## Dominio
 
