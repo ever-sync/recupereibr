@@ -36,7 +36,7 @@
 		header @assets Cache-Control "public, max-age=86400"
 
 		file_server {
-			hide .git .env* .DS_Store Caddyfile railway.toml scripts tests deploy *.md vercel.json
+			hide .* Caddyfile railway.toml scripts tests deploy *.md vercel.json
 		}
 	}
 

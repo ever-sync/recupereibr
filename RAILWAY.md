@@ -1,8 +1,8 @@
 # Publicacao do RecupereiBR no Railway
 
-O site estatico e servido pelo Caddy do Railpack. O upload inclui apenas paginas,
-estilos, JavaScript, arquivos publicos e assets; scripts de automacao, testes,
-metadados e backups nao sao publicados.
+O site estatico e servido pelo Caddy do Railpack. O servidor bloqueia scripts de
+automacao, testes, metadados e configuracoes. A `.railwayignore` tambem limita
+uploads pela CLI aos arquivos publicos e a configuracao do servidor.
 
 - Workspace: gridlabs002's Projects
 - Projeto: `3e549685-76dc-4706-afab-a55132f78b7a` (RecupereiBR Site)
@@ -13,8 +13,12 @@ metadados e backups nao sao publicados.
 
 ## Publicar
 
-Utilizar um checkout limpo do commit confirmado em `origin/main`. O servico
-existente recebe os arquivos via CLI; um push no Git nao substitui o deploy.
+Utilizar um checkout limpo do commit confirmado em `origin/main`. O servico esta
+conectado a `ever-sync/recupereibr`, com um SHA especifico fixado no Railway.
+Depois do push, atualizar a origem do servico para o novo SHA revisado e aguardar
+o deploy. Um push isolado nao atualiza um servico que esta fixado em um commit.
+
+Como alternativa, o upload direto pela CLI usa os seguintes identificadores:
 
 ```sh
 railway up --project 3e549685-76dc-4706-afab-a55132f78b7a --environment 1f5fd5de-4545-4ec7-84f3-361c68160451 --service 67575fdb-c94d-4e1d-a063-42cdef91e07e --detach --json -m "Atualiza site RecupereiBR"
