@@ -1,0 +1,48 @@
+{
+	admin off
+	persist_config off
+	auto_https off
+}
+
+:{$PORT:8080} {
+	root * {$SITE_ROOT:/app}
+	encode zstd gzip
+	header X-Content-Type-Options nosniff
+	header Referrer-Policy strict-origin-when-cross-origin
+	header -Server
+
+	@www host www.recupereibr.com.br
+	redir @www https://recupereibr.com.br{uri} permanent
+
+	# Preservar as URLs dos anuncios, inclusive seus parametros de campanha.
+	route {
+		@index path /index /index.html
+		redir @index /?{query} permanent
+
+		@html {
+			path_regexp html ^/([A-Za-z0-9_-]+)\.html$
+			file {path}
+		}
+		redir @html /{re.html.1}?{query} permanent
+
+		@trailing path_regexp trailing ^/([A-Za-z0-9_-]+)/+$
+		redir @trailing /{re.trailing.1}?{query} permanent
+
+		try_files {path} {path}.html {path}/index.html
+
+		@pages path *.html
+		header @pages Cache-Control no-cache
+		@assets path *.css *.js *.png *.jpg *.jpeg *.webp *.gif *.svg *.ico *.avif *.woff *.woff2 *.ttf *.otf
+		header @assets Cache-Control "public, max-age=86400"
+
+		file_server {
+			hide .git .env* .DS_Store Caddyfile railway.toml scripts tests deploy *.md vercel.json
+		}
+	}
+
+	handle_errors 404 {
+		rewrite * /404.html
+		header Cache-Control no-cache
+		file_server
+	}
+}

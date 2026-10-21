@@ -1,0 +1,12 @@
+# Publicar somente o site e a configuracao do servidor.
+**
+!/*.html
+!/*.css
+!/*.js
+!/*.txt
+!/*.xml
+!/*.ico
+!/assets/
+!/assets/**
+!/Caddyfile
+!/railway.toml
