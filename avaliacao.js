@@ -1,298 +1,41 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("lead-form");
-  const message = document.getElementById("form-message");
-  const phone = document.getElementById("lead-phone");
-  const submitButton = form.querySelector(".lead-submit[type='submit']");
-  const steps = Array.from(form.querySelectorAll(".lead-form-step"));
-  const nextButton = document.getElementById("form-next");
-  const backButton = document.getElementById("form-back");
-  const stepLabel = document.getElementById("form-step-label");
-  const stepDescription = document.getElementById("form-step-description");
-  const progressBar = document.getElementById("form-progress-bar");
-  const diseaseField = document.getElementById("disease-field");
-  const diseaseSelect = document.getElementById("lead-disease");
-  const params = new URLSearchParams(window.location.search);
-  const validation = window.recupereibrForms;
-  let currentStep = 0;
-  let formStarted = false;
+  const formId = "ir-google-site-ragali-6b2adf3e5ed8cd327742";
+  const embed = document.getElementById(formId);
+  const shell = document.getElementById("lead-form");
+  const status = document.getElementById("rd-form-status");
+  const fallback = document.getElementById("rd-form-fallback");
+  if (!embed || !shell || !status || !fallback) return;
 
-  const trackEvent = (eventName, parameters = {}) => {
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ event: eventName, ...parameters });
+  const showLoadError = () => {
+    shell.setAttribute("aria-busy", "false");
+    status.textContent = "O formulário não carregou.";
+    fallback.hidden = false;
   };
 
-  const showMessage = (text, type) => {
-    message.textContent = text;
-    message.className = `form-message visible ${type}`;
-    message.scrollIntoView({ behavior: "smooth", block: "nearest" });
-  };
+  const loadTimeout = window.setTimeout(showLoadError, 15000);
+  const observer = new MutationObserver(() => {
+    if (!embed.querySelector("form")) return;
+    window.clearTimeout(loadTimeout);
+    shell.setAttribute("aria-busy", "false");
+    status.hidden = true;
+    fallback.hidden = true;
+    observer.disconnect();
+  });
+  observer.observe(embed, { childList: true, subtree: true });
 
-  const clearMessage = () => {
-    message.textContent = "";
-    message.className = "form-message";
-  };
-
-  const formatPhone = (value) => {
-    const normalized = validation.normalizePhone(value);
-    const digits = (normalized ? normalized.slice(2) : value.replace(/\D/g, "")).slice(0, 11);
-    if (digits.length <= 2) return digits;
-    if (digits.length <= 7) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
-    return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
-  };
-
-  const isValidBrazilianPhone = (value) => {
-    return Boolean(validation.normalizePhone(value));
-  };
-
-  phone.addEventListener("input", () => {
-    phone.value = formatPhone(phone.value);
+  document.getElementById("rd-form-reload")?.addEventListener("click", () => {
+    window.location.reload();
   });
 
-  const syncDiseaseField = () => {
-    const selected = form.querySelector('input[name="health"]:checked')?.value || "";
-    const needsDisease = Boolean(selected) && selected !== "Não";
-    diseaseField.hidden = !needsDisease;
-    diseaseSelect.required = needsDisease;
-    if (!needsDisease) diseaseSelect.value = "";
-  };
-  form.querySelectorAll('input[name="health"]').forEach((input) => input.addEventListener("change", syncDiseaseField));
+  try {
+    new RDStationForms(formId, "null").createForm();
+  } catch {
+    window.clearTimeout(loadTimeout);
+    observer.disconnect();
+    showLoadError();
+  }
 
-  const invalidField = (container) => {
-    const required = Array.from(container.querySelectorAll("[required]"));
-    return required.find((field) => {
-      if (field.type === "radio") {
-        return !container.querySelector(`input[name="${field.name}"]:checked`);
-      }
-      if (field.type === "checkbox") return !field.checked;
-      if (field.type === "tel") return !isValidBrazilianPhone(field.value);
-      if (field.type === "email") return !validation.validEmail(field.value);
-      if (field.name === "name") return field.value.trim().length < 2;
-      return !field.value.trim();
-    });
-  };
-
-  const setFieldValue = (name, value) => {
-    const fields = Array.from(form.querySelectorAll(`[name="${name}"]`));
-    if (!fields.length || !value) return;
-    if (fields[0].type === "radio") {
-      const match = fields.find((field) => field.value === value);
-      if (match) match.checked = true;
-      return;
-    }
-    fields[0].value = value;
-  };
-
-  const renderStep = () => {
-    steps.forEach((step, index) => {
-      const active = index === currentStep;
-      step.hidden = !active;
-      step.classList.toggle("active", active);
-    });
-
-    // o contato é o passo 1 desde a inversão da ordem (ver comentário no HTML)
-    const contactStep = currentStep === 0;
-    stepLabel.textContent = `Passo ${currentStep + 1} de 2`;
-    stepDescription.textContent = contactStep
-      ? "Comece pelo seu nome, WhatsApp e melhor e-mail."
-      : "Agora algumas perguntas rápidas. Não envie documentos por aqui.";
-    progressBar.style.width = contactStep ? "50%" : "100%";
-    clearMessage();
-  };
-
-  const origem = () => params.get("origem") || "landing_avaliacao";
-  const isSimulationLead = () => ["quiz", "simulador"].includes(origem());
-
-  /* A isenção da Lei nº 7.713/88 exige duas coisas ao mesmo tempo: receber um
-     benefício previdenciário E ter uma das condições previstas. Faltando
-     qualquer uma delas não há o que analisar, e a pessoa merece saber na hora
-     em vez de esperar por uma ligação que não viria.
-
-     `paysIr = "Não"` de propósito NÃO desqualifica: quem não tem desconto hoje
-     pode ter pago nos cinco anos anteriores, e esse valor é recuperável. */
-  const motivoDesqualificacao = (payload) => {
-    if (payload.benefit === "Nenhuma das opções") return "sem-beneficio";
-    if (payload.health === "Não") return "sem-condicao";
-    return null;
-  };
-
-  const destinoObrigado = (motivo) => {
-    if (motivo) return `/obrigado-${motivo}`;
-    return isSimulationLead() ? "/obrigado-simulacao" : "/obrigado-avaliacao";
-  };
-  const resolverEndpoint = () =>
-    String(
-      (isSimulationLead()
-        ? window.RECUPEREIBR_SIMULATION_ENDPOINT || form.dataset.simulationEndpoint
-        : window.RECUPEREIBR_LEAD_ENDPOINT || form.dataset.endpoint) || ""
-    ).trim();
-
-  // Stable across retries; only the completed form is sent.
-  const leadEventId = window.recupereibr?.novoEventId?.() || crypto.randomUUID();
-
-  const loadPreviousAnswers = () => {
-    const origin = params.get("origem") || "acesso_direto";
-    if (origin === "hero_titular") setFieldValue("leadFor", "Para mim");
-    setFieldValue("monthlyIr", params.get("valor_mensal"));
-    setFieldValue("estimate", params.get("estimativa"));
-
-    let quizData = null;
-    try {
-      quizData = JSON.parse(sessionStorage.getItem("recupereibrQuiz") || "null");
-      sessionStorage.removeItem("recupereibrQuiz");
-    } catch {
-      quizData = null;
-    }
-
-    if (!quizData || origin !== "quiz") return;
-
-    const relationshipMap = {
-      "Pai ou mãe": "Para meu pai ou minha mãe",
-      "Avô ou avó": "Para outro familiar",
-      "Cônjuge ou companheiro": "Para meu cônjuge ou companheiro",
-      "Outro familiar": "Para outro familiar",
-      "Para mim": "Para mim"
-    };
-    const benefitMap = {
-      "Aposentadoria": "Aposentadoria",
-      "Pensão": "Pensão",
-      "Militar reformado ou reserva": "Militar reformado ou da reserva",
-      "Ainda não sei": "Não sei informar",
-      "Nenhum desses": "Nenhuma das opções"
-    };
-    const irMap = {
-      "Sim": "Sim",
-      "Pagou nos últimos cinco anos": "Sim",
-      "Não sabe": "Não sei",
-      "Não": "Não"
-    };
-
-    setFieldValue("leadFor", relationshipMap[quizData.relationship]);
-    setFieldValue("benefit", benefitMap[quizData.benefit]);
-    setFieldValue("paysIr", irMap[quizData.paysIr]);
-    setFieldValue("health", quizData.health === "Não" ? "Não" : "Sim");
-    setFieldValue("disease", quizData.disease || "");
-    setFieldValue("monthlyIr", String(quizData.monthlyIr || ""));
-    // a qualificação veio pronta do quiz; o passo que falta é o contato, que
-    // agora é o primeiro — por isso não mexemos em currentStep
-    trackEvent("lead_form_prefilled", { source: "family_quiz" });
-  };
-
-  form.addEventListener("focusin", () => {
-    if (formStarted) return;
-    formStarted = true;
-    trackEvent("lead_form_start", {
-      source: params.get("origem") || "acesso_direto"
-    });
-  });
-
-  nextButton.addEventListener("click", () => {
-    const invalid = invalidField(steps[0]);
-    if (invalid) {
-      showMessage(
-        invalid.type === "checkbox"
-          ? "Confirme a autorização para continuar."
-          : "Informe seu nome, WhatsApp com DDD e um e-mail válido.",
-        "error"
-      );
-      invalid.focus();
-      return;
-    }
-
-    trackEvent("lead_form_step_complete", { step: 1 });
-    currentStep = 1;
-    renderStep();
-    document.getElementById("lead-for").focus();
-  });
-
-  backButton.addEventListener("click", () => {
-    currentStep = 0;
-    renderStep();
-    document.getElementById("lead-name").focus();
-  });
-
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    if (submitButton.disabled) return;
-    const invalid = invalidField(form);
-
-    if (invalid) {
-      currentStep = steps.findIndex((step) => step.contains(invalid));
-      renderStep();
-      showMessage("Preencha todos os campos obrigatórios para enviar.", "error");
-      invalid.focus();
-      return;
-    }
-
-    const payload = Object.fromEntries(new FormData(form).entries());
-    const checked = validation.validate(payload);
-    if (!checked.valid) {
-      showMessage(validation.validationMessage(checked.missingFields), "error");
-      return;
-    }
-    const source = origem();
-    const endpoint = resolverEndpoint();
-    if (!endpoint) {
-      const isPreview = ["", "localhost", "127.0.0.1"].includes(window.location.hostname);
-      trackEvent("lead_form_integration_missing");
-      showMessage(
-        isPreview
-          ? "Formulário validado. Falta apenas conectar o endereço do CRM para receber o lead."
-          : "Não foi possível enviar agora. Entre em contato pelo 0800 042-0676.",
-        isPreview ? "success" : "error"
-      );
-      return;
-    }
-
-    submitButton.disabled = true;
-    submitButton.firstChild.textContent = "Enviando ";
-
-    payload.name = payload.name.trim();
-    payload.phone = "+" + checked.phoneDigits;
-    payload.consent = Boolean(form.elements.consent.checked);
-    payload.email = String(payload.email || "").trim().toLowerCase();
-    payload.source = source;
-    payload.event = "capture_completed";
-    // mesmo id vai para o n8n e para o pixel: é o que permite a Meta deduplicar
-    payload.eventId = leadEventId;
-    // atribuição da sessão inteira, não só desta URL: quem chegou pela home
-    // e navegou até aqui traria os campos vazios se lêssemos só location.search
-    Object.assign(payload, window.recupereibr?.atribuicao?.() || {});
-    payload.createdAt = new Date().toISOString();
-
-    /* Vai para o n8n junto com o resto: o lead continua sendo registrado, mas
-       sinalizado, para que a cadência do SDR não seja disparada para quem a
-       própria página acabou de informar que está fora dos critérios. */
-    const motivo = motivoDesqualificacao(payload);
-    payload.qualified = motivo === null;
-    payload.disqualifiedReason = motivo;
-
-    try {
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-
-      await validation.confirmSaved(response);
-      trackEvent("generate_lead", { source, stage: "capture_completed", eventId: leadEventId });
-      sessionStorage.setItem("recupereibrThankYou", JSON.stringify({
-        name: payload.name,
-        source: payload.source,
-        monthlyIr: payload.monthlyIr || "",
-        estimate: payload.estimate || "",
-        eventId: payload.eventId
-      }));
-      window.location.assign(destinoObrigado(motivo));
-      return;
-    } catch (error) {
-      trackEvent("lead_form_error", { source: payload.source });
-      showMessage(error.message || "Não foi possível enviar agora. Tente novamente ou ligue para 0800 042-0676.", "error");
-    } finally {
-      submitButton.disabled = false;
-      submitButton.firstChild.textContent = "Solicitar avaliação gratuita ";
-    }
-  });
-
+  // Keep the existing typography outside the form managed by RD Station.
   const preventWidow = (element) => {
     const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
     const nodes = [];
@@ -305,9 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
       break;
     }
   };
-
-  loadPreviousAnswers();
-  syncDiseaseField();
-  renderStep();
-  document.querySelectorAll("h1, h2, h3, p, strong, small, li, legend").forEach(preventWidow);
+  document.querySelectorAll("h1, h2, h3, p, strong, small, li").forEach((element) => {
+    if (!shell.contains(element)) preventWidow(element);
+  });
 });

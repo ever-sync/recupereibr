@@ -167,6 +167,8 @@
 }
 
 .lead-form-card {
+  width: 100%;
+  min-width: 0;
   padding: 42px;
   border: 1px solid rgba(255, 255, 255, 0.72);
   border-radius: 30px;
@@ -200,294 +202,229 @@
   line-height: 1.5;
 }
 
-.form-progress {
-  height: 5px;
-  margin: -10px 0 28px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.12);
+.rd-form-shell {
+  scroll-margin-top: 110px;
+  min-width: 0;
 }
 
-.form-progress span {
-  width: 50%;
-  height: 100%;
-  display: block;
-  border-radius: inherit;
-  background: var(--orange);
-  transition: width 220ms ease;
+.rd-form-shell[aria-busy="true"] {
+  min-height: 220px;
 }
 
-.lead-form-step[hidden],
-.disease-field[hidden] {
-  display: none;
-}
-
-.form-message {
-  display: none;
-  margin-bottom: 18px;
-  padding: 13px 15px;
-  border-radius: 12px;
-  font-size: 15px;
-  line-height: 1.5;
-}
-
-.form-message.visible {
-  display: block;
-}
-
-.form-message.error {
-  color: #8a3024;
-  background: #ffe4dd;
-}
-
-.form-message.success {
-  color: var(--green);
-  background: var(--orange);
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px 12px;
-}
-
-.field {
-  display: grid;
-  gap: 8px;
-}
-
-.field-full {
-  grid-column: 1 / -1;
-}
-
-.field > span,
-.choice-field legend {
+.rd-form-status,
+.rd-form-fallback {
   color: rgba(255, 255, 255, 0.8);
   font-size: 15px;
-  font-weight: 600;
+  line-height: 1.6;
 }
 
-.field input,
-.field select {
-  width: 100%;
-  min-height: 55px;
-  padding: 0 16px;
-  border: 1px solid rgba(255, 255, 255, 0.19);
-  border-radius: 13px;
-  outline: 0;
-  color: var(--ink);
-  background: var(--paper);
-  font-size: 16px;
+.rd-form-status[hidden],
+.rd-form-fallback[hidden] {
+  display: none;
 }
 
-.field select {
-  appearance: none;
-  background-image:
-    linear-gradient(45deg, transparent 50%, var(--green) 50%),
-    linear-gradient(135deg, var(--green) 50%, transparent 50%);
-  background-position: calc(100% - 19px) 24px, calc(100% - 14px) 24px;
-  background-repeat: no-repeat;
-  background-size: 5px 5px, 5px 5px;
-}
-
-.field input:focus,
-.field select:focus {
-  border-color: var(--orange);
-  box-shadow: 0 0 0 3px rgba(167, 253, 150, 0.22);
-  /* Reposto de proposito, por colisao de cascata.
-
-     `.field` nasceu em advisora.css desenhado para fundo escuro: texto branco
-     sobre `rgba(0, 0, 0, .2)`. Aqui o campo e o oposto — claro, com texto
-     escuro — e o bloco acima sobrescreve o estado normal. Faltava o estado de
-     foco: advisora.css tem `background: rgba(0, 0, 0, .32)` em `:focus` com a
-     mesma especificidade, entao ele vencia por ordem de carregamento e o campo
-     escurecia por baixo do texto `--ink`, sumindo da tela. */
-  color: var(--ink);
-  background-color: var(--paper);
-}
-
-.choice-field {
-  margin: 20px 0 0;
-  padding: 0;
-  border: 0;
-}
-
-.choice-field > p {
-  margin: 6px 0 11px;
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 14px;
-}
-
-.disease-field {
-  margin-top: 16px;
-}
-
-.choice-field > div {
-  margin-top: 11px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.choice-field > div > label {
-  min-height: 48px;
-  padding: 0 15px;
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 999px;
-  color: rgba(255, 255, 255, 0.78);
-  font-size: 15px;
-  cursor: pointer;
-}
-
-.choice-field > div > label input,
-.lead-consent input {
-  position: absolute;
-  opacity: 0;
-}
-
-.choice-field > div > label > span {
-  width: 16px;
-  height: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.36);
-  border-radius: 50%;
-}
-
-.choice-field > div > label:has(input:checked) {
-  border-color: var(--orange);
-  color: var(--ink);
-  background: var(--orange);
-}
-
-.choice-field > div > label:has(input:checked) > span {
-  border: 5px solid var(--green);
-  background: white;
-}
-
-.choice-field > div > label:has(input:focus-visible),
-.lead-consent:has(input:focus-visible) > span {
-  outline: 3px solid var(--orange);
-  outline-offset: 3px;
-}
-
-.lead-consent {
-  margin-top: 22px;
-  display: grid;
-  grid-template-columns: 22px 1fr;
-  align-items: start;
-  gap: 11px;
-  cursor: pointer;
-}
-
-.lead-consent > span {
-  width: 22px;
-  height: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  border-radius: 6px;
-}
-
-.lead-consent:has(input:checked) > span {
-  border: 6px solid var(--orange);
-  background: var(--green);
-}
-
-.lead-consent strong {
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.5;
-}
-
-.lead-submit {
-  width: 100%;
-  min-height: 58px;
-  margin-top: 25px;
-  padding: 6px 7px 6px 22px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.rd-form-fallback button {
+  margin: 12px 12px 12px 0;
+  padding: 14px 18px;
   border: 0;
   border-radius: 999px;
-  color: var(--ink);
-  background: var(--orange);
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.lead-submit:hover {
-  transform: translateY(-2px);
-}
-
-.lead-submit > span {
-  width: 44px;
-  height: 44px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  color: white;
-  background: var(--green-mid);
-}
-
-.lead-submit:disabled {
-  opacity: 0.7;
-  cursor: wait;
-}
-
-.form-final-actions {
-  margin-top: 25px;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  gap: 12px;
-}
-
-.form-final-actions .lead-submit {
-  margin-top: 0;
-}
-
-.form-back {
-  min-height: 58px;
-  padding: 0 18px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 999px;
-  color: white;
-  background: transparent;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.form-security {
-  margin-top: 18px;
-  padding-top: 17px;
-  display: grid;
-  grid-template-columns: 25px 1fr;
-  gap: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.form-security > span {
-  width: 23px;
-  height: 23px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
   color: var(--green);
   background: var(--orange);
-  font-size: 11px;
-  font-weight: 700;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
 }
 
-.form-security p {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 13px;
-  line-height: 1.5;
+.rd-form-fallback a,
+.rd-form-status a {
+  color: var(--orange);
+  text-decoration: underline;
+}
+
+/* RD injects its own styles after loading. Scope theme overrides to this embed
+   and preserve its fields, validation, consent and native submission. */
+#lead-form.rd-form-shell .rd-section,
+#lead-form.rd-form-shell .rd-row,
+#lead-form.rd-form-shell .rd-column,
+#lead-form.rd-form-shell .rd-column > div,
+#lead-form.rd-form-shell .rd-form {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+#lead-form.rd-form-shell .bricks--component,
+#lead-form.rd-form-shell .bricks-form__label,
+#lead-form.rd-form-shell .bricks-form__input,
+#lead-form.rd-form-shell .bricks-form__static {
+  font-family: "Inter", sans-serif !important;
+}
+
+#lead-form.rd-form-shell .bricks-form__fieldset {
+  margin: 0 !important;
+}
+
+#lead-form.rd-form-shell .bricks-form__field {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 0 20px !important;
+  padding: 0 !important;
+}
+
+#lead-form.rd-form-shell .bricks-form__label {
+  display: block !important;
+  margin-bottom: 8px !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  line-height: 1.5 !important;
+}
+
+#lead-form.rd-form-shell .bricks-form__input {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 55px !important;
+  padding: 0 16px !important;
+  border: 1px solid rgba(255, 255, 255, 0.19) !important;
+  border-radius: 13px !important;
+  color: var(--ink) !important;
+  background-color: var(--paper) !important;
+  font-size: 16px !important;
+  line-height: normal !important;
+}
+
+#lead-form.rd-form-shell .bricks-form__input:focus {
+  outline: 0;
+  border-color: var(--orange) !important;
+  box-shadow: 0 0 0 3px rgba(167, 253, 150, 0.22) !important;
+}
+
+#lead-form.rd-form-shell .bricks-form__input::placeholder {
+  color: #717974 !important;
+}
+
+#lead-form.rd-form-shell .phone-input-group {
+  display: flex !important;
+  min-width: 0;
+}
+
+#lead-form.rd-form-shell .phone-input-group .phone-country {
+  flex: 0 0 55px;
+}
+
+#lead-form.rd-form-shell .phone-input-group .phone {
+  flex: 1 1 auto;
+  width: calc(100% - 55px) !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+#lead-form.rd-form-shell .phone-input-group .select2-choice {
+  height: 55px !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 13px 0 0 13px !important;
+  background: var(--paper) !important;
+  color: var(--ink) !important;
+  line-height: 55px !important;
+}
+
+#lead-form.rd-form-shell .bricks-form__field__option {
+  display: inline-flex !important;
+  width: auto !important;
+  max-width: 100%;
+  margin: 0 8px 0 0 !important;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+}
+
+#lead-form.rd-form-shell .bricks-form__field__option .bricks-form__label {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+  margin: 0 !important;
+  padding: 8px 15px !important;
+  font-weight: 400 !important;
+  cursor: pointer;
+}
+
+#lead-form.rd-form-shell input[type="radio"],
+#lead-form.rd-form-shell input[type="checkbox"] {
+  flex: 0 0 18px;
+  width: 18px !important;
+  height: 18px !important;
+  margin: 0 !important;
+  accent-color: var(--orange);
+}
+
+#lead-form.rd-form-shell .bricks-form__privacy .bricks-form__field__option {
+  width: 100%;
+  border: 0;
+  border-radius: 0;
+}
+
+#lead-form.rd-form-shell .bricks-form__privacy .bricks-form__label {
+  align-items: flex-start;
+  padding: 0 !important;
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+}
+
+#lead-form.rd-form-shell .bricks-form__privacy input {
+  margin-top: 3px !important;
+}
+
+#lead-form.rd-form-shell .bricks-form__static,
+#lead-form.rd-form-shell .bricks--component-text {
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+}
+
+#lead-form.rd-form-shell .bricks-form__static a {
+  color: var(--orange) !important;
+  text-decoration: underline !important;
+}
+
+#lead-form.rd-form-shell .rd-button {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 58px !important;
+  height: auto !important;
+  margin: 8px 0 0 !important;
+  padding: 16px 22px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  color: var(--ink) !important;
+  background: var(--orange) !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  line-height: 1.5 !important;
+  cursor: pointer;
+}
+
+#lead-form.rd-form-shell .rd-button:hover {
+  background: #baffab !important;
+}
+
+#lead-form.rd-form-shell .rd-button:focus-visible,
+.rd-form-fallback button:focus-visible {
+  outline: 3px solid white;
+  outline-offset: 4px;
+}
+
+#lead-form.rd-form-shell label.error,
+#lead-form.rd-form-shell .bricks-form__error {
+  color: #ffcec6 !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
 }
 
 .lead-trust-strip {
@@ -784,24 +721,6 @@
 
   .form-heading h2 {
     font-size: 32px !important;
-  }
-
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .field-full {
-    grid-column: auto;
-  }
-
-  .choice-field > div {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .choice-field > div > label {
-    padding: 0 10px;
-    justify-content: center;
   }
 
   .lead-trust-strip {

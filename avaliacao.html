@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="advisora.css">
-  <link rel="stylesheet" href="avaliacao.css?v=20261020">
+  <link rel="stylesheet" href="avaliacao.css?v=20261020-rd-2">
   <link rel="stylesheet" href="footer.css">
 </head>
 <body class="lead-page">
@@ -57,138 +57,21 @@
 
       <aside class="lead-form-card" aria-labelledby="form-title">
         <div class="form-heading">
-          <p id="form-step-label">Passo 1 de 2</p>
+          <p>Avaliação gratuita</p>
           <h2 id="form-title">Quero verificar meu caso</h2>
-          <span id="form-step-description">Responda algumas perguntas rápidas. Não envie documentos por aqui.</span>
+          <span>Responda algumas perguntas rápidas. Não envie documentos por aqui.</span>
         </div>
 
-        <form
-          id="lead-form"
-          data-endpoint="https://webhook.eversync.space/webhook/f48d604b-f410-4be3-a20b-4d8bbcb1523e"
-          data-simulation-endpoint="https://webhook.eversync.space/webhook/8ded9705-9e86-4616-8731-98cf9c8594e2"
-          novalidate
-        >
-          <input id="lead-monthly-ir" name="monthlyIr" type="hidden">
-          <input id="lead-estimate" name="estimate" type="hidden">
-          <div class="form-message" id="form-message" role="alert" aria-live="assertive"></div>
-          <div class="form-progress" aria-hidden="true"><span id="form-progress-bar"></span></div>
-
-          <!-- Contato e consentimento vêm primeiro. O envio acontece somente
-               depois da qualificação completa, no último botão. -->
-          <section class="lead-form-step active" data-form-step="1">
-            <div class="form-grid">
-              <label class="field field-full" for="lead-name">
-                <span>Seu primeiro nome*</span>
-                <input id="lead-name" name="name" type="text" autocomplete="given-name" required placeholder="Como podemos chamar você?">
-              </label>
-
-              <label class="field field-full" for="lead-phone">
-                <span>Seu WhatsApp*</span>
-                <input id="lead-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="(00) 00000-0000">
-              </label>
-
-              <label class="field field-full" for="lead-email">
-                <span>Seu melhor e-mail*</span>
-                <input id="lead-email" name="email" type="email" inputmode="email" autocomplete="email" required placeholder="voce@exemplo.com.br">
-              </label>
-            </div>
-
-            <label class="lead-consent">
-              <input type="checkbox" name="consent" required>
-              <span></span>
-              <strong>Autorizo a RecupereiBR a entrar em contato e a usar as informações que eu fornecer, inclusive sobre condição de saúde, exclusivamente para avaliar a possibilidade de isenção.</strong>
-            </label>
-
-            <button class="lead-submit form-next" id="form-next" type="button">
-              Continuar
-              <span>→</span>
-            </button>
-          </section>
-
-          <section class="lead-form-step" data-form-step="2" hidden>
-            <div class="form-grid">
-              <label class="field field-full" for="lead-for">
-                <span>Para quem é a avaliação?*</span>
-                <select id="lead-for" name="leadFor" required>
-                  <option value="">Selecione</option>
-                  <option value="Para mim">Para mim</option>
-                  <option value="Para meu pai ou minha mãe">Para meu pai ou minha mãe</option>
-                  <option value="Para meu cônjuge ou companheiro">Para meu cônjuge ou companheiro</option>
-                  <option value="Para outro familiar">Para outro familiar</option>
-                </select>
-              </label>
-
-              <label class="field field-full" for="lead-benefit">
-                <span>Qual benefício a pessoa recebe?*</span>
-                <select id="lead-benefit" name="benefit" required>
-                  <option value="">Selecione</option>
-                  <option value="Aposentadoria">Aposentadoria</option>
-                  <option value="Pensão">Pensão</option>
-                  <option value="Militar reformado ou da reserva">Militar reformado ou da reserva</option>
-                  <option value="Previdência privada">Previdência privada</option>
-                  <option value="Não sei informar">Não sei informar</option>
-                  <option value="Nenhuma das opções">Nenhuma das opções</option>
-                </select>
-              </label>
-            </div>
-
-            <fieldset class="choice-field">
-              <legend>Existe desconto mensal de Imposto de Renda?*</legend>
-              <div>
-                <label><input type="radio" name="paysIr" value="Sim" required><span></span>Sim</label>
-                <label><input type="radio" name="paysIr" value="Não"><span></span>Não</label>
-                <label><input type="radio" name="paysIr" value="Não sei"><span></span>Não sei</label>
-              </div>
-            </fieldset>
-
-            <fieldset class="choice-field health-choice">
-              <legend>A pessoa tem ou já teve uma condição grave?*</legend>
-              <p>Se houver uma condição, selecione qual é ou marque “Não sei informar”. Não envie laudos ou documentos nesta etapa.</p>
-              <div>
-                <label><input type="radio" name="health" value="Sim" required><span></span>Sim</label>
-                <label><input type="radio" name="health" value="Não"><span></span>Não</label>
-                <label><input type="radio" name="health" value="Não sei"><span></span>Não sei</label>
-              </div>
-              <label class="field disease-field" id="disease-field" for="lead-disease" hidden>
-                <span>Qual doença ou condição?*</span>
-                <select id="lead-disease" name="disease">
-                  <option value="">Selecione</option>
-                  <option value="AIDS (Síndrome da Imunodeficiência Adquirida)">AIDS (Síndrome da Imunodeficiência Adquirida)</option>
-                  <option value="Alienação mental">Alienação mental</option>
-                  <option value="Cardiopatia grave">Cardiopatia grave</option>
-                  <option value="Cegueira (inclusive monocular)">Cegueira (inclusive monocular)</option>
-                  <option value="Contaminação por radiação">Contaminação por radiação</option>
-                  <option value="Doença de Paget em estados avançados (osteíte deformante)">Doença de Paget em estados avançados (osteíte deformante)</option>
-                  <option value="Doença de Parkinson">Doença de Parkinson</option>
-                  <option value="Esclerose múltipla">Esclerose múltipla</option>
-                  <option value="Espondiloartrose anquilosante">Espondiloartrose anquilosante</option>
-                  <option value="Fibrose cística (mucoviscidose)">Fibrose cística (mucoviscidose)</option>
-                  <option value="Hanseníase">Hanseníase</option>
-                  <option value="Hepatopatia grave">Hepatopatia grave</option>
-                  <option value="Moléstia profissional">Moléstia profissional</option>
-                  <option value="Nefropatia grave">Nefropatia grave</option>
-                  <option value="Neoplasia maligna">Neoplasia maligna</option>
-                  <option value="Paralisia irreversível e incapacitante">Paralisia irreversível e incapacitante</option>
-                  <option value="Tuberculose ativa">Tuberculose ativa</option>
-                  <option value="Não sei informar">Não sei informar</option>
-                </select>
-              </label>
-            </fieldset>
-
-            <div class="form-final-actions">
-              <button class="form-back" id="form-back" type="button">Voltar</button>
-              <button class="lead-submit" type="submit">
-                Solicitar avaliação gratuita
-                <span>→</span>
-              </button>
-            </div>
-
-            <div class="form-security">
-              <span>✓</span>
-              <p>Seus dados não são vendidos. Nenhum laudo ou documento médico é solicitado aqui — se o seu caso avançar, a equipe explica o que for preciso antes de pedir qualquer coisa.</p>
-            </div>
-          </section>
-        </form>
+        <div id="lead-form" class="rd-form-shell" aria-busy="true">
+          <p id="rd-form-status" class="rd-form-status" role="status" aria-live="polite">Carregando formulário…</p>
+          <div role="main" id="ir-google-site-ragali-6b2adf3e5ed8cd327742"></div>
+          <div id="rd-form-fallback" class="rd-form-fallback" hidden>
+            <p>Não foi possível carregar o formulário. Recarregue a página ou ligue para nossa equipe.</p>
+            <button id="rd-form-reload" type="button">Recarregar formulário</button>
+            <a href="tel:08000420676">Ligar 0800 042-0676</a>
+          </div>
+          <noscript><p class="rd-form-status">Ative o JavaScript para preencher o formulário ou ligue <a href="tel:08000420676">0800 042-0676</a>.</p></noscript>
+        </div>
       </aside>
     </section>
 
@@ -279,7 +162,7 @@
     </div>
   </footer>
 
-  <script src="form-validation.js?v=20261020"></script>
-  <script src="avaliacao.js?v=20261020"></script>
+  <script type="text/javascript" src="https://d335luupugsy2.cloudfront.net/js/rdstation-forms/stable/rdstation-forms.min.js" defer></script>
+  <script src="avaliacao.js?v=20261020-rd" defer></script>
 </body>
 </html>
