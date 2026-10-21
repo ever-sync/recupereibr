@@ -16,6 +16,13 @@
 
 	# Preservar as URLs dos anuncios, inclusive seus parametros de campanha.
 	route {
+		@legacyPrivacy path /politica-de-privacidade /politica-de-privacidade/
+		route @legacyPrivacy {
+			@privacyWithoutQuery query ""
+			redir @privacyWithoutQuery /privacidade permanent
+			redir * /privacidade?{query} permanent
+		}
+
 		@index path /index /index.html
 		redir @index /?{query} permanent
 
