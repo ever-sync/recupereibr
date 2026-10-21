@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Consultoria administrativa especializada na análise e condução de pedidos de isenção de Imposto de Renda por doença grave, conforme a Lei nº 7.713/88.">
   <title>RecupereiBR | Isenção de Imposto de Renda por doença grave</title>
-  <script src="tracking.js"></script>
+  <script src="tracking.js?v=20261021"></script>
   <link rel="canonical" href="https://recupereibr.com.br/">
   <link rel="icon" href="favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="assets/favicon-512.png" sizes="512x512">
@@ -77,6 +77,7 @@
             Quero verificar para mim
             <span class="button-dot" aria-hidden="true">→</span>
           </a>
+          <a class="button" href="/avaliacao?origem=hero_familiar">Quero ajudar um familiar <span aria-hidden="true">→</span></a>
         </div>
       </div>
 
@@ -97,8 +98,8 @@
         <div class="float-card transformation-card" data-parallax="26">
           <span class="float-icon orange">✦</span>
           <div>
-            <strong>Atendimento 24h pelo WhatsApp</strong>
-            <small>Orientação clara em cada etapa</small>
+            <strong>Envie sua mensagem a qualquer hora</strong>
+            <small>Equipe responde durante o expediente</small>
           </div>
         </div>
 
@@ -178,8 +179,8 @@
     <section class="section conditions-section" id="doencas">
       <div class="section-heading reveal" data-reveal="blur">
         <p class="eyebrow"><span></span> Condições previstas em lei</p>
-        <h2>As doenças que dão direito à&nbsp;isenção.</h2>
-        <p>A Lei nº 7.713/88 define as condições que garantem a isenção do Imposto de Renda para aposentados, pensionistas e militares reformados. O direito pode existir mesmo quando a doença já foi tratada ou está controlada.</p>
+        <h2>Condições previstas na legislação.</h2>
+        <p>A isenção depende do tipo de rendimento, da condição prevista em lei e da análise da documentação. O cadastro inicial serve para orientar essa avaliação; não confirma o direito. A Súmula 627 do STJ dispensa a demonstração de sintomas atuais ou de recidiva para a concessão ou manutenção da isenção.</p>
       </div>
 
       <p class="condition-pills-hint">Passe o mouse ou toque em uma condição para ver o que ela abrange.</p>
@@ -187,75 +188,75 @@
       <ul class="condition-pills reveal" data-reveal-stagger="scale" style="--reveal-step:38ms">
         <li>
           <button class="condition-pill" type="button" aria-describedby="cond-cancer">Neoplasia maligna (câncer)</button>
-          <span class="condition-tip" id="cond-cancer" role="tooltip">Crescimento anormal de células com potencial de se espalhar pelo corpo. Mesmo com a doença controlada ou já curada pode haver direito à isenção (Súmula 587 do STJ).</span>
+          <span class="condition-tip" id="cond-cancer" role="tooltip">Neoplasia maligna é uma das condições previstas em lei. Doença tratada ou controlada não dispensa a análise da documentação nem impede, por si só, a avaliação do pedido.</span>
         </li>
         <li>
           <button class="condition-pill" type="button" aria-describedby="cond-cardiopatia">Cardiopatia grave</button>
-          <span class="condition-tip" id="cond-cardiopatia" role="tooltip">Doença que reduz a capacidade funcional do coração. Entram casos como infarto, insuficiência cardíaca graus III e IV, doença isquêmica (CID I25), marca-passo, stent e ponte de safena ou mamária.</span>
+          <span class="condition-tip" id="cond-cardiopatia" role="tooltip">O enquadramento exige avaliação da cardiopatia grave. Infarto, stent, marca-passo ou cirurgia não confirmam, isoladamente, o direito à isenção.</span>
         </li>
         <li>
           <button class="condition-pill" type="button" aria-describedby="cond-parkinson">Doença de Parkinson</button>
-          <span class="condition-tip" id="cond-parkinson" role="tooltip">Distúrbio do sistema nervoso central que afeta o movimento, com tremores em repouso, rigidez muscular e lentidão dos movimentos (CID G20).</span>
+          <span class="condition-tip" id="cond-parkinson" role="tooltip">Doença de Parkinson está entre as condições previstas em lei. A equipe orienta sobre a documentação necessária à avaliação.</span>
         </li>
         <li>
           <button class="condition-pill" type="button" aria-describedby="cond-esclerose">Esclerose múltipla</button>
-          <span class="condition-tip" id="cond-esclerose" role="tooltip">Doença autoimune que destrói a mielina do sistema nervoso central, causando fraqueza, dormência, problemas de visão e dificuldade de coordenação.</span>
+          <span class="condition-tip" id="cond-esclerose" role="tooltip">Esclerose múltipla é uma condição prevista em lei. O pedido depende da documentação e do tipo de rendimento recebido.</span>
         </li>
         <li>
           <button class="condition-pill" type="button" aria-describedby="cond-cegueira">Cegueira (inclusive monocular)</button>
-          <span class="condition-tip" id="cond-cegueira" role="tooltip">Perda total da visão em um ou nos dois olhos. A lei considera cegueira a visão com até 5% de funcionalidade — acuidade visual 20/400 ou CID H54.4.</span>
+          <span class="condition-tip" id="cond-cegueira" role="tooltip">A avaliação da cegueira considera a documentação médica e as regras aplicáveis. Informe a condição à equipe, sem tentar definir sozinho o enquadramento.</span>
         </li>
         <li>
           <button class="condition-pill" type="button" aria-describedby="cond-nefropatia">Nefropatia grave</button>
-          <span class="condition-tip" id="cond-nefropatia" role="tooltip">Doença renal que leva de forma irreversível à insuficiência dos rins, com incapacidade para o trabalho ou risco de vida (CID N18). Quem faz hemodiálise se enquadra de forma objetiva.</span>
+          <span class="condition-tip" id="cond-nefropatia" role="tooltip">A legislação prevê nefropatia grave. O diagnóstico e a gravidade devem ser avaliados com a documentação do caso.</span>
         </li>
         <li>
           <button class="condition-pill" type="button" aria-describedby="cond-hepatopatia">Hepatopatia grave</button>
-          <span class="condition-tip" id="cond-hepatopatia" role="tooltip">Doença grave do fígado, que pode vir de hepatite, cirrose ou câncer hepático. Os diagnósticos contemplados são cirrose e hepatite C.</span>
+          <span class="condition-tip" id="cond-hepatopatia" role="tooltip">A legislação prevê hepatopatia grave. Ter uma doença no fígado não confirma automaticamente o enquadramento.</span>
         </li>
         <li>
           <button class="condition-pill" type="button" aria-describedby="cond-alienacao">Alienação mental</button>
-          <span class="condition-tip" id="cond-alienacao" role="tooltip">Estado mental decorrente de doença psíquica que deteriora os processos cognitivos a ponto de a pessoa não conseguir gerir a própria vida (CID F29). Pode abranger Alzheimer, demência e esquizofrenia.</span>
+          <span class="condition-tip" id="cond-alienacao" role="tooltip">Alienação mental é a expressão usada na legislação. O enquadramento depende de avaliação e documentação; um diagnóstico isolado não confirma o direito.</span>
         </li>
         <li>
           <button class="condition-pill" type="button" aria-describedby="cond-paralisia">Paralisia irreversível e incapacitante</button>
-          <span class="condition-tip" id="cond-paralisia" role="tooltip">Perda permanente do movimento de partes do corpo, incluindo amputação, paraplegia e tetraplegia. É preciso laudo que ateste a incapacidade permanente e a irreversibilidade da lesão.</span>
+          <span class="condition-tip" id="cond-paralisia" role="tooltip">A condição prevista é paralisia irreversível e incapacitante. A equipe orienta a análise da documentação específica.</span>
         </li>
         <li>
           <button class="condition-pill" type="button" aria-describedby="cond-tuberculose">Tuberculose ativa</button>
-          <span class="condition-tip" id="cond-tuberculose" role="tooltip">Infecção bacteriana que atinge principalmente os pulmões, mas também gânglios e pleura. A lei considera apenas enquanto a doença está ativa e transmissível.</span>
+          <span class="condition-tip" id="cond-tuberculose" role="tooltip">Tuberculose ativa é a condição mencionada na lei. O histórico, as datas e a documentação precisam ser avaliados individualmente.</span>
         </li>
         <li>
           <button class="condition-pill" type="button" aria-describedby="cond-hanseniase">Hanseníase</button>
-          <span class="condition-tip" id="cond-hanseniase" role="tooltip">Doença infecciosa crônica que afeta a pele e os nervos periféricos, com perda de sensibilidade e deformidades (CID A30). Precisa estar ativa: casos já curados não se enquadram.</span>
+          <span class="condition-tip" id="cond-hanseniase" role="tooltip">Hanseníase é uma condição prevista em lei. Tratamento ou controle da doença não devem ser usados como motivo automático de descarte.</span>
         </li>
         <li>
           <button class="condition-pill" type="button" aria-describedby="cond-fibrose">Fibrose cística (mucoviscidose)</button>
-          <span class="condition-tip" id="cond-fibrose" role="tooltip">Doença genética que produz secreções espessas nos pulmões e no pâncreas, com tosse crônica, infecções respiratórias e dificuldade para ganhar peso.</span>
+          <span class="condition-tip" id="cond-fibrose" role="tooltip">Fibrose cística, também chamada mucoviscidose, está entre as condições previstas em lei.</span>
         </li>
         <li>
           <button class="condition-pill" type="button" aria-describedby="cond-espondilo">Espondiloartrose anquilosante</button>
-          <span class="condition-tip" id="cond-espondilo" role="tooltip">Doença inflamatória crônica que funde as articulações da coluna, com dor nas costas, rigidez matinal e perda de mobilidade (CID M45). Precisa ser anquilosante para se enquadrar.</span>
+          <span class="condition-tip" id="cond-espondilo" role="tooltip">Espondiloartrose anquilosante é a condição mencionada na legislação. Outros problemas de coluna não se equiparam automaticamente a ela.</span>
         </li>
         <li>
           <button class="condition-pill" type="button" aria-describedby="cond-paget">Doença de Paget em estados avançados</button>
-          <span class="condition-tip" id="cond-paget" role="tooltip">Remodelação óssea anormal que deixa os ossos frágeis e deformados, com dor e fraturas frequentes. Só é considerada em estados avançados (osteíte deformante).</span>
+          <span class="condition-tip" id="cond-paget" role="tooltip">A previsão legal se refere aos estados avançados da doença de Paget, também chamada osteíte deformante.</span>
         </li>
         <li>
           <button class="condition-pill" type="button" aria-describedby="cond-radiacao">Contaminação por radiação</button>
-          <span class="condition-tip" id="cond-radiacao" role="tooltip">Exposição a níveis perigosos de radiação ionizante, como no acidente com o césio-137. Não precisa ter sido causada especificamente pelo césio-137.</span>
+          <span class="condition-tip" id="cond-radiacao" role="tooltip">Contaminação por radiação é uma hipótese prevista em lei. A avaliação considera o histórico e os documentos do caso.</span>
         </li>
         <li>
           <button class="condition-pill" type="button" aria-describedby="cond-aids">AIDS (HIV)</button>
-          <span class="condition-tip" id="cond-aids" role="tooltip">Síndrome da imunodeficiência adquirida, causada pelo vírus HIV, que compromete o sistema imunológico. Vale mesmo com carga viral indetectável, desde que haja laudo com CID B24.</span>
+          <span class="condition-tip" id="cond-aids" role="tooltip">Síndrome da imunodeficiência adquirida é uma condição prevista em lei. A equipe orienta a avaliação individual e os documentos necessários.</span>
         </li>
         <li>
           <button class="condition-pill" type="button" aria-describedby="cond-molestia">Moléstia profissional</button>
-          <span class="condition-tip" id="cond-molestia" role="tooltip">Doença desencadeada ou agravada pelo trabalho exercido, como LER/DORT, túnel do carpo, surdez, rouquidão, depressão e burnout ocupacionais. É preciso laudo ligando a doença à atividade.</span>
+          <span class="condition-tip" id="cond-molestia" role="tooltip">Moléstia profissional exige análise da relação entre a condição e a atividade exercida. Não basta informar o nome de uma doença.</span>
         </li>
         <li>
           <button class="condition-pill" type="button" aria-describedby="cond-acidente">Acidente em serviço</button>
-          <span class="condition-tip" id="cond-acidente" role="tooltip">Lesão ocorrida durante o exercício da atividade profissional, com aposentadoria por invalidez decorrente do acidente. É preciso laudo médico atestando o nexo com a atividade exercida.</span>
+          <span class="condition-tip" id="cond-acidente" role="tooltip">A legislação também prevê situações de reforma ou aposentadoria motivadas por acidente em serviço. O histórico funcional e a documentação precisam ser analisados.</span>
         </li>
       </ul>
     </section>
@@ -354,94 +355,16 @@
 
     <section class="impact-section" id="direito">
       <div class="impact-heading reveal" data-reveal="blur">
-        <div>
-          <p class="eyebrow eyebrow-light"><span></span> Autoatendimento</p>
-          <h2>Faça sua pré-análise de forma rápida e prática: envie seu laudo e agilize seu&nbsp;atendimento!</h2>
-        </div>
-        <p>Assim, nossa equipe recebe os dados antecipadamente e consegue oferecer um atendimento mais eficiente e direcionado para você.</p>
+        <div><p class="eyebrow eyebrow-light"><span></span> Avaliação inicial</p><h2>Comece com três perguntas, sem enviar documentos.</h2></div>
+        <p>Você informa seu contato e responde sobre aposentadoria, Imposto de Renda e, se souber, a condição de saúde. Nossa equipe esclarece as dúvidas no atendimento.</p>
       </div>
-
-      <!-- data-endpoint: URL que recebe o formulário (multipart/form-data, por causa dos anexos).
-           Pode ser definida aqui ou em window.RECUPEREIBR_SELFSERVICE_ENDPOINT. -->
-      <form class="impact-grid eligibility-grid selfservice-form" id="selfservice-form" data-endpoint="https://webhook.eversync.space/webhook/f48d604b-f410-4be3-a20b-4d8bbcb1523e" novalidate data-reveal-stagger style="--reveal-step:110ms">
-        <article class="impact-card selfservice-card reveal" data-step="1">
-          <div class="step-label"><span>01</span><strong>Passo 1</strong></div>
-          <div class="selfservice-body">
-            <h4>Quem é você</h4>
-
-            <label class="field">
-              <span>Nome completo</span>
-              <input type="text" name="name" autocomplete="name" required>
-            </label>
-
-            <label class="field">
-              <span>WhatsApp</span>
-              <input type="tel" name="phone" inputmode="tel" autocomplete="tel" placeholder="(11) 90000-0000" required>
-            </label>
-
-            <label class="field">
-              <span>O que você recebe</span>
-              <select name="benefit" required>
-                <option value="">Selecione</option>
-                <option value="Aposentadoria">Aposentado</option>
-                <option value="Pensão">Pensionista</option>
-                <option value="Previdência privada">Beneficiário de previdência privada</option>
-              </select>
-            </label>
-          </div>
-        </article>
-
-        <article class="impact-card selfservice-card reveal" data-step="2" data-locked="true">
-          <div class="step-label"><span>02</span><strong>Passo 2</strong></div>
-          <p class="step-lock"><span aria-hidden="true">🔒</span> Complete o passo 1 para liberar</p>
-          <div class="selfservice-body">
-            <h4>Quanto é descontado</h4>
-            <p class="field-help">Veja no seu holerite o valor de Imposto de Renda descontado todo mês.</p>
-
-            <label class="field">
-              <span>Desconto mensal de IR</span>
-              <div class="field-currency">
-                <i aria-hidden="true">R$</i>
-                <input type="text" name="monthlyIr" inputmode="numeric" placeholder="900" required>
-              </div>
-            </label>
-
-            <p class="field-note" id="selfservice-estimate">Em cinco anos, isso representa cerca de <strong>R$ 0</strong>.</p>
-          </div>
-        </article>
-
-        <article class="impact-card selfservice-card reveal" data-step="3" data-locked="true">
-          <div class="step-label"><span>03</span><strong>Passo 3</strong></div>
-          <p class="step-lock"><span aria-hidden="true">🔒</span> Complete o passo 2 para liberar</p>
-          <div class="selfservice-body">
-            <h4>Exames e laudos</h4>
-            <p class="field-help">Anexe laudos ou exames com o CID para o especialista analisar o enquadramento.</p>
-
-            <label class="field field-file">
-              <span>Anexar arquivos</span>
-              <input type="file" name="documents" accept=".pdf,.jpg,.jpeg,.png,.heic" multiple required>
-              <em id="selfservice-files">PDF, JPG, PNG ou HEIC · até 5 arquivos e 15 MB no total</em>
-            </label>
-
-            <label class="field-consent">
-              <input type="checkbox" name="healthConsent" required>
-              <span>Autorizo a RecupereiBR a receber e analisar meus dados de saúde para avaliar o direito à isenção, conforme a <a href="/privacidade" target="_blank" rel="noopener">Política de Privacidade</a>.</span>
-            </label>
-          </div>
-        </article>
-
-        <article class="impact-card impact-orange eligibility-cta selfservice-cta reveal" data-step="4" data-locked="true">
-          <div class="step-label step-label-final"><span>✓</span><strong>Próximo passo</strong></div>
-          <img class="selfservice-mascot" src="assets/mascote-recupereibr.webp" alt="" aria-hidden="true">
-          <div>
-            <h4>Tudo preenchido?</h4>
-            <p id="selfservice-cta-text">Complete os três passos ao lado para liberar o envio.</p>
-            <button class="text-link selfservice-submit" type="submit" disabled>Quero a análise gratuita <span>→</span></button>
-            <p class="form-message" id="selfservice-message" role="status" aria-live="polite"></p>
-          </div>
-        </article>
-      </form>
-      <p class="eligibility-note reveal">O preenchimento dos campos não representa garantia de aprovação. A confirmação depende da análise do caso e da documentação.</p>
+      <div class="impact-grid eligibility-grid" data-reveal-stagger>
+        <article class="impact-card reveal"><div class="step-label"><span>01</span><strong>Cadastro</strong></div><h4>Conte o essencial</h4><p>Use o formulário de avaliação. A pergunta sobre doença é opcional.</p></article>
+        <article class="impact-card reveal"><div class="step-label"><span>02</span><strong>Conversa</strong></div><h4>Entenda os próximos passos</h4><p>Um responsável confirma o benefício e o desconto de IR. Se você não souber ou já for isento, peça uma triagem individual.</p></article>
+        <article class="impact-card reveal"><div class="step-label"><span>03</span><strong>Orientação</strong></div><h4>Decida com informação</h4><p>Documentos, eventual restituição e condições de contratação são explicados durante a avaliação.</p></article>
+        <article class="impact-card impact-orange eligibility-cta reveal"><div class="step-label"><span>✓</span><strong>Próximo passo</strong></div><h4>Vamos avaliar seu caso?</h4><p>Você também pode ajudar um familiar, com a autorização dele.</p><a class="text-link" href="/avaliacao?origem=home_avaliacao">Solicitar avaliação gratuita <span>→</span></a></article>
+      </div>
+      <p class="eligibility-note reveal">Aposentadoria e desconto de IR indicam uma oportunidade de avaliação comercial. A confirmação do direito depende de análise individual.</p>
     </section>
 
     <section class="section feature-section" id="simulador">
